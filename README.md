@@ -60,45 +60,45 @@ JUMP :EXIT
 :EXIT
 
 #########################################
-# AUTO-MAPPING example
+# i-hyper example
+# 2021-06 @mamund
+#########################################
 
 # set temporal session vars
 SESSION FORMAT application/vnd.collection+json
 SESSION PROFILE http://profiles.example.org/person
-SESSION EXIT-ERROR OFF
 
-# try connecting to a service
-# if error jump to the exit
+# try connecting to a service, if error jump to the exit
 ACTIVATE http://api.example.org
 IF ERROR JUMP :EXIT
 
-# try calling the home link 
-# id='home', name[0]='home', rel.contains 'home'
+# try id='home', name[0]='home', rel.contains 'home'
 ACTIVATE home
 IF ERROR JUMP :EXIT
 
-# try calling the search link 
-# if error, try the 'related' link
+# try calling the search link  if error, try the 'related' link
 # if that's an error, jump to the exit
 ACTIVATE search 
 IF ERROR ACTIVATE related
 IF ERROR JUMP :EXIT
 
-# assume we have a search link, 
-# so try a filter query
-# if error, jump to the exit
+# assume we have search link, try a filter query. if error, exit
 ACTIVATE search WITH QUERY id=123
 IF ERROR JUMP :EXIT
 
-# assume 200 OK on the filter query, so update this record
+# assume 200 OK on the query, so update this record
 # map any local stored properties to any response.body.form inputs
 ACTIVATE update WITH BODY LOCAL.PROPERTIES
 JUMP :EXIT
 
-# all done!
-# exit and echo the last response on the stack
+# all done! exit and echo the last response on the stack
 :EXIT
-EXIT WITH RESPONSE      
+EXIT WITH RESPONSE
+
+#########################################
+# EOF
+#########################################
+      
 ```
 
 
