@@ -9,6 +9,25 @@ A simple command-line style shell for interacting with an online hypermedia serv
 - shell does the work, displays some data
 - got to step one and repeat
 
+## Feature tracking
+This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
+
+ - [x] : Initial CLI loop
+ - [x] : support for # - comment link
+ - [x] : support for ACTIVATE - sync-request (gasp!)
+ - [x] : support for WITH HEADERS - request headers
+ - [x] : support for DISPLAY {int} - replaying saved reponses
+ - [ ] : support for RESPONSES.POP .PEEK {int} - true LIFO stack
+ - [x] : support for piped scripts (in and out)
+ - [ ] : support for SHOW ACTIONS - showing all actions (links & forms)
+ - [ ] : support for ACTIVATE home - activating a link/form using a string (id, name, rel)
+ - [ ] : support for CONFIG.FORMAT shared config file (read)
+ - [ ] : support for SESSION.USERNAME - session file (read/write)
+ - [ ] : support for LOCAL.GIVENNAME - local properties file (read)
+ - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
+ - [ ] : support for IF-ERROR - error checking (4xx, 5xx)
+ - [ ] : support for JUMP - "goto" 
+
 
 ## Some Sample Commands
 
