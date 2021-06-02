@@ -1,11 +1,11 @@
 /**********************************************
  *
  * interactive hypermedia console
+ * @mamund - 2021-06
  *
  * ********************************************/
 
-const axios = require('axios');
-const request = require('request');
+const request = require('sync-request');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -27,9 +27,11 @@ rl.on('line', (line) => {
       console.log("EXITING!\n");
       process.exit(0)
       break;
+    case "#":
+    case "":
+      break;  
     case "ACTIVATE":
-      activate(words);  
-      console.log("working...");
+      console.log(activate(words));  
       break;
     case "DISPLAY":
       console.log(display(words));
@@ -61,6 +63,7 @@ function echo(words) {
   return rt;
 }
 
+
 // display a saved response
 // DISPLAY LENGTH returns number of responses saved
 // DISPLAY {index} returns the response at that index
@@ -79,14 +82,18 @@ function display(words) {
       index = parseInt(token);  
       if(index<0) {index=0};
       if(index>responses.length-1) {index=responses.length-1};
-      rt = responses[index];
+      try {
+        rt = responses[index].getBody("UTF8");
+      } catch {
+        rt = "no response";
+      }
   }
   return rt;
 }
 
-// perform the HTTP query
+// synchronous HTTP request (gasp!)
 function activate(words) {
-  var rt = "working...";
+  var rt = "";
   var url = words[1]||"#";
   var headers = {};
   
@@ -94,25 +101,23 @@ function activate(words) {
     switch (words[3].toLowerCase()) {
       case "headers":
         try {
-          headers = JSON.parse(words[4])
+          headers = JSON.parse(words[4]);
         } catch {
           headers = {};
         }  
         break;
     }
   }
-  
-  (async () => {
-    try {
-      const response = await axios(url,{headers:headers});
-      responses.push(response);
-      console.log(response);
-      console.log("\n");
-    }
-    catch (err) {
-      console.log(err);
-    }
-  })();
+
+  try {
+    var response = request('GET', url, {headers:headers});
+    responses.push(response);
+    rt = "\n"+response.getBody("UTF8")+"\n";
+  }
+  catch (err) {
+   rt = "\n"+err.toString()+"\n";
+  }
+    
   return rt;
 }
 

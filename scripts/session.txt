@@ -1,0 +1,138 @@
+[?]> [?]> [?]> [?]> [?]> [?]> 
+{
+  "task": [
+    {
+      "id": "1sog9t9g1ob",
+      "title": "Run server-side tests",
+      "tags": "test",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-28T07:16:53.044Z",
+      "dateUpdated": "2016-02-06T19:22:34.014Z"
+    },
+    {
+      "id": "242hnkcko0f",
+      "title": "Run remote client tests",
+      "tags": "test",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-28T07:19:47.916Z",
+      "dateUpdated": "2016-01-28T07:19:47.916Z"
+    },
+    {
+      "id": "242nmdq5m8g",
+      "title": "YYZ",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-16T03:49:36.029Z",
+      "dateUpdated": "2016-01-16T03:49:36.029Z"
+    },
+    {
+      "id": "2h6lpinlqs",
+      "title": "IAD",
+      "completeFlag": "false",
+      "assignedUser": "bob",
+      "dateCreated": "2016-01-24T02:14:40.454Z",
+      "dateUpdated": "2016-01-24T02:14:53.925Z"
+    },
+    {
+      "id": "53sqae61sm",
+      "title": "SVU",
+      "tags": "",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-02-06T15:56:31.400Z",
+      "dateUpdated": "2016-02-06T18:01:08.032Z"
+    },
+    {
+      "id": "8zxbc7n8ks8",
+      "title": "sddddd",
+      "tags": "",
+      "completeFlag": "false",
+      "assignedUser": "alice",
+      "dateCreated": "2016-01-31T21:54:40.095Z",
+      "dateUpdated": "2016-01-31T21:55:43.691Z"
+    },
+    {
+      "id": "e1xap944ki",
+      "title": "TPA",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-16T05:28:37.637Z",
+      "dateUpdated": "2016-01-16T05:28:37.637Z"
+    }
+  ]
+}
+
+[?]> word=echo
+word=1
+word=2
+word=3
+
+
+[?]> 1
+[?]> {
+  "task": [
+    {
+      "id": "1sog9t9g1ob",
+      "title": "Run server-side tests",
+      "tags": "test",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-28T07:16:53.044Z",
+      "dateUpdated": "2016-02-06T19:22:34.014Z"
+    },
+    {
+      "id": "242hnkcko0f",
+      "title": "Run remote client tests",
+      "tags": "test",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-28T07:19:47.916Z",
+      "dateUpdated": "2016-01-28T07:19:47.916Z"
+    },
+    {
+      "id": "242nmdq5m8g",
+      "title": "YYZ",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-16T03:49:36.029Z",
+      "dateUpdated": "2016-01-16T03:49:36.029Z"
+    },
+    {
+      "id": "2h6lpinlqs",
+      "title": "IAD",
+      "completeFlag": "false",
+      "assignedUser": "bob",
+      "dateCreated": "2016-01-24T02:14:40.454Z",
+      "dateUpdated": "2016-01-24T02:14:53.925Z"
+    },
+    {
+      "id": "53sqae61sm",
+      "title": "SVU",
+      "tags": "",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-02-06T15:56:31.400Z",
+      "dateUpdated": "2016-02-06T18:01:08.032Z"
+    },
+    {
+      "id": "8zxbc7n8ks8",
+      "title": "sddddd",
+      "tags": "",
+      "completeFlag": "false",
+      "assignedUser": "alice",
+      "dateCreated": "2016-01-31T21:54:40.095Z",
+      "dateUpdated": "2016-01-31T21:55:43.691Z"
+    },
+    {
+      "id": "e1xap944ki",
+      "title": "TPA",
+      "completeFlag": "false",
+      "assignedUser": "",
+      "dateCreated": "2016-01-16T05:28:37.637Z",
+      "dateUpdated": "2016-01-16T05:28:37.637Z"
+    }
+  ]
+}
+[?]> [?]> [?]> Exiting!
