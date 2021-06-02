@@ -28,6 +28,11 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for IF-ERROR - error checking (4xx, 5xx)
  - [ ] : support for JUMP - "goto" 
 
+## Dependencies
+
+ * https://github.com/ForbesLindesay/sync-request
+ * JSONPATH?
+ * STACK MGMT?
 
 ## Some Sample Commands
 
