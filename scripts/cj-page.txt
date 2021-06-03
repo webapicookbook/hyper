@@ -6,10 +6,12 @@
 # setting headers
 # activate http://rwcbook14.herokuapp.com/task/rmqzgqfq3d with headers {"accept":"application/vnd.collection+json", "profile":"<http://profiles.alps.com/person>"}
 # activate http://rwcbook14.herokuapp.com/task/rmqzgqfq3d with headers {"accept":"application/json"}
+# activate http://rwcbook14.herokuapp.com/task/?completeFlag=false with headers {"accept":"application/json", "profile":"<http://profiles.alps.com/person>"}
 
-activate http://rwcbook14.herokuapp.com/task/?completeFlag=false with headers {"accept":"application/json", "profile":"<http://profiles.alps.com/person>"}
-echo 1 2 3
-responses
-display
+ACTIVATE http://localhost:8181/task/ywc6g0id05 WITH-METHOD DELETE
+ACTIVATE http://localhost:8181/task/176wlerchmn WITH-METHOD DELETE
+activate http://localhost:8181/task/ WITH-BODY {"title":"testing","tags":"hyper","completeFlag":"false"} WITH-METHOD POST WITH-ENCODING application/json
+
+# activate http://localhost:8181/task/?completeFlag=false WITH-HEADERS {"profile":"<http://profiles.alps.com/person>"} WITH-FORMAT WITH-PROFILE
 
 # EOF

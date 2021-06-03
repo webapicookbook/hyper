@@ -15,8 +15,14 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : Initial CLI loop
  - [x] : support for # - comment link
  - [x] : support for ACTIVATE - sync-request (gasp!)
- - [x] : support for WITH HEADERS - request headers
- - [x] : support for DISPLAY {int} - replaying saved reponses
+ - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
+ - [x] : support for WITH-FORMAT - sets "accept" header w/ config value
+ - [x] : support for WITH-PROFILE - sets "link" profile header w/ config value
+ - [x] : support for WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
+ - [x] : support for WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
+ - [x] : support for WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
+ - [x] : support for DISPLAY _{int}_ - replaying saved reponses
+ - [x] : support for DISPLAY LENGTH - returns length of saved stack
  - [ ] : support for RESPONSES.POP .PEEK {int} - true LIFO stack
  - [x] : support for piped scripts (in and out)
  - [ ] : support for SHOW ACTIONS - showing all actions (links & forms)

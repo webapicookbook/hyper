@@ -12,7 +12,7 @@ const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '[?]> '
+  prompt: '[i]> '
 });
 
 var responses = [];
@@ -56,6 +56,7 @@ rl.on('line', (line) => {
 });
 
 // echo the command line
+// ECHO {strings{}
 function echo(words) {
   rt = "";
   words.forEach(function peek(w) {
@@ -66,9 +67,9 @@ function echo(words) {
 
 
 // display a saved response
-// DISPLAY LENGTH returns number of responses saved
-// DISPLAY {index} returns the response at that index
-// DISPLAY returns top response in the collection
+// DISPLAY 
+// - LENGTH returns number of responses saved
+// - {index} returns the response at that index
 function display(words) {
   var rt = "";
   var index = 0;
@@ -92,26 +93,94 @@ function display(words) {
   return rt;
 }
 
-// synchronous HTTP request (gasp!)
+// synchronous HTTP request
+// ACTIVATE {url}
+// - WITH-HEADERS {n:v,...}
+// - WITH-BODY ... (defaults to form-urlencoded)
+// - WITH-METHOD get (defaults to GET)
+// - WITH-ENCODING application/json
+// - WITH-FORMAT (emits accept header based on config setting)
+// - WITH-PROFILE (emits link profile header based on config setting)
 function activate(words) {
   var rt = "";
   var url = words[1]||"#";
   var headers = {};
+  var body = "";
+  var work = true;
+  var thisWord = "";
+  var pointer = 2;
+  var response;
+  var method = "GET";
   
-  if(words[2] && words[2].toUpperCase()==="WITH") {
-    switch (words[3].toLowerCase()) {
-      case "headers":
-        try {
-          headers = JSON.parse(words[4]);
-        } catch {
-          headers = {};
-        }  
-        break;
+  while (pointer<words.length) {
+    thisWord = words[pointer++];
+    // direct headers
+    if(thisWord && thisWord.toUpperCase()==="WITH-HEADERS") {
+      try {
+        thisWord = words[pointer++];
+        headers = JSON.parse(thisWord);
+      } catch {
+        // no-op
+      }  
+    }
+    // add default accept header
+    if(thisWord && thisWord.toUpperCase()==="WITH-FORMAT") {
+      console.log("WITH-FORMAT");
+      try {
+        thisWord = words[pointer++];
+        headers.accept = "application/json";
+      } catch {
+        // no-op
+      }
+    }
+    // add default profile link header
+    if(thisWord && thisWord.toUpperCase()==="WITH-PROFILE") {
+      try {
+        thisWord = words[pointer++];
+        headers.link = "<http://profiles.example.org/person>;rel=profile";
+      } catch {
+        // no-op
+      }
+    }
+    // add body
+    if(thisWord && thisWord.toUpperCase()==="WITH-BODY") {
+      try {
+        thisWord = words[pointer++];
+        body = thisWord;
+        headers["content-type"] = "application/x-www-form-urlencoded";
+      } catch {
+        // no-op
+      }
+    }
+    // add method
+    if(thisWord && thisWord.toUpperCase()==="WITH-METHOD") {
+      try {
+        thisWord = words[pointer++];
+        method = thisWord;
+      } catch {
+        // no-op
+      }
+    }
+    // add body encoding
+    if(thisWord && thisWord.toUpperCase()==="WITH-ENCODING") {
+      try {
+        thisWord = words[pointer++];
+        headers["content-type"] = thisWord;
+      } catch {
+        // no-op
+      }
     }
   }
 
+  console.log(body);
+  
+  // make the actual call
   try {
-    var response = request('GET', url, {headers:headers});
+    if(body) {
+      response = request(method, url, {headers:headers, body:body});
+    } else {
+      response = request(method, url, {headers:headers});
+    }
     responses.push(response);
     rt = "\n"+response.getBody("UTF8")+"\n";
   }
