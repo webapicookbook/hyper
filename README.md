@@ -13,26 +13,27 @@ A simple command-line style shell for interacting with an online hypermedia serv
 This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
 
  - [x] : Initial CLI loop
- - [x] : support for # - comment link
- - [x] : support for ACTIVATE - sync-request (gasp!)
+ - [x] : support for piped scripts (in and out)
+ - [x] : support for # - comment lines
+ - [x] : support for ACTIVATE _ {url}_- sync http request
+ - [ ] : support for ACTIVATE _{string}_ - use href on in-doc element (id, name, rel)
  - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
  - [x] : support for WITH-FORMAT - sets "accept" header w/ config value
  - [x] : support for WITH-PROFILE - sets "link" profile header w/ config value
  - [x] : support for WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
- - [x] : support for DISPLAY _{int}_ - replaying saved reponses
+ - [x] : support for DISPLAY _{int}_ - show saved reponse
  - [x] : support for DISPLAY LENGTH - returns length of saved stack
- - [ ] : support for RESPONSES.POP .PEEK {int} - true LIFO stack
- - [x] : support for piped scripts (in and out)
- - [ ] : support for SHOW ACTIONS - showing all actions (links & forms)
- - [ ] : support for ACTIVATE home - activating a link/form using a string (id, name, rel)
- - [ ] : support for CONFIG.FORMAT shared config file (read)
+ - [ ] : support for DISPLAY POP show and remove from stack
+ - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
+ - [ ] : support for LOAD-CONFIG _{filename}_ shared config file (read)
+ - [ ] : support for CONFIG.{name} return config value (read) 
  - [ ] : support for SESSION.USERNAME - session file (read/write)
  - [ ] : support for LOCAL.GIVENNAME - local properties file (read)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
  - [ ] : support for IF-ERROR - error checking (4xx, 5xx)
- - [ ] : support for JUMP - "goto" 
+ - [ ] : support for JUMP _{label}_ - jump to defined label in the script
 
 ## Dependencies
 
