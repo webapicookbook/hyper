@@ -10,10 +10,10 @@
 # ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
 
 # supports custom headers w/ GET
-# ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json", "profile":"<http://profiles.alps.com/person>"}
+# ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json","profile":"<http://profiles.alps.com/person>"}
 
 # supports query strings as expected
-# ACTIVATE http://rwcbook14.herokuapp.com/task/?completeFlag=false WITH-HEADERS {"accept":"application/json", "profile":"<http://profiles.alps.com/person>"}
+# ACTIVATE http://rwcbook14.herokuapp.com/task/?completeFlag=false WITH-HEADERS {"accept":"application/json","profile":"<http://profiles.alps.com/person>"}
 
 # supports custom method
 # ACTIVATE http://localhost:8181/task/1x53zs7cv6m WITH-METHOD DELETE
