@@ -9,13 +9,15 @@ A simple command-line style shell for interacting with an online hypermedia serv
 - shell does the work, displays some data
 - got to step one and repeat
 
+_NOTE: this app makes synchronous HTTP requests! I did this for two reasons: 1) simplifies programming the shell and 2) makes supporting scripting (via pipes) much easier, too. This is a PoC so take this all w/ a grain of salt. If/when someone gets super-serious about all this, the shell can be re-architected to support async (and parallel) http requests._
+
 ## Feature tracking
 This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
 
  - [x] : Initial CLI loop
  - [x] : support for piped scripts (in and out)
  - [x] : support for # - comment lines
- - [x] : support for ACTIVATE _{url}_- sync http request
+ - [x] : support for ACTIVATE _{url}_ - make an http request (always synchronous)
  - [ ] : support for ACTIVATE _{string}_ - use href on in-doc element (id, name, rel)
  - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
  - [x] : support for WITH-FORMAT - sets "accept" header w/ config value
