@@ -1,10 +1,10 @@
-##############################
+# #############################
 # i-hyper test cases
 # @mamund - 2021-06
-##############################
+# #############################
 
 # supports simpl queries
-ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
+# ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
 
 # supports custom headers w/ GET
 # ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json", "profile":"<http://profiles.alps.com/person>"}
@@ -20,5 +20,10 @@ ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
 
 # supports default POST w/ form-urlencoded
 # ACTIVATE http://localhost:8181/task/ WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-METHOD POST
+
+# supports PUT updates
+# ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false
+
+ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-FORMAT WITH-HEADERS {"if-none-match":"*"}
 
 # EOF

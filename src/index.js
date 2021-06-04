@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 /**********************************************
- *
- * interactive hypermedia console
+ * i-hyper: interactive hypermedia console
  * @mamund - 2021-06
  *
+ * NOTES:
+ *   A simple interactive hypermedia client
+ *   type 'hyper' at command line to interactive mode
+ *   pipe a file in for script mode
+ *   pipe a file out to save session output
  * ********************************************/
 
 const request = require('sync-request');
@@ -12,7 +16,7 @@ const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '[i]> '
+  prompt: 'i> '
 });
 
 var responses = [];
@@ -25,7 +29,6 @@ rl.on('line', (line) => {
   switch (words[0].toUpperCase()) {
     case "EXIT":
     case "STOP":
-      console.log("EXITING!\n");
       process.exit(0)
       break;
     case "#":
@@ -51,7 +54,6 @@ rl.on('line', (line) => {
   rl.prompt();
 
 }).on('close', () => {
-  console.log('Exiting!');
   process.exit(0);
 });
 
@@ -64,7 +66,6 @@ function echo(words) {
   });
   return rt;
 }
-
 
 // display a saved response
 // DISPLAY 
@@ -125,7 +126,6 @@ function activate(words) {
     }
     // add default accept header
     if(thisWord && thisWord.toUpperCase()==="WITH-FORMAT") {
-      console.log("WITH-FORMAT");
       try {
         thisWord = words[pointer++];
         headers.accept = "application/json";
@@ -172,8 +172,6 @@ function activate(words) {
     }
   }
 
-  console.log(body);
-  
   // make the actual call
   try {
     if(body) {
