@@ -3,7 +3,10 @@
 # @mamund - 2021-06
 # #############################
 
-# supports simpl queries
+# supports simple queries
+# ACTIVATE http://localhost:8181/task/
+
+# supports using config defaults for accepts and link profile headers
 # ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
 
 # supports custom headers w/ GET
@@ -21,9 +24,10 @@
 # supports default POST w/ form-urlencoded
 # ACTIVATE http://localhost:8181/task/ WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-METHOD POST
 
-# supports PUT updates
-# ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false
+# supports PUT updates w/ ETag checking
+# ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-HEADERS {"if-match":"1q2w3e4r5t6y"}
 
+# even creative use of headers for cache/etag cases
 ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-FORMAT WITH-HEADERS {"if-none-match":"*"}
 
 # EOF
