@@ -20,6 +20,7 @@ const rl = readline.createInterface({
 });
 
 var responses = [];
+var config = {};
 
 rl.prompt();
 
@@ -43,6 +44,9 @@ rl.on('line', (line) => {
     case "DISPLAY":
       console.log(display(words));
       break;
+    case "CONFIG-SET":
+      console.log(configSet(words));
+      break;  
     case "RESPONSES":
       console.log(responses.length);
       break;
@@ -68,6 +72,25 @@ function echo(words) {
     rt += "word="+w+"\n";
   });
   return rt;
+}
+
+// set config values
+// CONFIG-SET {n:v,...}
+function configSet(words) {
+  var rt = "";
+  var set = {};
+  
+  if(words[1]) {
+    try {
+      set = JSON.parse(words[1]);
+      for(var c in set) {
+      config[c] = set[c];
+      }
+    } catch {
+      // no-op
+    }  
+  }
+  return config;
 }
 
 // display a saved response
@@ -100,6 +123,7 @@ function display(words) {
 // synchronous HTTP request
 // ACTIVATE {url}
 // - WITH-HEADERS {n:v,...}
+// - WITH-QUERY {n:v,...} (optional, can use "?...." on the URL, too)
 // - WITH-BODY ... (defaults to form-urlencoded)
 // - WITH-METHOD get (defaults to GET)
 // - WITH-ENCODING application/json
@@ -110,11 +134,11 @@ function activate(words) {
   var url = words[1]||"#";
   var headers = {};
   var body = "";
-  var work = true;
+  var qs = {};
+  var method = "GET";
+  var response;
   var thisWord = "";
   var pointer = 2;
-  var response;
-  var method = "GET";
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
@@ -131,7 +155,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-FORMAT") {
       try {
         thisWord = words[pointer++];
-        headers.accept = "application/json";
+        headers.accept = config.accept||"application/vnd.collection+json";
       } catch {
         // no-op
       }
@@ -140,7 +164,13 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-PROFILE") {
       try {
         thisWord = words[pointer++];
-        headers.link = "<http://profiles.example.org/person>;rel=profile";
+        if(config.profile) {
+          headers.link = "<"+config.profile+">;rel=profile";
+        }  
+        if(words[pointer-1].indexOf("$$")!==-1) {
+          thisWord = words[pointer-1];
+          headers.link = "<"+config[thisWord.substring(2)]+">;rel=profile";
+        }
       } catch {
         // no-op
       }
@@ -155,11 +185,27 @@ function activate(words) {
         // no-op
       }
     }
+    // add query string
+    // JSON object {completeFlag:false}
+    if(thisWord && thisWord.toUpperCase()==="WITH-QUERY") {
+      try {
+        thisWord = words[pointer++];
+        qs = thisWord;
+      } catch {
+        // no-op
+      }
+    }
     // add method
+    // support for put-c[reate] w/ if-none-match header
     if(thisWord && thisWord.toUpperCase()==="WITH-METHOD") {
       try {
         thisWord = words[pointer++];
-        method = thisWord;
+        if(thisWord.toLowerCase()==="put-c" || thisWord.toLowerCase()==="put-create") {
+          method="PUT";
+          headers["if-none-match"]="*";
+        } else {
+          method = thisWord;
+        }
       } catch {
         // no-op
       }
@@ -175,10 +221,18 @@ function activate(words) {
     }
   }
 
+  console.log("\n******************");
+  console.log(url);
+  console.log(qs);
+  console.log(headers);
+  console.log(method);
+  console.log(body);
+  console.log("******************\n");
+  
   // make the actual call
   try {
     if(body) {
-      response = request(method, url, {headers:headers, body:body});
+      response = request(method, url, {headers:headers, body:body, qs:qs});
     } else {
       response = request(method, url, {headers:headers});
     }
