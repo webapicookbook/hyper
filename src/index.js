@@ -34,6 +34,9 @@ rl.on('line', (line) => {
     case "#":
     case "":
       break;  
+    case "CLEAR":
+      console.clear();
+      break;
     case "ACTIVATE":
       console.log(activate(words));  
       break;
