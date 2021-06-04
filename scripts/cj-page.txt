@@ -15,7 +15,7 @@
 # supports query strings as expected
 # ACTIVATE http://rwcbook14.herokuapp.com/task/?completeFlag=false WITH-HEADERS {"accept":"application/json","profile":"<http://profiles.alps.com/person>"}
 
-# supports custom method
+# supports http methods
 # ACTIVATE http://localhost:8181/task/1x53zs7cv6m WITH-METHOD DELETE
 
 # supports body, method, & encoding
