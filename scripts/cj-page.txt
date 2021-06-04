@@ -1,17 +1,24 @@
 ##############################
-# i-hyper example
+# i-hyper test cases
 # @mamund - 2021-06
 ##############################
 
-# setting headers
-# activate http://rwcbook14.herokuapp.com/task/rmqzgqfq3d with headers {"accept":"application/vnd.collection+json", "profile":"<http://profiles.alps.com/person>"}
-# activate http://rwcbook14.herokuapp.com/task/rmqzgqfq3d with headers {"accept":"application/json"}
-# activate http://rwcbook14.herokuapp.com/task/?completeFlag=false with headers {"accept":"application/json", "profile":"<http://profiles.alps.com/person>"}
+# supports simpl queries
+ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
 
-ACTIVATE http://localhost:8181/task/ywc6g0id05 WITH-METHOD DELETE
-ACTIVATE http://localhost:8181/task/176wlerchmn WITH-METHOD DELETE
-activate http://localhost:8181/task/ WITH-BODY {"title":"testing","tags":"hyper","completeFlag":"false"} WITH-METHOD POST WITH-ENCODING application/json
+# supports custom headers w/ GET
+# ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json", "profile":"<http://profiles.alps.com/person>"}
 
-# activate http://localhost:8181/task/?completeFlag=false WITH-HEADERS {"profile":"<http://profiles.alps.com/person>"} WITH-FORMAT WITH-PROFILE
+# supports query strings as expected
+# ACTIVATE http://rwcbook14.herokuapp.com/task/?completeFlag=false WITH-HEADERS {"accept":"application/json", "profile":"<http://profiles.alps.com/person>"}
+
+# supports custom method
+# ACTIVATE http://localhost:8181/task/1x53zs7cv6m WITH-METHOD DELETE
+
+# supports body, method, & encoding
+# ACTIVATE http://localhost:8181/task/ WITH-BODY {"title":"testing","tags":"hyper","completeFlag":"false"} WITH-METHOD POST WITH-ENCODING application/json
+
+# supports default POST w/ form-urlencoded
+# ACTIVATE http://localhost:8181/task/ WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-METHOD POST
 
 # EOF
