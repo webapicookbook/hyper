@@ -15,7 +15,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : Initial CLI loop
  - [x] : support for piped scripts (in and out)
  - [x] : support for # - comment lines
- - [x] : support for ACTIVATE _ {url}_- sync http request
+ - [x] : support for ACTIVATE _{url}_- sync http request
  - [ ] : support for ACTIVATE _{string}_ - use href on in-doc element (id, name, rel)
  - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
  - [x] : support for WITH-FORMAT - sets "accept" header w/ config value
