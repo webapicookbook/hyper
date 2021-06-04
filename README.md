@@ -20,8 +20,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for ACTIVATE _{url}_ - make an http request (always synchronous)
  - [ ] : support for ACTIVATE _{string}_ - use href on in-doc element (id, name, rel)
  - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
- - [x] : support for WITH-FORMAT - sets "accept" header w/ config value
- - [x] : support for WITH-PROFILE - sets "link" profile header w/ config value
+ - [x] : support for WITH-FORMAT - sets `accept` header w/ config value
+ - [x] : support for WITH-PROFILE - sets `link` profile header w/ config value
  - [x] : support for WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
@@ -34,7 +34,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for SESSION.USERNAME - session file (read/write)
  - [ ] : support for LOCAL.GIVENNAME - local properties file (read)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
- - [ ] : support for IF-ERROR - error checking (4xx, 5xx)
+ - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script
 
 ## Dependencies
