@@ -24,10 +24,10 @@
 # supports default POST w/ form-urlencoded
 # ACTIVATE http://localhost:8181/task/ WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-METHOD POST
 
-# supports PUT updates w/ ETag checking
-# ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-HEADERS {"if-match":"1q2w3e4r5t6y"}
-
 # supports use of headers for PUT-As-Create
 ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-BODY title=created&completeFlag=false WITH-METHOD PUT WITH-HEADERS {"if-none-match":"*"}
+
+# supports PUT updates w/ ETag checking
+# ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-HEADERS {"if-match":"1q2w3e4r5t6y"}
 
 # EOF
