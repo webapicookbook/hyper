@@ -30,4 +30,7 @@
 # even creative use of headers for cache/etag cases
 ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-FORMAT WITH-HEADERS {"if-none-match":"*"}
 
+# explicit exit
+EXIT
+
 # EOF
