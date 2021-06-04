@@ -11,6 +11,7 @@
  * ********************************************/
 
 const request = require('sync-request');
+const {JSONPath} = require('jsonpath-plus');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -44,6 +45,9 @@ rl.on('line', (line) => {
     case "DISPLAY":
       console.log(display(words));
       break;
+    case "DISPLAY-CJ":
+      console.log(displayCJ(words));
+      break;  
     case "CONFIG-SET":
       console.log(configSet(words));
       break;  
@@ -93,6 +97,39 @@ function configSet(words) {
   return config;
 }
 
+// display a parse CJ object
+// DISPLAY-CJ {int}
+function displayCJ(words) {
+  var rt = {};
+  var index = 0;
+  var token = words[1]||"";
+  
+  switch (token.toUpperCase()) {
+    case "LINKS":
+      rt = JSON.parse(responses[index].getBody('UTF8')).collection.links;
+      break;
+    case "ITEMS":
+      rt = JSON.parse(responses[index].getBody('UTF8')).collection.items;
+      break;
+    case "QUERIES":
+      rt = JSON.parse(responses[index].getBody('UTF8')).collection.queries;
+      break;
+    case "TEMPLATE":
+      rt = JSON.parse(responses[index].getBody('UTF8')).collection.template;
+      break;
+    default:  
+      console.log(token);
+      try {
+        rt = JSON.parse(responses[index].getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+  }
+  return JSON.stringify(rt, null, 2);
+}
+
+
 // display a saved response
 // DISPLAY 
 // - LENGTH returns number of responses saved
@@ -102,15 +139,25 @@ function display(words) {
   var index = 0;
   var token = words[1]||"0";
   
-  switch (token.toLowerCase()) {
-    case "len":
-    case "length":
+  switch (token.toUpperCase()) {
+    case "LEN":
+    case "lENGTH":
       rt = responses.length;
       break;
+    case "STATUS":
+      index = respIdx(index);
+      rt = responses[index].statusCode;  
+      break;
+    case "HEADERS":
+      index = respIdx(index);
+      rt = responses[index].headers;  
+      break;
+    case "URL":
+      index = respIdx(index);
+      rt = responses[index].url;  
+      break;
     default:
-      index = parseInt(token);  
-      if(index<0) {index=0};
-      if(index>responses.length-1) {index=responses.length-1};
+      index = respIdx(token);
       try {
         rt = responses[index].getBody("UTF8");
       } catch {
@@ -249,5 +296,18 @@ function activate(words) {
 // generate a unique string based on date/time
 function timeStamp() {
   return Date.now().toString(36)
+}
+
+// return safe index into response collection
+function respIdx(index) {
+  var rt = 0;
+  try {
+    rt = parseInt(index);
+    if(rt<0) {rt=0};
+    if(rt>responses.length-1) {rt=responses.length-1};
+  } catch {
+    // no-op
+  }
+  return rt;
 }
 

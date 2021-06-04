@@ -8,11 +8,24 @@ CONFIG-SET {"accept":"application/json,","profile":"profiles.example.org/user"}
 CONFIG-SET {"encoding":"application/x-www-form-urlencoded"}
 CONFIG-SET {"test":"http://something.com"}
 
+ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d
+DISPLAY-CJ $..links.*[?(@rel && @.match/home/i]
+
+# DISPLAY-CJ LINKS
+# DISPLAY-CJ ITEMS
+# DISPLAY-CJ QUERIES
+# DISPLAY-CJ TEMPLATE
+
+# DISPLAY STATUS
+# DISPLAY URL
+# DISPLAY HEADERS
+# DISPLAY 0
+
 # supports simple queries
 # ACTIVATE http://localhost:8181/task/
 
 # supports using config defaults for accepts and link profile headers
-ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE $$test
+# ACTIVATE http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE $$test
 
 # supports custom headers w/ GET
 # ACTIVATE http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json","profile":"<http://profiles.alps.com/person>"}

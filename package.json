@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "bin": {
-    "hyper" : "./src/index.js"
-   },
+    "hyper": "./src/index.js"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,6 +28,7 @@
     "url": "https://github.com/rwmbook/i-hyper/issues"
   },
   "dependencies": {
+    "jsonpath-plus": "^5.0.7",
     "sync-request": "^6.1.0"
   },
   "homepage": "https://github.com/rwmbook/i-hyper#readme"

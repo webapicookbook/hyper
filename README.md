@@ -29,6 +29,12 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for DISPLAY _{int}_ - show saved reponse
  - [x] : support for DISPLAY LENGTH - returns length of saved stack
  - [ ] : support for DISPLAY POP show and remove from stack
+ - [ ] : support for DISPLAY-CJ returns a strong-typed version (collection+JSON)
+ - [ ] : support for DISPLAY-CJ LINKS returns links array from a collection+JSON response
+ - [ ] : support for DISPLAY-CJ ITEMS returns items array from a collection+JSON response
+ - [ ] : support for DISPLAY-CJ QUERIES returns queries array from a collection+JSON response
+ - [ ] : support for DISPLAY-CJ TEMPLATE returns template collection from a collection+JSON response
+ - [ ] : support for DISPLAY-CJ {_JSONPath}_ returns results of a JSONPath query from a collection+JSON response
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for LOAD-CONFIG _{filename}_ shared config file (read)
  - [ ] : support for CONFIG.{name} return config value (read) 
