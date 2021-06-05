@@ -1,298 +1,315 @@
-i> i> i> i> i> i> i> { accept: 'application/json,', profile: 'profiles.example.org/user' }
+i> i> i> i> i> i> i> {
+  verbose: 'false',
+  accept: 'application/json,',
+  profile: 'profiles.example.org/user'
+}
 i> {
+  verbose: 'false',
   accept: 'application/json,',
   profile: 'profiles.example.org/user',
   encoding: 'application/x-www-form-urlencoded'
 }
 i> {
+  verbose: 'false',
   accept: 'application/json,',
   profile: 'profiles.example.org/user',
   encoding: 'application/x-www-form-urlencoded',
   test: 'http://something.com'
 }
-i> i> 
-******************
-http://rwcbook14.herokuapp.com/task/rmqzgqfq3d
-{}
-{}
-GET
-
-******************
-
-
-{
-  "collection": {
-    "version": "1.0",
-    "href": "//rwcbook14.herokuapp.com/task/rmqzgqfq3d",
-    "title": "TPS - Tasks",
-    "content": "<div class=\"ui segment\"><h3>Manage your TPS Tasks here.</h3><p>You can do the following:</p><ul><li>Add, Edit and Delete tasks</li><li>Mark tasks \"complete\", assign tasks to a user</li><li>Filter the list by Title, Assigned User, and Completed Status</li></ul></div>",
-    "links": [
-      {
-        "href": "http://rwcbook14.herokuapp.com/home/",
-        "rel": "home collection",
-        "prompt": "Home"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/task/",
-        "rel": "self task collection",
-        "prompt": "Tasks"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/user/",
-        "rel": "user collection",
-        "prompt": "Users"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/note/",
-        "rel": "collection //rwcbook14.herokuapp.com/rels/note",
-        "prompt": "Notes"
-      }
-    ],
-    "items": [
-      {
-        "rel": "item",
-        "href": "//rwcbook14.herokuapp.com/task/rmqzgqfq3d",
-        "data": [
-          {
-            "name": "id",
-            "value": "rmqzgqfq3d",
-            "prompt": "ID",
-            "display": "true"
-          },
-          {
-            "name": "title",
-            "value": "DTW",
-            "prompt": "Title",
-            "display": "true"
-          },
-          {
-            "name": "completeFlag",
-            "value": "true",
-            "prompt": "Complete Flag",
-            "display": "true"
-          },
-          {
-            "name": "assignedUser",
-            "value": "",
-            "prompt": "Asigned User",
-            "display": "true"
-          },
-          {
-            "name": "dateCreated",
-            "value": "2016-01-14T18:05:56.398Z",
-            "prompt": "Created",
-            "display": "false"
-          },
-          {
-            "name": "dateUpdated",
-            "value": "2016-01-16T04:52:10.250Z",
-            "prompt": "Updated",
-            "display": "false"
-          }
-        ],
-        "links": [
-          {
-            "prompt": "Assign User",
-            "rel": "assignUser edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/assign/rmqzgqfq3d"
-          },
-          {
-            "prompt": "Mark Completed",
-            "rel": "markCompleted edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/completed/rmqzgqfq3d"
-          },
-          {
-            "prompt": "Mark Active",
-            "rel": "markActive edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/active/rmqzgqfq3d"
-          }
-        ]
-      }
-    ],
-    "queries": [],
-    "template": {
-      "prompt": "Add Task",
-      "rel": "post-edit edit-form",
-      "data": [
-        {
-          "name": "title",
-          "value": "",
-          "prompt": "Title",
-          "type": "text",
-          "required": "true"
-        },
-        {
-          "name": "tags",
-          "value": "",
-          "prompt": "Tags",
-          "type": "text"
-        },
-        {
-          "name": "completeFlag",
-          "value": "false",
-          "prompt": "Complete",
-          "type": "select",
-          "pattern": "true|false",
-          "suggest": [
-            {
-              "value": "false",
-              "text": "No"
-            },
-            {
-              "value": "true",
-              "text": "Yes"
-            }
-          ]
-        }
-      ]
-    },
-    "related": {}
+i> i> i> STATUS 200
+http://rwcbook14.herokuapp.com/task/
+i> i> i> i> $.collection.title
+[
+  "TPS - Tasks"
+]
+i> $.collection.version
+[
+  "1.0"
+]
+i> $.collection.href
+[
+  "//rwcbook14.herokuapp.com/task/"
+]
+i> $.collection.content
+[
+  "<div class=\"ui segment\"><h3>Manage your TPS Tasks here.</h3><p>You can do the following:</p><ul><li>Add, Edit and Delete tasks</li><li>Mark tasks \"complete\", assign tasks to a user</li><li>Filter the list by Title, Assigned User, and Completed Status</li></ul></div>"
+]
+i> $..items[*].href
+[
+  "//rwcbook14.herokuapp.com/task/1l9fz7bhaho",
+  "//rwcbook14.herokuapp.com/task/1m80s2qgsv5",
+  "//rwcbook14.herokuapp.com/task/1sog9t9g1ob",
+  "//rwcbook14.herokuapp.com/task/1xya56y8ak1",
+  "//rwcbook14.herokuapp.com/task/1zbhu1vusnl",
+  "//rwcbook14.herokuapp.com/task/221fxj730m9",
+  "//rwcbook14.herokuapp.com/task/242hnkcko0f",
+  "//rwcbook14.herokuapp.com/task/242nmdq5m8g",
+  "//rwcbook14.herokuapp.com/task/2g9gobu3egc",
+  "//rwcbook14.herokuapp.com/task/2h6lpinlqs",
+  "//rwcbook14.herokuapp.com/task/2okc05qbpxs",
+  "//rwcbook14.herokuapp.com/task/53sqae61sm",
+  "//rwcbook14.herokuapp.com/task/8zxbc7n8ks8",
+  "//rwcbook14.herokuapp.com/task/9gbgfjuelcg",
+  "//rwcbook14.herokuapp.com/task/9rvau19yuvo",
+  "//rwcbook14.herokuapp.com/task/e1xap944ki",
+  "//rwcbook14.herokuapp.com/task/rmqzgqfq3d"
+]
+i> $..links.*[?(@property==='rel'&&@.match(/edit-form/i))]^
+[
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/1l9fz7bhaho"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/1l9fz7bhaho"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/1l9fz7bhaho"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/1m80s2qgsv5"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/1m80s2qgsv5"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/1m80s2qgsv5"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/1sog9t9g1ob"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/1sog9t9g1ob"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/1sog9t9g1ob"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/1xya56y8ak1"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/1xya56y8ak1"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/1xya56y8ak1"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/1zbhu1vusnl"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/1zbhu1vusnl"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/1zbhu1vusnl"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/221fxj730m9"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/221fxj730m9"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/221fxj730m9"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/242hnkcko0f"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/242hnkcko0f"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/242hnkcko0f"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/242nmdq5m8g"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/242nmdq5m8g"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/242nmdq5m8g"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/2g9gobu3egc"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/2g9gobu3egc"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/2g9gobu3egc"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/2h6lpinlqs"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/2h6lpinlqs"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/2h6lpinlqs"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/2okc05qbpxs"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/2okc05qbpxs"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/2okc05qbpxs"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/53sqae61sm"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/53sqae61sm"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/53sqae61sm"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/8zxbc7n8ks8"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/8zxbc7n8ks8"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/8zxbc7n8ks8"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/9gbgfjuelcg"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/9gbgfjuelcg"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/9gbgfjuelcg"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/9rvau19yuvo"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/9rvau19yuvo"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/9rvau19yuvo"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/e1xap944ki"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/e1xap944ki"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/e1xap944ki"
+  },
+  {
+    "prompt": "Assign User",
+    "rel": "assignUser edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/assign/rmqzgqfq3d"
+  },
+  {
+    "prompt": "Mark Completed",
+    "rel": "markCompleted edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/completed/rmqzgqfq3d"
+  },
+  {
+    "prompt": "Mark Active",
+    "rel": "markActive edit-form",
+    "href": "//rwcbook14.herokuapp.com/task/active/rmqzgqfq3d"
   }
-}
-
-i> $..links.*[?(@rel
-evalmachine.<anonymous>:1
-?(@rel
-^
-
-SyntaxError: Unexpected token '?'
-    at new Script (vm.js:88:7)
-    at createScript (vm.js:261:10)
-    at Object.runInNewContext (vm.js:302:10)
-    at JSONPath._eval (/media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:643:20)
-    at /media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:420:16
-    at /media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:576:7
-    at Array.forEach (<anonymous>)
-    at JSONPath._walk (/media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:575:22)
-    at JSONPath._trace (/media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:419:10)
-    at JSONPath._trace (/media/storage/Dropbox/Private/Projects/rwmbook/i-hyper/node_modules/jsonpath-plus/dist/index-node-cjs.js:365:17)
-{
-  "collection": {
-    "version": "1.0",
-    "href": "//rwcbook14.herokuapp.com/task/rmqzgqfq3d",
-    "title": "TPS - Tasks",
-    "content": "<div class=\"ui segment\"><h3>Manage your TPS Tasks here.</h3><p>You can do the following:</p><ul><li>Add, Edit and Delete tasks</li><li>Mark tasks \"complete\", assign tasks to a user</li><li>Filter the list by Title, Assigned User, and Completed Status</li></ul></div>",
-    "links": [
-      {
-        "href": "http://rwcbook14.herokuapp.com/home/",
-        "rel": "home collection",
-        "prompt": "Home"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/task/",
-        "rel": "self task collection",
-        "prompt": "Tasks"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/user/",
-        "rel": "user collection",
-        "prompt": "Users"
-      },
-      {
-        "href": "http://rwcbook14.herokuapp.com/note/",
-        "rel": "collection //rwcbook14.herokuapp.com/rels/note",
-        "prompt": "Notes"
-      }
-    ],
-    "items": [
-      {
-        "rel": "item",
-        "href": "//rwcbook14.herokuapp.com/task/rmqzgqfq3d",
-        "data": [
-          {
-            "name": "id",
-            "value": "rmqzgqfq3d",
-            "prompt": "ID",
-            "display": "true"
-          },
-          {
-            "name": "title",
-            "value": "DTW",
-            "prompt": "Title",
-            "display": "true"
-          },
-          {
-            "name": "completeFlag",
-            "value": "true",
-            "prompt": "Complete Flag",
-            "display": "true"
-          },
-          {
-            "name": "assignedUser",
-            "value": "",
-            "prompt": "Asigned User",
-            "display": "true"
-          },
-          {
-            "name": "dateCreated",
-            "value": "2016-01-14T18:05:56.398Z",
-            "prompt": "Created",
-            "display": "false"
-          },
-          {
-            "name": "dateUpdated",
-            "value": "2016-01-16T04:52:10.250Z",
-            "prompt": "Updated",
-            "display": "false"
-          }
-        ],
-        "links": [
-          {
-            "prompt": "Assign User",
-            "rel": "assignUser edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/assign/rmqzgqfq3d"
-          },
-          {
-            "prompt": "Mark Completed",
-            "rel": "markCompleted edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/completed/rmqzgqfq3d"
-          },
-          {
-            "prompt": "Mark Active",
-            "rel": "markActive edit-form",
-            "href": "//rwcbook14.herokuapp.com/task/active/rmqzgqfq3d"
-          }
-        ]
-      }
-    ],
-    "queries": [],
-    "template": {
-      "prompt": "Add Task",
-      "rel": "post-edit edit-form",
-      "data": [
-        {
-          "name": "title",
-          "value": "",
-          "prompt": "Title",
-          "type": "text",
-          "required": "true"
-        },
-        {
-          "name": "tags",
-          "value": "",
-          "prompt": "Tags",
-          "type": "text"
-        },
-        {
-          "name": "completeFlag",
-          "value": "false",
-          "prompt": "Complete",
-          "type": "select",
-          "pattern": "true|false",
-          "suggest": [
-            {
-              "value": "false",
-              "text": "No"
-            },
-            {
-              "value": "true",
-              "text": "Yes"
-            }
-          ]
-        }
-      ]
-    },
-    "related": {}
-  }
-}
-i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> 
+]
+i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> i> 

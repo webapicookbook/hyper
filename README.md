@@ -28,16 +28,19 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
  - [x] : support for DISPLAY _{int}_ - show saved reponse
  - [x] : support for DISPLAY LENGTH - returns length of saved stack
+ - [x] : support for DISPLAY PATH _{JSONPath}_ returns results of a JSONPath query from a response
  - [ ] : support for DISPLAY POP show and remove from stack
- - [ ] : support for DISPLAY-CJ returns a strong-typed version (collection+JSON)
- - [ ] : support for DISPLAY-CJ LINKS returns links array from a collection+JSON response
- - [ ] : support for DISPLAY-CJ ITEMS returns items array from a collection+JSON response
- - [ ] : support for DISPLAY-CJ QUERIES returns queries array from a collection+JSON response
- - [ ] : support for DISPLAY-CJ TEMPLATE returns template collection from a collection+JSON response
- - [ ] : support for DISPLAY-CJ {_JSONPath}_ returns results of a JSONPath query from a collection+JSON response
+ - [x] : support for DISPLAY-CJ _{int}_ returns a strong-typed version (collection+JSON)
+ - [x] : support for DISPLAY-CJ LINKS returns links array from a collection+JSON response
+ - [x] : support for DISPLAY-CJ ITEMS returns items array from a collection+JSON response
+ - [x] : support for DISPLAY-CJ QUERIES returns queries array from a collection+JSON response
+ - [x] : support for DISPLAY-CJ TEMPLATE returns template collection from a collection+JSON response
+ - [x] : support for DISPLAY-CJ ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
+ - [x] : support for DISPLAY-CJ PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
- - [ ] : support for LOAD-CONFIG _{filename}_ shared config file (read)
- - [ ] : support for CONFIG.{name} return config value (read) 
+ - [ ] : support for CONFIG-FILE _{filename}_ shared config file (read)
+ - [ ] : support for CONFIG-SET _{n:v,...}_ shared config file write
+ - [ ] : support for $$_{name}_ return config value (read) 
  - [ ] : support for SESSION.USERNAME - session file (read/write)
  - [ ] : support for LOCAL.GIVENNAME - local properties file (read)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)

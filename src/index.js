@@ -22,6 +22,10 @@ const rl = readline.createInterface({
 
 var responses = [];
 var config = {};
+config.verbose = "false";
+
+var currentResponse = {};
+
 
 rl.prompt();
 
@@ -117,13 +121,34 @@ function displayCJ(words) {
     case "TEMPLATE":
       rt = JSON.parse(responses[index].getBody('UTF8')).collection.template;
       break;
-    default:  
+    case "REL":
+    case "ID":
+    case "NAME":
+      token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^href";
       console.log(token);
       try {
         rt = JSON.parse(responses[index].getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
+      }
+      break;
+    case "PATH":  
+      token = words[2]||"$";
+      console.log(token);
+      try {
+        rt = JSON.parse(responses[index].getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    default:  
+      index = respIdx(token);
+      try {
+        rt = JSON.parse(responses[index].getBody("UTF8"));
+      } catch {
+        rt = "no response";
       }
   }
   return JSON.stringify(rt, null, 2);
@@ -156,6 +181,19 @@ function display(words) {
       index = respIdx(index);
       rt = responses[index].url;  
       break;
+    case "CONTENT-TYPE":
+      rt = currentResponse.contentType;
+      break;  
+    case "PATH":
+      token = words[2]||"$";
+      console.log(token);
+      try {
+        rt = JSON.parse(responses[index].getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
     default:
       index = respIdx(token);
       try {
@@ -186,6 +224,15 @@ function activate(words) {
   var response;
   var thisWord = "";
   var pointer = 2;
+  
+  if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+    if(url.indexOf("//")==-1) {
+      url = "http://" + url;
+    }
+    else {
+      url = "http:" + url;
+    }
+  }
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
@@ -268,14 +315,16 @@ function activate(words) {
     }
   }
 
-  console.log("\n******************");
-  console.log(url);
-  console.log(qs);
-  console.log(headers);
-  console.log(method);
-  console.log(body);
-  console.log("******************\n");
-  
+  if(config.verbose!=="false") {
+    console.log("\n******************");
+    console.log(url);
+    console.log(qs);
+    console.log(headers);
+    console.log(method);
+    console.log(body);
+    console.log("******************\n");
+  }
+    
   // make the actual call
   try {
     if(body) {
@@ -289,7 +338,16 @@ function activate(words) {
   catch (err) {
    rt = "\n"+err.toString()+"\n";
   }
-    
+  
+  if(config.verbose==="false") {
+    rt = "STATUS "+response.statusCode+"\n"+response.url;
+  }  
+  
+  currentResponse.url = response.url;
+  currentResponse.status = response.statusCode;
+  currentResponse.headers = response.headers;
+  currentResponse.contentType = response.headers["content-type"];
+  
   return rt;
 }
 
