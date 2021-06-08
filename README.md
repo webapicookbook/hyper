@@ -39,7 +39,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for CJ ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for CJ PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
- - [ ] : support for CONFIG FILE _{filename}_ loads config file (read)
+ - [x] : support for CONFIG FILE _{filename}_ loads config file (read)
  - [x] : support for CONFIG READ returns NVP of saved config data
  - [x] : support for CONFIG SET _{n:v,...}_ shared config file write
  - [ ] : support for $$_{name}_ return config value (read) 
