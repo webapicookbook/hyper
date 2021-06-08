@@ -11,8 +11,12 @@
  * ********************************************/
 
 const request = require('sync-request');
+const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
 const readline = require('readline');
+
+var Stack = require('stack-lifo');
+var responses = new Stack();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -20,7 +24,6 @@ const rl = readline.createInterface({
   prompt: 'i> '
 });
 
-var responses = [];
 var config = {};
 config.verbose = "false";
 
@@ -49,14 +52,17 @@ rl.on('line', (line) => {
     case "DISPLAY":
       console.log(display(words));
       break;
-    case "DISPLAY-CJ":
+    case "CJ":
       console.log(displayCJ(words));
       break;  
     case "CONFIG-SET":
       console.log(configSet(words));
       break;  
+    case "CONFIG-READ":
+      console.log(config);
+      break;  
     case "RESPONSES":
-      console.log(responses.length);
+      console.log(responses.size());
       break;
     case "TIMESTAMP":
       console.log(timeStamp(line)+"\n");
@@ -107,37 +113,42 @@ function displayCJ(words) {
   var rt = {};
   var index = 0;
   var token = words[1]||"";
+  var response = responses.peek()
   
   switch (token.toUpperCase()) {
     case "LINKS":
-      rt = JSON.parse(responses[index].getBody('UTF8')).collection.links;
+      rt = JSON.parse(response.getBody('UTF8')).collection.links;
       break;
     case "ITEMS":
-      rt = JSON.parse(responses[index].getBody('UTF8')).collection.items;
+      rt = JSON.parse(response.getBody('UTF8')).collection.items;
       break;
     case "QUERIES":
-      rt = JSON.parse(responses[index].getBody('UTF8')).collection.queries;
+      rt = JSON.parse(response.getBody('UTF8')).collection.queries;
       break;
     case "TEMPLATE":
-      rt = JSON.parse(responses[index].getBody('UTF8')).collection.template;
+      rt = JSON.parse(response.getBody('UTF8')).collection.template;
       break;
     case "REL":
     case "ID":
     case "NAME":
       token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^href";
-      console.log(token);
-      try {
-        rt = JSON.parse(responses[index].getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt});
-      } catch {
-        // no-op
-      }
+      if("with-rel with-id with-name".toLowerCase().indexOf(token.toLowerCase)!==-1) {
+        try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:token, json:rt});
+        } catch {
+          // no-op
+        }
+      }  
+      else {
+        rt = "no response";
+      }  
       break;
     case "PATH":  
       token = words[2]||"$";
       console.log(token);
       try {
-        rt = JSON.parse(responses[index].getBody('UTF8'));
+        rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
@@ -145,8 +156,9 @@ function displayCJ(words) {
       break;
     default:  
       index = respIdx(token);
+      response = responses.peek()
       try {
-        rt = JSON.parse(responses[index].getBody("UTF8"));
+        rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
@@ -163,23 +175,41 @@ function display(words) {
   var rt = "";
   var index = 0;
   var token = words[1]||"0";
+  var response;
   
+  
+  // shortcut for error
+  try {
+    response = responses.peek();
+  } catch {
+    rt = "no response";
+    return rt;
+  }  
+
   switch (token.toUpperCase()) {
     case "LEN":
     case "lENGTH":
-      rt = responses.length;
+      rt = responses.size();
+      break;
+    case "POP":
+      try {
+        responses.pop();
+        rt = "OK";
+      } catch {
+        rt = "no response";
+      } 
       break;
     case "STATUS":
-      index = respIdx(index);
-      rt = responses[index].statusCode;  
+      //index = respIdx(index);
+      rt = response.statusCode;  
       break;
     case "HEADERS":
       index = respIdx(index);
-      rt = responses[index].headers;  
+      rt = response.headers;  
       break;
     case "URL":
       index = respIdx(index);
-      rt = responses[index].url;  
+      rt = response.url;  
       break;
     case "CONTENT-TYPE":
       rt = currentResponse.contentType;
@@ -188,16 +218,16 @@ function display(words) {
       token = words[2]||"$";
       console.log(token);
       try {
-        rt = JSON.parse(responses[index].getBody('UTF8'));
+        rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
       }
       break;
+    case "PEEK":
     default:
-      index = respIdx(token);
       try {
-        rt = responses[index].getBody("UTF8");
+        rt = response.getBody("UTF8");
       } catch {
         rt = "no response";
       }
@@ -219,23 +249,55 @@ function activate(words) {
   var url = words[1]||"#";
   var headers = {};
   var body = "";
-  var qs = {};
+  var query = {}
   var method = "GET";
   var response;
   var thisWord = "";
-  var pointer = 2;
-  
-  if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-    if(url.indexOf("//")==-1) {
-      url = "http://" + url;
-    }
-    else {
-      url = "http:" + url;
-    }
-  }
+  var pointer = 1;
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
+    // activate via rel
+    if(thisWord && thisWord.toUpperCase()==="WITH-REL") {
+      thisWord = words[pointer++];
+      try {
+        response = JSON.parse(response.peek().getBody('UTF8'));
+        url= JSONPath({path:"$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^",json:response})[0].href;
+        if(url.toLowerCase()==="with-rel") {
+          rt = "no response";
+        }
+        else {
+          if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+            if(url.indexOf("//")==-1) {
+              url = "http://" + url;
+            }
+            else {
+              url = "http:" + url;
+            }
+          }
+        }  
+      } catch {
+        // no-op
+      } 
+      console.log(url); 
+    }
+    // url
+    if(thisWord && thisWord.toUpperCase()==="WITH-URL") {
+      try {
+      url = words[pointer++];
+      if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+        if(url.indexOf("//")==-1) {
+          url = "http://" + url;
+        }
+        else {
+          url = "http:" + url;
+        }
+      }
+      
+      } catch {
+        // no-op
+      }
+    }
     // direct headers
     if(thisWord && thisWord.toUpperCase()==="WITH-HEADERS") {
       try {
@@ -284,7 +346,9 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-QUERY") {
       try {
         thisWord = words[pointer++];
-        qs = thisWord;
+        query = querystring.stringify(JSON.parse(thisWord));
+        url = url+'?'+query
+        console.log(query);
       } catch {
         // no-op
       }
@@ -318,7 +382,7 @@ function activate(words) {
   if(config.verbose!=="false") {
     console.log("\n******************");
     console.log(url);
-    console.log(qs);
+    console.log(query);
     console.log(headers);
     console.log(method);
     console.log(body);
@@ -328,7 +392,7 @@ function activate(words) {
   // make the actual call
   try {
     if(body) {
-      response = request(method, url, {headers:headers, body:body, qs:qs});
+      response = request(method, url, {headers:headers, body:body});
     } else {
       response = request(method, url, {headers:headers});
     }
@@ -340,13 +404,21 @@ function activate(words) {
   }
   
   if(config.verbose==="false") {
-    rt = "STATUS "+response.statusCode+"\n"+response.url;
+    try {
+      rt = "STATUS "+response.statusCode+"\n"+response.url;
+    } catch {
+      // no-op
+    }   
   }  
   
-  currentResponse.url = response.url;
-  currentResponse.status = response.statusCode;
-  currentResponse.headers = response.headers;
-  currentResponse.contentType = response.headers["content-type"];
+  try {
+    currentResponse.url = response.url;
+    currentResponse.status = response.statusCode;
+    currentResponse.headers = response.headers;
+    currentResponse.contentType = response.headers["content-type"];
+  } catch {
+    // no-op
+  }  
   
   return rt;
 }
@@ -359,6 +431,7 @@ function timeStamp() {
 // return safe index into response collection
 function respIdx(index) {
   var rt = 0;
+  /*
   try {
     rt = parseInt(index);
     if(rt<0) {rt=0};
@@ -366,6 +439,7 @@ function respIdx(index) {
   } catch {
     // no-op
   }
+  */
   return rt;
 }
 

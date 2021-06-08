@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "jsonpath-plus": "^5.0.7",
+    "stack-lifo": "^0.1.6",
     "sync-request": "^6.1.0"
   },
   "homepage": "https://github.com/rwmbook/i-hyper#readme"

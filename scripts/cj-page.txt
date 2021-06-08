@@ -9,22 +9,22 @@ CONFIG-SET {"encoding":"application/x-www-form-urlencoded"}
 CONFIG-SET {"test":"http://something.com"}
 
 # simple request and then JSONPath
-ACTIVATE http://rwcbook14.herokuapp.com/task/
+ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/
 # DISPLAY PATH $..items[*].href
 
 # strong-typed response-handling (Collection+JSON) w/ JSONPath
-DISPLAY-CJ PATH $.collection.title
-DISPLAY-CJ PATH $.collection.version
-DISPLAY-CJ PATH $.collection.href
-DISPLAY-CJ PATH $.collection.content
-DISPLAY-CJ PATH $..items[*].href
-DISPLAY-CJ PATH $..links.*[?(@property==='rel'&&@.match(/edit-form/i))]^
+CJ PATH $.collection.title
+CJ PATH $.collection.version
+CJ PATH $.collection.href
+CJ PATH $.collection.content
+CJ PATH $..items[*].href
+CJ PATH $..links.*[?(@property==='rel'&&@.match(/edit-form/i))]^
 
 # default objects/collections for DISPLAY-CJ
-# DISPLAY-CJ LINKS
-# DISPLAY-CJ ITEMS
-# DISPLAY-CJ QUERIES
-# DISPLAY-CJ TEMPLATE
+# CJ LINKS
+# CJ ITEMS
+# CJ QUERIES
+# CJ TEMPLATE
 
 # weak-typed response-handling (including JSONPath)
 # DISPLAY STATUS
