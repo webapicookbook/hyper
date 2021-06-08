@@ -1,6 +1,6 @@
 {
   "name": "i-hyper",
-  "description": "_sample project to explore an interactive shell for hypermedia services_",
+  "description": "sample project to explore an interactive shell for hypermedia services",
   "version": "1.0.0",
   "main": "./src/index.js",
   "bin": {
@@ -20,7 +20,8 @@
     "mamund",
     "rest",
     "http",
-    "cli"
+    "cli",
+    "rwmbook"
   ],
   "author": "Mike Amundsen (@mamund)",
   "license": "MIT",
