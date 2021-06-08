@@ -14,6 +14,7 @@ const request = require('sync-request');
 const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
 const readline = require('readline');
+const fs = require('fs');
 
 var Stack = require('stack-lifo');
 var responses = new Stack();
@@ -58,11 +59,8 @@ rl.on('line', (line) => {
     case "CJ":
       console.log(displayCJ(words));
       break;  
-    case "CONFIG-SET":
-      console.log(configSet(words));
-      break;  
-    case "CONFIG-READ":
-      console.log(config);
+    case "CONFIG":
+      console.log(configOp(words));
       break;  
     case "RESPONSES":
       console.log(responses.size());
@@ -91,22 +89,67 @@ function echo(words) {
   return rt;
 }
 
+// configuration operations
+function configOp(words) {
+  var rt = "";
+  var file = "";
+  var set = {};
+  var data = "";
+  var token = words[1];
+  
+  switch (token.toUpperCase()) {
+    case "FILE":
+      rt = configFile(words[2]);
+      break;
+    case "SET":
+      rt = configSet(words[2]);
+      break;  
+    case "READ":
+    default:
+      rt = config  
+  }
+  return rt;
+}
+
+// load config from file
+// overwrites any existing settings of the same name
+function configFile(file) {
+  var rt = "";
+  var set = {};
+  var data = "";
+  
+  try {
+    if(fs.existsSync(file)) {
+      data = fs.readFileSync(file, {encoding:'utf8', flag:'r'});
+      set = JSON.parse(data);
+      for(var c in set) {
+        config[c] = set[c];
+      }
+      rt = config;
+    }
+    else {
+      rt = "can't open ["+file+"]";
+    }  
+  } catch(err) {
+    rt = "ERR: "+console.error(err);
+  }
+  return rt;
+}
+
 // set config values
 // CONFIG-SET {n:v,...}
-function configSet(words) {
+function configSet(token) {
   var rt = "";
   var set = {};
   
-  if(words[1]) {
-    try {
-      set = JSON.parse(words[1]);
-      for(var c in set) {
-      config[c] = set[c];
-      }
-    } catch {
-      // no-op
-    }  
-  }
+  try {
+    set = JSON.parse(token);
+    for(var c in set) {
+    config[c] = set[c];
+    }
+  } catch {
+    // no-op
+  }  
   return config;
 }
 

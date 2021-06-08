@@ -4,10 +4,11 @@
 # #############################
 
 # supports setting runtime config values
-CONFIG-READ
-CONFIG-SET {"accept":"application/json,","profile":"profiles.example.org/user"}
-CONFIG-SET {"encoding":"application/x-www-form-urlencoded"}
-CONFIG-SET {"test":"http://something.com"}
+CONFIG READ
+CONFIG SET {"accept":"application/vnd.siren+json,","profile":"profiles.example.org/user"}
+CONFIG SET {"encoding":"application/x-www-form-urlencoded"}
+CONFIG SET {"test":"http://something.com"}
+CONFIG FILE ./scripts/config-test.cfg
 
 #
 # EOF
