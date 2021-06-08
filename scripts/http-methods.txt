@@ -1,0 +1,26 @@
+# #############################
+# i-hyper HTTP METHODS
+# @mamund - 2021-06
+# #############################
+
+# supports http methods
+ACTIVATE http://localhost:8181/task/1x53zs7cv6m WITH-METHOD DELETE
+
+# supports body, method, & encoding
+ACTIVATE http://localhost:8181/task/ WITH-BODY {"title":"testing","tags":"hyper","completeFlag":"false"} WITH-METHOD POST WITH-ENCODING application/json
+
+# supports default POST w/ form-urlencoded
+ACTIVATE http://localhost:8181/task/ WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-METHOD POST
+
+# supports use of headers for PUT-As-Create
+ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-BODY title=created&completeFlag=false WITH-METHOD PUT WITH-HEADERS {"if-none-match":"*"}
+
+# or use the special i-hyper method shortcut for "put-create" action
+ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-BODY title=created&completeFlag=false WITH-METHOD PUT-C
+
+# support simple update w/ put
+ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-BODY title=testing&completeFlag=false WITH-METHOD PUT
+
+# supports PUT updates w/ ETag checking
+ACTIVATE http://localhost:8181/task/ufa3susc3 WITH-METHOD PUT WITH-BODY title=testing&tags=hyper&completeFlag=false WITH-HEADERS {"if-match":"1q2w3e4r5t6y"}
+

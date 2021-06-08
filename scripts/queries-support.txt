@@ -1,0 +1,19 @@
+# #############################
+# i-hyper simple requests
+# @mamund - 2021-06
+# #############################
+
+# supports simple queries
+ACTIVATE WITH-URL http://localhost:8181/task/
+
+# supports using config defaults for accepts and link profile headers
+ACTIVATE WITH-URL http://localhost:8181/task/?completeFlag=false WITH-FORMAT WITH-PROFILE
+
+# supports custom headers w/ GET
+ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/rmqzgqfq3d WITH-HEADERS {"accept":"application/vnd.collection+json","profile":"<http://profiles.alps.com/person>"}
+
+# supports query strings as expected
+ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/?completeFlag=false WITH-HEADERS {"accept":"application/json","profile":"<http://profiles.alps.com/person>"}
+
+# support special query object
+ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/ WITH-QUERY {"completeFlag":"false"} WITH-HEADERS {"accept":"application/json"}

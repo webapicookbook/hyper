@@ -54,6 +54,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  * https://github.com/ForbesLindesay/sync-request
  * https://www.npmjs.com/package/jsonpath-plus
  * https://www.npmjs.com/package/stack-lifo
+ * https://www.npmjs.com/package/html2json
 
 ## Some Sample Commands
 

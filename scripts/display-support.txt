@@ -1,0 +1,14 @@
+# #############################
+# i-hyper DISPLAY support
+# @mamund - 2021-06
+# #############################
+
+ACTIVATE WITH-URL rwcbook14.herokuapp.com
+
+# weak-typed response-handling (including JSONPath)
+DISPLAY STATUS
+DISPLAY URL
+DISPLAY HEADERS
+DISPLAY PEEK
+DISPLAY PATH $..items[*].href
+

@@ -28,6 +28,7 @@
     "url": "https://github.com/rwmbook/i-hyper/issues"
   },
   "dependencies": {
+    "html2json": "^1.0.2",
     "jsonpath-plus": "^5.0.7",
     "stack-lifo": "^0.1.6",
     "sync-request": "^6.1.0"

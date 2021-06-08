@@ -1,0 +1,14 @@
+# #############################
+# i-hyper CONFIG tests
+# @mamund - 2021-06
+# #############################
+
+# supports setting runtime config values
+CONFIG-READ
+CONFIG-SET {"accept":"application/json,","profile":"profiles.example.org/user"}
+CONFIG-SET {"encoding":"application/x-www-form-urlencoded"}
+CONFIG-SET {"test":"http://something.com"}
+
+#
+# EOF
+# 

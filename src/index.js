@@ -46,6 +46,9 @@ rl.on('line', (line) => {
     case "CLEAR":
       console.clear();
       break;
+    case "A":
+    case "GO":
+    case "CALL":  
     case "ACTIVATE":
       console.log(activate(words));  
       break;
@@ -403,12 +406,12 @@ function activate(words) {
    rt = "\n"+err.toString()+"\n";
   }
   
-  if(config.verbose==="false") {
+  if(config.verbose==="false" && response.statusCode<400) {
     try {
       rt = "STATUS "+response.statusCode+"\n"+response.url;
     } catch {
       // no-op
-    }   
+    }
   }  
   
   try {

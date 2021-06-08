@@ -1,0 +1,9 @@
+# #############################
+# i-hyper ACTIVATE DISPLAY PATH
+# @mamund - 2021-06
+# #############################
+
+# simple request and then JSONPath
+ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/
+DISPLAY PATH $..items[*].href
+
