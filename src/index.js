@@ -37,6 +37,9 @@ rl.on('line', (line) => {
   line = line.trim();
   var words = line.split(" ");
   switch (words[0].toUpperCase()) {
+    case "HELP":
+      console.log(showHelp());
+      break;
     case "EXIT":
     case "STOP":
       process.exit(0)
@@ -95,7 +98,7 @@ function configOp(words) {
   var file = "";
   var set = {};
   var data = "";
-  var token = words[1];
+  var token = words[1]||"";
   
   switch (token.toUpperCase()) {
     case "FILE":
@@ -448,14 +451,15 @@ function activate(words) {
   catch (err) {
    rt = "\n"+err.toString()+"\n";
   }
-  
-  if(config.verbose==="false" && response.statusCode<400) {
-    try {
+ 
+  try {
+    if(config.verbose==="false" && response.statusCode<400) {
       rt = "STATUS "+response.statusCode+"\n"+response.url;
-    } catch {
-      // no-op
     }
-  }  
+
+  } catch {
+    // no-op
+  } 
   
   try {
     currentResponse.url = response.url;
@@ -489,3 +493,42 @@ function respIdx(index) {
   return rt;
 }
 
+function showHelp() {
+  var rt = "";
+
+  rt  = `
+  
+  HYPER - v1.0 : 2021-06
+
+  ACTIVATE WITH-URL url
+  ACTIVATE WITH-REL string
+    WITH-PROFILE
+    WITH-FORMAT
+    WITH-QUERY {n:v,...}
+    WITH-BODY name=value&... OR {"name":"value",...}
+    WITH-HEADERS {"name":"value",...}
+    WITH-ENCODING string
+    WITH-METHOD string
+  CLEAR
+  CONFIG
+    READ
+    SET {"name":"value",...}
+    FILE string
+  DISPLAY
+    PEEK
+    POP
+    LENGTH
+    PATH jsonpath-string
+    STATUS
+    CONTENT-TYPE
+    URL
+  CJ
+    LINKS
+    ITEMS
+    QUERIES
+    TEMPLATE
+    REL string
+    PATH jsonpath-string
+`;
+  return rt;
+}
