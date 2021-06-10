@@ -741,6 +741,14 @@ function showHelp() {
     ENBEDDED || _EMBEDDED
     REL || ID || KEY string
     PATH jsonpath-string
+  SIREN
+    LINKS
+    ENTITIES
+    ACTIONS
+    PROPERTIES
+    REL string (LINKS)
+    NAME string (ACTIONS)
+    PATH jsonpath-string
 `;
   return rt;
 }

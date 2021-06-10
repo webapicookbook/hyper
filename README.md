@@ -45,6 +45,13 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. EMBEDDED returns items array from a HAL response
  - [x] : support for .. KEY|ID|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a HAL response
+ - [x] : support for SIREN returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
+ - [x] : support for .. LINKS returns links array from a SIREN response
+ - [x] : support for .. ACTIONS returns actions array from a SIREN response
+ - [x] : support for .. ENTITIES returns entities array from a SIREN response
+ - [x] : support for .. PROPERTIES returns properties array from a SIREN response
+ - [x] : support for .. REL|NAME _{string}_ returns results of a pre-set JSONPath query (shorthand)
+ - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
  - [x] : support for CONFIG (READ) returns NVP of saved config data
  - [x] : support for .. FILE _{filename}_ loads config file (read)
  - [x] : support for .. SET _{n:v,...}_ shared config file write
