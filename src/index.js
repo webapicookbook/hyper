@@ -79,6 +79,9 @@ rl.on('line', (line) => {
     case "HAL":
       console.log(halCommands(words));
       break;  
+    case "SIREN":
+      console.log(sirenCommands(words));
+      break;
     case "CONFIG":
       console.log(configOp(words));
       break;  
@@ -197,6 +200,76 @@ function configSet(token) {
     // no-op
   }  
   return config;
+}
+
+
+// display and parse a SIREN response
+// SIREN {command}
+function sirenCommands(words) {
+  var rt="";
+  var token = words[1]||"";
+  var response = responses.peek();
+
+  switch (token.toUpperCase()) {
+    case "LINKS":
+      rt = JSON.parse(response.getBody('UTF8')).links;
+      break;
+    case "PROPERTIES":
+      rt = JSON.parse(response.getBody('UTF8')).properties;
+      break;
+   case "ACTIONS":
+      rt = JSON.parse(response.getBody('UTF8')).actions;
+      break;
+    case "ENTITIES":
+      rt = JSON.parse(response.getBody('UTF8')).entities;
+      break;
+    case "NAME":
+      token = "$.actions.*[?(@property==='name'&&@.match(/"+words[2]+"/i))]^"
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
+         try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:token, json:rt})[0];
+        } catch {
+          // no-op
+        }
+     }
+      else {
+        rt = "no response";
+      }
+      break;
+    case "REL":
+      token = "$.links"
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
+        try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:token, json:rt});
+        } catch {
+          // no-op
+        }
+      }  
+      else {
+        rt = "no response";
+      }  
+      break;
+    case "PATH":  
+      token = words[2]||"$";
+      console.log(token);
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    default:  
+      response = responses.peek()
+      try {
+        rt = JSON.parse(response.getBody("UTF8"));
+      } catch {
+        rt = "no response";
+      }
+ }
+  return JSON.stringify(rt, null, 2);
 }
 
 // display and parse a HAL response
