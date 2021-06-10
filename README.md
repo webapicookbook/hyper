@@ -18,30 +18,32 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for piped scripts (in and out)
  - [x] : support for # - comment lines
  - [x] : support for CLEAR - clears the console
+ - [x] : support for SHELL _{command}_ simple SHELL (bash/dos) support
+ - [x] : support for .. LS *OR* DIR _{folder/path}_
  - [x] : support for ACTIVATE WITH-URL _{url}_ - make an http request (always synchronous)
  - [x] : support for ACTIVATE WITH-REL _{string}_ - use href on in-doc element (id, name, rel)
- - [x] : support for WITH-HEADERS _{n:v,...}_ - request headers
- - [x] : support for WITH-FORMAT - sets `accept` header w/ config value
- - [x] : support for WITH-PROFILE - sets `link` profile header w/ config value
- - [x] : support for WITH-QUERY _{n:v,...}_ - query string args as JSON nvps
- - [x] : support for WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
- - [x] : support for WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
- - [x] : support for WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
+ - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
+ - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
+ - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
+ - [x] : support for .. WITH-QUERY _{n:v,...}_ - query string args as JSON nvps
+ - [x] : support for .. WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
+ - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
+ - [x] : support for   WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
  - [x] : support for DISPLAY (PEEK) - show saved reponse (from top of the LIFO stack)
- - [x] : support for DISPLAY LENGTH - returns length of saved stack
- - [x] : support for DISPLAY POP remove response from top of the stack
- - [x] : support for DISPLAY PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
+ - [x] : support for .. LENGTH - returns length of saved stack
+ - [x] : support for .. POP remove response from top of the stack
+ - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
  - [x] : support for CJ returns a strong-typed version of response from top of the stack (collection+JSON)
- - [x] : support for CJ LINKS returns links array from a collection+JSON response
- - [x] : support for CJ ITEMS returns items array from a collection+JSON response
- - [x] : support for CJ QUERIES returns queries array from a collection+JSON response
- - [x] : support for CJ TEMPLATE returns template collection from a collection+JSON response
- - [x] : support for CJ ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
- - [x] : support for CJ PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
+ - [x] : support for .. LINKS returns links array from a collection+JSON response
+ - [x] : support for .. ITEMS returns items array from a collection+JSON response
+ - [x] : support for .. QUERIES returns queries array from a collection+JSON response
+ - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
+ - [x] : support for .. ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
+ - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
+ - [x] : support for CONFIG (READ) returns NVP of saved config data
+ - [x] : support for .. FILE _{filename}_ loads config file (read)
+ - [x] : support for .. SET _{n:v,...}_ shared config file write
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
- - [x] : support for CONFIG FILE _{filename}_ loads config file (read)
- - [x] : support for CONFIG READ returns NVP of saved config data
- - [x] : support for CONFIG SET _{n:v,...}_ shared config file write
  - [ ] : support for $$_{name}_ return config value (read) 
  - [ ] : support for SESSION.USERNAME - session file (read/write)
  - [ ] : support for LOCAL.GIVENNAME - local properties file (read)

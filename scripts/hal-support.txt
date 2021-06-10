@@ -1,0 +1,7 @@
+# initial HAL support
+
+GO http://rwcbook08.herokuapp.com/
+HAL LINKS
+HAL PATH $._links.self
+GO WITH-REL self
+

@@ -1,0 +1,9 @@
+# testing SHELL support
+
+SHELL ls
+SHELL DIR ../
+SHELL pwd
+
+# EOF 
+
+

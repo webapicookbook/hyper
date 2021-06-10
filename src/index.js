@@ -13,6 +13,8 @@
 const request = require('sync-request');
 const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
+const { spawnSync, execSync, execFileSync } = require("child_process");
+
 const readline = require('readline');
 const fs = require('fs');
 
@@ -38,8 +40,11 @@ rl.on('line', (line) => {
   var words = line.split(" ");
   switch (words[0].toUpperCase()) {
     case "HELP":
-      console.log(showHelp());
+      console.log(showHelp(words));
       break;
+    case "SHELL":
+      console.log(runShell(words));
+      break;  
     case "EXIT":
     case "STOP":
       process.exit(0)
@@ -60,7 +65,10 @@ rl.on('line', (line) => {
       console.log(display(words));
       break;
     case "CJ":
-      console.log(displayCJ(words));
+      console.log(cjCommands(words));
+      break;  
+    case "HAL":
+      console.log(halCommands(words));
       break;  
     case "CONFIG":
       console.log(configOp(words));
@@ -81,6 +89,32 @@ rl.on('line', (line) => {
 }).on('close', () => {
   process.exit(0);
 });
+
+// run an external shell command
+function runShell(words) {
+  var rt = "";
+  var token = words[1]||"";
+  
+  switch (token.toLowerCase()) {
+    case "ls":
+    case "dir":
+      token = words[2]||".";
+      try {
+        rt = spawnSync("ls -l "+token,{shell:true, encoding:'utf8'}).stdout; 
+      } catch {
+        // no-op
+      }
+      break;
+    default: 
+      try {
+        rt = spawnSync(token,{shell:true, encoding:'utf8'}).stdout;   
+      } catch {
+        // no-op
+      }  
+      break;
+  }
+  return rt;
+}
 
 // echo the command line
 // ECHO {strings{}
@@ -156,9 +190,59 @@ function configSet(token) {
   return config;
 }
 
+// display and parse a HAL response
+// HAL {command{}
+function halCommands(words) {
+  var rt = {};
+  var token = words[1]||"";
+  var response = responses.peek();
+  
+  switch (token.toUpperCase()) {
+    case "LINKS":
+    case "_LINKS":
+      rt = JSON.parse(response.getBody('UTF8'))._links;
+      break;
+    case "EMBEDDED":
+    case "_EMBEDDED":
+      rt = JSON.parse(response.getBody('UTF8'))._embedded;
+      break;
+    case "REL":
+      token  = "$..*[?(@property==='"+words[2]+"')]";
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
+        try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:token, json:rt});
+        } catch {
+          // no-op
+        }
+      }  
+      else {
+        rt = "no response";
+      }  
+      break;
+    case "PATH":  
+      token = words[2]||"$";
+      console.log(token);
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    default:  
+      response = responses.peek()
+      try {
+        rt = JSON.parse(response.getBody("UTF8"));
+      } catch {
+        rt = "no response";
+      }
+  }
+  return JSON.stringify(rt, null, 2);
+}
 // display a parse CJ object
-// DISPLAY-CJ {int}
-function displayCJ(words) {
+// CJ {command}
+function cjCommands(words) {
   var rt = {};
   var index = 0;
   var token = words[1]||"";
@@ -303,6 +387,7 @@ function activate(words) {
   var response;
   var thisWord = "";
   var pointer = 1;
+  var ctype = "";
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
@@ -310,8 +395,17 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-REL") {
       thisWord = words[pointer++];
       try {
-        response = JSON.parse(response.peek().getBody('UTF8'));
-        url= JSONPath({path:"$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^",json:response})[0].href;
+        response = JSON.parse(responses.peek().getBody('UTF8'));
+        // strong-type the body here
+        ctype = responses.peek().headers["content-type"];
+        // cj
+        if(ctype.indexOf("vnd.collection+json")!==-1) {
+          url = JSONPath({path:"$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^",json:response})[0].href;
+        }
+        // hal
+        if(ctype.indexOf("vnd.hal+json")!==-1) {
+          url = JSONPath({path:"$..*[?(@property==='"+thisWord+"')].href",json:response})[0];
+        }
         if(url.toLowerCase()==="with-rel") {
           rt = "no response";
         }
@@ -328,7 +422,6 @@ function activate(words) {
       } catch {
         // no-op
       } 
-      console.log(url); 
     }
     // url
     if(thisWord && thisWord.toUpperCase()==="WITH-URL") {
@@ -510,6 +603,9 @@ function showHelp() {
     WITH-ENCODING string
     WITH-METHOD string
   CLEAR
+  SHELL command-string
+    LS folder-string
+    DIR folder-string
   CONFIG
     READ
     SET {"name":"value",...}
@@ -529,6 +625,10 @@ function showHelp() {
     TEMPLATE
     REL string
     PATH jsonpath-string
+  HAL
+    LINKS OR _LINKS
+    ENBEDDED OR _EMBEDDED
+    PATH
 `;
   return rt;
 }
