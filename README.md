@@ -20,8 +20,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for CLEAR - clears the console
  - [x] : support for SHELL _{command}_ simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _{folder/path}_
- - [x] : support for ACTIVATE WITH-URL _{url}_ - make an http request (always synchronous)
- - [x] : support for ACTIVATE WITH-REL _{string}_ - use href on in-doc element (id, name, rel)
+ - [x] : support for ACTIVATE|CALL|GO WITH-URL _{url}_ - make an http request (always synchronous)
+ - [x] : support for ACTIVATE|CALL|GO WITH-REL _{string}_ - make a request using href on in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
  - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
  - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
