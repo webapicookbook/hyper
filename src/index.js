@@ -209,6 +209,7 @@ function sirenCommands(words) {
   var rt="";
   var token = words[1]||"";
   var response = responses.peek();
+  var node = {};
 
   switch (token.toUpperCase()) {
     case "LINKS":
@@ -242,7 +243,16 @@ function sirenCommands(words) {
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
-          rt = JSONPath({path:token, json:rt});
+          rt = JSONPath({path:token, json:rt})[0];
+          for(var i=0; i<rt.length; i++) {
+            var link = rt[i];
+            for(var j=0; j<link.rel.length; j++) {
+              if(link.rel[j]===words[2]) {
+                node = link;
+              }
+            }
+          }
+          rt = node;
         } catch {
           // no-op
         }
@@ -488,6 +498,24 @@ function activate(words) {
         // hal
         if(ctype.indexOf("vnd.hal+json")!==-1) {
           url = JSONPath({path:"$..*[?(@property==='"+thisWord+"')].href",json:response})[0];
+        }
+        // siren (it's gnarly!)
+        if(ctype.indexOf("vnd.siren+json")!==-1) {
+          url = "with-rel";
+          token = "$.links"
+          try {
+            rt = JSONPath({path:token, json:response})[0];
+            for(var i=0; i<rt.length; i++) {
+              var link = rt[i];
+              for(var j=0; j<link.rel.length; j++) {
+                if(link.rel[j]===thisWord) {
+                  url = link.href; // finally got it!
+                }
+              }
+            }
+          } catch {
+            // no-op
+          }
         }
         if(url.toLowerCase()==="with-rel") {
           rt = "no response";
