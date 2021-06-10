@@ -43,8 +43,6 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for HAL returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
  - [x] : support for .. LINKS returns links array from a HAL response
  - [x] : support for .. EMBEDDED returns items array from a HAL response
- - [x] : support for .. QUERIES returns queries array from a HAL response
- - [x] : support for .. TEMPLATE returns template collection from a HAL response
  - [x] : support for .. KEY|ID|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a HAL response
  - [x] : support for CONFIG (READ) returns NVP of saved config data

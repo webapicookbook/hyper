@@ -1,0 +1,14 @@
+# testing WITH-REL support
+
+GO WITH-URL http://rwcbook14.herokuapp.com/home/
+CJ LINKS
+
+GO WITH-REL task
+CJ QUERIES
+
+GO WITH-REL byUser WITH-QUERY {"assignedUser":"alice"}
+CJ ITEMS
+
+# CJ PATH $.collection.items[*].data.*[?(@property==='name'&&@.match(/assignedUser/i))]^
+
+# EOF 
