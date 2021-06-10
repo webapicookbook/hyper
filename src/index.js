@@ -32,6 +32,15 @@ config.verbose = "false";
 
 var currentResponse = {};
 
+// check for args
+var args = process.argv.slice(2);
+try {
+  if(args.length>0) {
+    console.log(showHelp());
+  }  
+} catch {
+  // no-op
+}
 
 rl.prompt();
 
