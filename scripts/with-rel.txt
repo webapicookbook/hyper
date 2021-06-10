@@ -1,14 +1,16 @@
 # testing WITH-REL support
 
 GO WITH-URL http://rwcbook14.herokuapp.com/home/
-CJ PATH $..items.*[?(@property==='rel'&&@.match(/item/i))]^.href
+# CJ PATH $..items.*[?(@property==='rel'&&@.match(/item/i))]^.href
+CJ PATH $.collection.items[*].data.*[?(@property==='name'&&@.match(/assignedUser/i))]^
 
 GO WITH-REL task
-CJ PATH $..items.*[?(@property==='rel'&&@.match(/item/i))]^.href
+# CJ PATH $..items.*[?(@property==='rel'&&@.match(/item/i))]^.href
+CJ PATH $.collection.items[*].data.*[?(@property==='name'&&@.match(/assignedUser/i))]^
 
 GO WITH-REL byUser WITH-QUERY {"assignedUser":"alice"}
-CJ PATH $..items.*[?(@property==='rel'&&@.match(/item/i))]^.href
-
+# CJ PATH $..items.*[?(@property==='name'&&@.match(/assignedUser/i))]
+CJ PATH $.collection.items[*].data.*[?(@property==='name'&&@.match(/assignedUser/i))]^
 # EOF 
 
 
