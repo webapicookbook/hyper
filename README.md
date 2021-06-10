@@ -19,7 +19,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for # - comment lines
  - [x] : support for CLEAR - clears the console
  - [x] : support for SHELL _{command}_ simple SHELL (bash/dos) support
- - [x] : support for .. LS *OR* DIR _{folder/path}_
+ - [x] : support for .. LS|DIR _{folder/path}_
  - [x] : support for ACTIVATE WITH-URL _{url}_ - make an http request (always synchronous)
  - [x] : support for ACTIVATE WITH-REL _{string}_ - use href on in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
@@ -33,13 +33,20 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. LENGTH - returns length of saved stack
  - [x] : support for .. POP remove response from top of the stack
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
- - [x] : support for CJ returns a strong-typed version of response from top of the stack (collection+JSON)
+ - [x] : support for CJ returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
  - [x] : support for .. LINKS returns links array from a collection+JSON response
  - [x] : support for .. ITEMS returns items array from a collection+JSON response
  - [x] : support for .. QUERIES returns queries array from a collection+JSON response
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
  - [x] : support for .. ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
+ - [x] : support for HAL returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
+ - [x] : support for .. LINKS returns links array from a HAL response
+ - [x] : support for .. EMBEDDED returns items array from a HAL response
+ - [x] : support for .. QUERIES returns queries array from a HAL response
+ - [x] : support for .. TEMPLATE returns template collection from a HAL response
+ - [x] : support for .. KEY|ID|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
+ - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a HAL response
  - [x] : support for CONFIG (READ) returns NVP of saved config data
  - [x] : support for .. FILE _{filename}_ loads config file (read)
  - [x] : support for .. SET _{n:v,...}_ shared config file write

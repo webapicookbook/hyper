@@ -207,6 +207,8 @@ function halCommands(words) {
       rt = JSON.parse(response.getBody('UTF8'))._embedded;
       break;
     case "REL":
+    case "ID":
+    case "KEY":  
       token  = "$..*[?(@property==='"+words[2]+"')]";
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
@@ -265,7 +267,7 @@ function cjCommands(words) {
     case "ID":
     case "NAME":
       token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^href";
-      if("with-rel with-id with-name".toLowerCase().indexOf(token.toLowerCase)!==-1) {
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase)===-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
           rt = JSONPath({path:token, json:rt});
@@ -288,7 +290,6 @@ function cjCommands(words) {
       }
       break;
     default:  
-      index = respIdx(token);
       response = responses.peek()
       try {
         rt = JSON.parse(response.getBody("UTF8"));
@@ -590,8 +591,9 @@ function showHelp() {
   var rt = "";
 
   rt  = `
-  
+  ******************************************
   HYPER - v1.0 : 2021-06
+  ******************************************
 
   ACTIVATE WITH-URL url
   ACTIVATE WITH-REL string
@@ -604,8 +606,7 @@ function showHelp() {
     WITH-METHOD string
   CLEAR
   SHELL command-string
-    LS folder-string
-    DIR folder-string
+    LS || DIR folder-string
   CONFIG
     READ
     SET {"name":"value",...}
@@ -626,9 +627,10 @@ function showHelp() {
     REL string
     PATH jsonpath-string
   HAL
-    LINKS OR _LINKS
-    ENBEDDED OR _EMBEDDED
-    PATH
+    LINKS || _LINKS
+    ENBEDDED || _EMBEDDED
+    REL || ID || KEY string
+    PATH jsonpath-string
 `;
   return rt;
 }

@@ -1,0 +1,6 @@
+# test help support
+
+HELP
+
+# EOF
+
