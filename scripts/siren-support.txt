@@ -1,0 +1,17 @@
+# testing SIREN support
+
+GO WITH-URL http://rwcbook10.herokuapp.com/home/
+SIREN LINKS
+SIREN PROPERTIES
+SIREN ENTITIES
+SIREN ACTIONS
+
+SIREN ID rmqzgqfq3d
+SIREN NAME taskFormAdd
+SIREN REL self
+
+SIREN WITH-REL self
+
+SIREN PATH $.entities.*[?(@property==='id'&&@.match(/rmqzgqfq3d/i))]^.[id,title,href,type]
+
+# EOF 

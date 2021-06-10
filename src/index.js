@@ -224,7 +224,21 @@ function sirenCommands(words) {
     case "ENTITIES":
       rt = JSON.parse(response.getBody('UTF8')).entities;
       break;
-    case "NAME":
+    case "ID": // entities
+      token = "$.entities.*[?(@property==='id'&&@.match(/"+words[2]+"/i))]^"
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
+         try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:token, json:rt})[0];
+        } catch {
+          // no-op
+        }
+     }
+      else {
+        rt = "no response";
+      }
+      break;
+    case "NAME": // actions
       token = "$.actions.*[?(@property==='name'&&@.match(/"+words[2]+"/i))]^"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
          try {
@@ -238,7 +252,7 @@ function sirenCommands(words) {
         rt = "no response";
       }
       break;
-    case "REL":
+    case "REL": // links
       token = "$.links"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
@@ -746,6 +760,7 @@ function showHelp() {
     ENTITIES
     ACTIONS
     PROPERTIES
+    ID string (entities)
     REL string (LINKS)
     NAME string (ACTIONS)
     PATH jsonpath-string
