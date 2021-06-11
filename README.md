@@ -1,4 +1,4 @@
-# i-hyper : Interactive Hypermedia Shell
+# hyper : Interactive Hypermedia Shell
 
 _sample project to explore an interactive shell for hypermedia services_
 
@@ -118,4 +118,8 @@ These modules are used in the hyper app.
  * https://www.npmjs.com/package/stack-lifo
  * https://www.npmjs.com/package/html2json
 
+## Source Code
+You'll find the source code for this utility in the [src](src/) folder. 
+
+**WARNING**: This is all proof-of-concept code and it's pretty messy. I spend time exploring new features much more than I do properly grooming the source code. If you're offended by this kind of behavior, don't look behind the curtain on this one -- I'll only disappoint you[grin]. -- @mamund
 

@@ -1,0 +1,53 @@
+  ******************************************
+  HYPER - v1.0 : 2021-06
+  ******************************************
+
+  ACTIVATE|A|GO|GOTO|CALL -- synonyms
+  ACTIVATE WITH-URL url
+  ACTIVATE WITH-REL string
+  ACTIVATE WITH-NAME string (only SIREN Actions) 
+    WITH-PROFILE
+    WITH-FORMAT
+    WITH-QUERY {n:v,...}
+    WITH-BODY name=value&... OR {"name":"value",...}
+    WITH-HEADERS {"name":"value",...}
+    WITH-ENCODING string
+    WITH-METHOD string
+  CLEAR
+  SHELL command-string <== "Here be dragons!"
+    LS || DIR folder-string
+  CONFIG
+    READ
+    SET {"name":"value",...}
+    FILE|LOAD (string) : defaults to "hyper.cfg"
+    SAVE|WRITE (string) : defaults to "hyper.cfg"
+  DISPLAY
+    URL
+    STATUS
+    CONTENT-TYPE
+    HEADERS
+    PEEK
+    POP
+    LENGTH
+    PATH jsonpath-string
+  CJ
+    LINKS
+    ITEMS
+    QUERIES
+    TEMPLATE
+    REL string
+    PATH jsonpath-string
+  HAL
+    LINKS || _LINKS
+    ENBEDDED || _EMBEDDED
+    REL || ID || KEY string
+    PATH jsonpath-string
+  SIREN
+    LINKS
+    ENTITIES
+    ACTIONS
+    PROPERTIES
+    ID string (for Entities)
+    REL string (for Links)
+    NAME string (for Actions)
+    PATH jsonpath-string
