@@ -775,8 +775,10 @@ function showHelp() {
   HYPER - v1.0 : 2021-06
   ******************************************
 
+  ACTIVATE|A|GO|GOTO|CALL -- synonyms
   ACTIVATE WITH-URL url
   ACTIVATE WITH-REL string
+  ACTIVATE WITH-NAME string (only SIREN Actions) 
     WITH-PROFILE
     WITH-FORMAT
     WITH-QUERY {n:v,...}
@@ -785,7 +787,7 @@ function showHelp() {
     WITH-ENCODING string
     WITH-METHOD string
   CLEAR
-  SHELL command-string
+  SHELL command-string <== "Here be dragons!"
     LS || DIR folder-string
   CONFIG
     READ
