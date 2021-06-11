@@ -132,8 +132,8 @@ function runShell(words) {
   return rt;
 }
 
-// echo the command line
-// ECHO {strings{}
+// echo whatever is on the command line
+// ECHO {strings}
 function echo(words) {
   rt = "";
   words.forEach(function peek(w) {
@@ -152,7 +152,12 @@ function configOp(words) {
   
   switch (token.toUpperCase()) {
     case "FILE":
-      rt = configFile(words[2]);
+    case "LOAD":
+      rt = configLoad(words[2]);
+      break;
+    case "WRITE":
+    case "SAVE":
+      rt = configSave(words[2]);  
       break;
     case "SET":
       rt = configSet(words[2]);
@@ -164,9 +169,25 @@ function configOp(words) {
   return rt;
 }
 
+// save config file to disk
+function configSave(file) {
+  var rt = "";
+  var data = "";
+  var target = "";
+  data = JSON.stringify(config, null, 2);
+  target = file||"config.cfg";
+  try {
+    fs.writeFileSync(target,data);
+    rt = "config saved as ["+target+"]";
+  } catch (err) {
+    rt = "ERR: " + console.error(err);
+  }
+  return rt;
+}
+
 // load config from file
 // overwrites any existing settings of the same name
-function configFile(file) {
+function configLoad(file) {
   var rt = "";
   var set = {};
   var data = "";
