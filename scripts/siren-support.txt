@@ -1,17 +1,25 @@
 # testing SIREN support
 
+# get resource
 GO WITH-URL http://rwcbook10.herokuapp.com/
+
+# view representation
 SIREN LINKS
 SIREN PROPERTIES
 SIREN ENTITIES
 SIREN ACTIONS
 
+# select elements in the response
 SIREN ID rmqzgqfq3d
 SIREN NAME taskFormAdd
 SIREN REL self
 
-SIREN WITH-REL self
-
+# execute JSONPath query
 SIREN PATH $.entities.*[?(@property==='id'&&@.match(/rmqzgqfq3d/i))]^.[id,title,href,type]
+
+# use rels & names to make requests w/ args
+GO WITH-REL self
+GO WITH-NAME taskFormListByUser WITH-QUERY {"assignedUser":"alice"}
+SIREN ENTITIES
 
 # EOF 
