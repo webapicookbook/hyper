@@ -44,16 +44,16 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
 
  - [x] : Initial CLI loop
  - [x] : support for piped scripts (in and out)
- - [x] : support for # - comment lines
- - [x] : support for CLEAR - clears the console
- - [x] : support for SHELL _{command}_ simple SHELL (bash/dos) support
+ - [x] : support for **#** - comment lines
+ - [x] : support for **CLEAR** - clears the console
+ - [x] : support for **SHELL** _{command}_ simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _{folder/path}_
- - [x] : support for CONFIG (READ) returns NVP of saved config data
+ - [x] : support for **CONFIG** (READ) returns NVP of saved config data
  - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SET _{n:v,...}_ shared config file write
- - [x] : support for ACTIVATE|CALL|GO WITH-URL _{url}_ - make an http request (always synchronous)
- - [x] : support for ACTIVATE|CALL|GO WITH-REL _{string}_ - make a request using href on in-doc element (id, name, rel)
+ - [x] : support for **ACTIVATE**|CALL|GO WITH-URL _{url}_ - make an http request (always synchronous)
+ - [x] : support for **ACTIVATE**|CALL|GO WITH-REL _{string}_ - make a request using href on in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
  - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
  - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
@@ -61,7 +61,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for .. WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
- - [x] : support for DISPLAY (PEEK) - show saved reponse (from top of the LIFO stack)
+ - [x] : support for **DISPLAY** (PEEK) - show saved reponse (from top of the LIFO stack)
  - [x] : support for .. URL - returns actual URL of the response
  - [x] : support for .. STATUS - returns HTTP status of the response
  - [x] : support for .. CONTENT-TYPE - returns HTTP content-type of the response
@@ -69,19 +69,19 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. POP remove response from top of the stack
  - [x] : support for .. LENGTH - returns length of saved stack
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
- - [x] : support for CJ returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
+ - [x] : support for **CJ** returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
  - [x] : support for .. LINKS returns links array from a collection+JSON response
  - [x] : support for .. ITEMS returns items array from a collection+JSON response
  - [x] : support for .. QUERIES returns queries array from a collection+JSON response
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
  - [x] : support for .. ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
- - [x] : support for HAL returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
+ - [x] : support for **HAL** returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
  - [x] : support for .. LINKS returns links array from a HAL response
  - [x] : support for .. EMBEDDED returns items array from a HAL response
  - [x] : support for .. KEY|ID|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a HAL response
- - [x] : support for SIREN returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
+ - [x] : support for **SIREN** returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
  - [x] : support for .. LINKS returns links array from a SIREN response
  - [x] : support for .. ACTIONS returns actions array from a SIREN response
  - [x] : support for .. ENTITIES returns entities array from a SIREN response
@@ -90,7 +90,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. REL _{string}_ returns a link associated with the REL
  - [x] : support for .. NAME _{string}_ returns an action associated with the NAME
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
- - [ ] : support for PRAG returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
+ - [ ] : support for **PRAG** returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
  - [ ] : support for .. METADATA returns metadata array from a PRAG response
  - [ ] : support for .. LINKS returns links array from a PRAG response
  - [ ] : support for .. ITEMS returns items array from a PRAG response
@@ -98,15 +98,21 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. REL _{string}_ returns a link associated with the REL
  - [ ] : support for .. NAME _{string}_ returns an element (metadata, link, property) associated with the NAME
  - [ ] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
+ 
+ ## Other possible features in the future
+ - [ ] : support for STACK (PEEK) - reads an open data stack
+ - [ ] : support for   PUSH - adds another record to the stack
+ - [ ] : support for   POP - removes top level record from the stack
+ - [ ] : support for   WITH-STACK - uses the top level item as a set of local vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
+ - [ ] : support for $$_{name}_ return config and/or stack value (read) 
+ 
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
- - [ ] : support for $$_{name}_ return config value (read) 
- - [ ] : support for SESSION.USERNAME - session file (read/write)
- - [ ] : support for LOCAL.GIVENNAME - local properties file (read)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
- - [ ] : support for JUMP _{label}_ - jump to defined label in the script
+ - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
 
 ## Dependencies
+These modules are used in the hyper app.
 
  * https://github.com/ForbesLindesay/sync-request
  * https://www.npmjs.com/package/jsonpath-plus
