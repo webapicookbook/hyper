@@ -3,13 +3,41 @@
 _sample project to explore an interactive shell for hypermedia services_
 
 ## Summary
-A simple command-line style shell for interacting with an online hypermedia service. Similar to the way text adventure games work/look. 
+A simple command-line style shell for interacting with an online services/APIs. Especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). Will be adding support for [PRAG+JSON](https://mamund.github.io/prag-json/) and [UBER](http://uberhypermedia.com/) sometime soon. 
 
 - type a command
 - shell does the work, displays some data
 - got to step one and repeat
 
-_NOTE: this app makes synchronous HTTP requests! I did this for two reasons: 1) simplifies programming the shell and 2) makes supporting scripting (via pipes) much easier, too. This is a PoC so take this all w/ a grain of salt. If/when someone gets super-serious about all this, the shell can be re-architected to support async (and parallel) http requests._
+Also supports some convience functionality like SHELL commands, config file management, etc.
+
+## Motivation
+The idea for this shell comes from other REPL-style interactive CLIs like `node` and command-line tools like `curl`. You can start a stateful client session by typing `hyper` at the command line. Then you can make an HTTP request (`ACTIVATE`) and manipulate the responses. You can also write hyper commands in a file and pipe this file into hyper for a scripted experience: (`hyper < scripts/sample.txt > scripts/sample.log`).
+
+**Hyper** is "mediatype-aware" -- that is, it recognizes well-known media types and offers convience methods for dealing with them. For example after loading a SIREN response, you can use the following commands:
+
+```
+# SIREN example
+ACTIVATE http://rwcbook10.herokuapp.com
+SIREN LINKS
+SIREN ENTITIES
+SIREN ACTIONS
+
+SIREN WITH-REL taskFormListByUser WITH-QUERY {"assignedUser" : "alice"}
+```
+
+That last command uses the `href` associated with the SIREN action element identified by the `rel:taskFormListByUser`, supplies a querystring argument and makes the request.
+
+You can also use JSONPath to query the response:
+
+```
+SIREN PATH $.entities.*[?(@property==='id'&&@.match(/rmqzgqfq3d/i))]^.[id,title,href,type]
+```
+
+Similar methods exist for HAL, CollectionJSON, and other supported formats.
+
+## Examples
+See the [scripts](scripts/) folder for lots of working examples.
 
 ## Feature tracking
 This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
@@ -20,6 +48,10 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for CLEAR - clears the console
  - [x] : support for SHELL _{command}_ simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _{folder/path}_
+ - [x] : support for CONFIG (READ) returns NVP of saved config data
+ - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
+ - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
+ - [x] : support for .. SET _{n:v,...}_ shared config file write
  - [x] : support for ACTIVATE|CALL|GO WITH-URL _{url}_ - make an http request (always synchronous)
  - [x] : support for ACTIVATE|CALL|GO WITH-REL _{string}_ - make a request using href on in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
@@ -54,14 +86,18 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ACTIONS returns actions array from a SIREN response
  - [x] : support for .. ENTITIES returns entities array from a SIREN response
  - [x] : support for .. PROPERTIES returns properties array from a SIREN response
- - [x] : support for .. ID _{string}_ returns an entitie associated with the ID
- - [x] : support for .. REL _{string}_ returns a link associated with the ID
- - [x] : support for .. NAME _{string}_ returns an action associated with the name
+ - [x] : support for .. ID _{string}_ returns an entity associated with the ID
+ - [x] : support for .. REL _{string}_ returns a link associated with the REL
+ - [x] : support for .. NAME _{string}_ returns an action associated with the NAME
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
- - [x] : support for CONFIG (READ) returns NVP of saved config data
- - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
- - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
- - [x] : support for .. SET _{n:v,...}_ shared config file write
+ - [ ] : support for PRAG returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
+ - [ ] : support for .. METADATA returns metadata array from a PRAG response
+ - [ ] : support for .. LINKS returns links array from a PRAG response
+ - [ ] : support for .. ITEMS returns items array from a PRAG response
+ - [ ] : support for .. ID _{string}_ returns an element (metadata, link, item) associated with the ID
+ - [ ] : support for .. REL _{string}_ returns a link associated with the REL
+ - [ ] : support for .. NAME _{string}_ returns an element (metadata, link, property) associated with the NAME
+ - [ ] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for $$_{name}_ return config value (read) 
  - [ ] : support for SESSION.USERNAME - session file (read/write)
