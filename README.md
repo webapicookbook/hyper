@@ -30,8 +30,12 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for .. WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
  - [x] : support for DISPLAY (PEEK) - show saved reponse (from top of the LIFO stack)
- - [x] : support for .. LENGTH - returns length of saved stack
+ - [x] : support for .. URL - returns actual URL of the response
+ - [x] : support for .. STATUS - returns HTTP status of the response
+ - [x] : support for .. CONTENT-TYPE - returns HTTP content-type of the response
+ - [x] : support for .. HEADERS - returns the complete HTTP header collection of the response
  - [x] : support for .. POP remove response from top of the stack
+ - [x] : support for .. LENGTH - returns length of saved stack
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
  - [x] : support for CJ returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
  - [x] : support for .. LINKS returns links array from a collection+JSON response

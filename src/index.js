@@ -820,13 +820,14 @@ function showHelp() {
     FILE|LOAD (string) : defaults to "hyper.cfg"
     SAVE|WRITE (string) : defaults to "hyper.cfg"
   DISPLAY
+    URL
+    STATUS
+    CONTENT-TYPE
+    HEADERS
     PEEK
     POP
     LENGTH
     PATH jsonpath-string
-    STATUS
-    CONTENT-TYPE
-    URL
   CJ
     LINKS
     ITEMS
@@ -844,9 +845,9 @@ function showHelp() {
     ENTITIES
     ACTIONS
     PROPERTIES
-    ID string (entities)
-    REL string (LINKS)
-    NAME string (ACTIONS)
+    ID string (for Entities)
+    REL string (for Links)
+    NAME string (for Actions)
     PATH jsonpath-string
 `;
   return rt;
