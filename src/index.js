@@ -24,7 +24,7 @@ var responses = new Stack();
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: 'i> '
+  prompt: 'ihs> '
 });
 
 var config = {};
@@ -47,6 +47,7 @@ rl.prompt();
 rl.on('line', (line) => {
   line = line.trim();
   var words = line.split(" ");
+  
   switch (words[0].toUpperCase()) {
     case "HELP":
       console.log(showHelp(words));
@@ -66,6 +67,7 @@ rl.on('line', (line) => {
       break;
     case "A":
     case "GO":
+    case "GOTO":
     case "CALL":  
     case "ACTIVATE":
       console.log(activate(words));  
@@ -119,6 +121,8 @@ function runShell(words) {
       break;
     default: 
       try {
+        var cmd = words.slice(1);
+        token = cmd.join(" ");
         rt = spawnSync(token,{shell:true, encoding:'utf8'}).stdout;   
       } catch {
         // no-op
@@ -208,9 +212,15 @@ function configSet(token) {
 function sirenCommands(words) {
   var rt="";
   var token = words[1]||"";
-  var response = responses.peek();
+  var response;
   var node = {};
 
+  try {
+    response = responses.peek();
+  } catch {
+    token="";
+  }
+  
   switch (token.toUpperCase()) {
     case "LINKS":
       rt = JSON.parse(response.getBody('UTF8')).links;
@@ -224,7 +234,7 @@ function sirenCommands(words) {
     case "ENTITIES":
       rt = JSON.parse(response.getBody('UTF8')).entities;
       break;
-    case "ID": // entities
+    case "ID": // entities -- by convention, tho
       token = "$.entities.*[?(@property==='id'&&@.match(/"+words[2]+"/i))]^"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
          try {
@@ -286,13 +296,13 @@ function sirenCommands(words) {
       }
       break;
     default:  
-      response = responses.peek()
       try {
+        response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
- }
+  }
   return JSON.stringify(rt, null, 2);
 }
 
@@ -301,7 +311,13 @@ function sirenCommands(words) {
 function halCommands(words) {
   var rt = {};
   var token = words[1]||"";
-  var response = responses.peek();
+  var response;
+  
+  try {
+    response = responses.peek();
+  } catch {
+    token="";
+  }
   
   switch (token.toUpperCase()) {
     case "LINKS":
@@ -339,8 +355,8 @@ function halCommands(words) {
       }
       break;
     default:  
-      response = responses.peek()
       try {
+        response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
@@ -348,13 +364,19 @@ function halCommands(words) {
   }
   return JSON.stringify(rt, null, 2);
 }
-// display a parse CJ object
+// display a parse CollectionJSON object
 // CJ {command}
 function cjCommands(words) {
   var rt = {};
   var index = 0;
   var token = words[1]||"";
-  var response = responses.peek()
+  var response;
+
+  try {
+    response = responses.peek();
+  } catch {
+    token="";
+  }
   
   switch (token.toUpperCase()) {
     case "LINKS":
@@ -368,6 +390,9 @@ function cjCommands(words) {
       break;
     case "TEMPLATE":
       rt = JSON.parse(response.getBody('UTF8')).collection.template;
+      break;
+    case "ERROR":
+      rt = JSON.parse(response.getBody('UTF8')).collection.error;
       break;
     case "REL":
     case "ID":
@@ -396,8 +421,8 @@ function cjCommands(words) {
       }
       break;
     default:  
-      response = responses.peek()
       try {
+        response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
@@ -498,6 +523,37 @@ function activate(words) {
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
+    // activate via name
+    if(thisWord && thisWord.toUpperCase()==="WITH-NAME") {
+      thisWord = words[pointer++];
+      url = "with-name";
+      
+      try {
+        // strong-type the body here
+        response = JSON.parse(responses.peek().getBody('UTF8'));
+        ctype = responses.peek().headers["content-type"];
+        // siren
+        if(ctype.indexOf("vnd.siren+json")!==-1) {
+          token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+          url = JSONPath({path:token, json:response})[0].href;
+        }
+        if(url.toLowerCase()==="with-name") {
+          rt = "no response";
+        }
+        else {
+          if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+            if(url.indexOf("//")==-1) {
+              url = "http://" + url;
+            }
+            else {
+              url = "http:" + url;
+            }
+          }
+        }  
+      } catch {
+        // no-op
+      }       
+    }
     // activate via rel
     if(thisWord && thisWord.toUpperCase()==="WITH-REL") {
       thisWord = words[pointer++];
@@ -672,7 +728,7 @@ function activate(words) {
  
   try {
     if(config.verbose==="false" && response.statusCode<400) {
-      rt = "STATUS "+response.statusCode+"\n"+response.url;
+      rt = "STATUS "+response.statusCode+"\n"+response.url+"\n"+response.headers["content-type"];
     }
 
   } catch {

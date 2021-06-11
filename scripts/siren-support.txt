@@ -1,6 +1,6 @@
 # testing SIREN support
 
-GO WITH-URL http://rwcbook10.herokuapp.com/home/
+GO WITH-URL http://rwcbook10.herokuapp.com/
 SIREN LINKS
 SIREN PROPERTIES
 SIREN ENTITIES
