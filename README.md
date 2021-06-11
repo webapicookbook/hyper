@@ -55,7 +55,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. NAME _{string}_ returns an action associated with the name
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
  - [x] : support for CONFIG (READ) returns NVP of saved config data
- - [x] : support for .. FILE _{filename}_ loads config file (read)
+ - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
+ - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SET _{n:v,...}_ shared config file write
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for $$_{name}_ return config value (read) 

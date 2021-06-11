@@ -29,6 +29,7 @@ const rl = readline.createInterface({
 
 var config = {};
 config.verbose = "false";
+configLoad();
 
 var currentResponse = {};
 
@@ -153,11 +154,11 @@ function configOp(words) {
   switch (token.toUpperCase()) {
     case "FILE":
     case "LOAD":
-      rt = configLoad(words[2]);
+      rt = configLoad(words[2]||"");
       break;
     case "WRITE":
     case "SAVE":
-      rt = configSave(words[2]);  
+      rt = configSave(words[2]||"");  
       break;
     case "SET":
       rt = configSet(words[2]);
@@ -175,7 +176,7 @@ function configSave(file) {
   var data = "";
   var target = "";
   data = JSON.stringify(config, null, 2);
-  target = file||"config.cfg";
+  target = file||"./hyper.cfg";
   try {
     fs.writeFileSync(target,data);
     rt = "config saved as ["+target+"]";
@@ -191,10 +192,13 @@ function configLoad(file) {
   var rt = "";
   var set = {};
   var data = "";
+  var target = file||"./hyper.cfg";
   
   try {
-    if(fs.existsSync(file)) {
-      data = fs.readFileSync(file, {encoding:'utf8', flag:'r'});
+    console.log(target);
+    if(target==="") {target = "./hyper.cfg"};
+    if(fs.existsSync(target)) {
+      data = fs.readFileSync(target, {encoding:'utf8', flag:'r'});
       set = JSON.parse(data);
       for(var c in set) {
         config[c] = set[c];
@@ -202,7 +206,7 @@ function configLoad(file) {
       rt = config;
     }
     else {
-      rt = "can't open ["+file+"]";
+      rt = "can't open ["+target+"]";
     }  
   } catch(err) {
     rt = "ERR: "+console.error(err);
@@ -813,7 +817,8 @@ function showHelp() {
   CONFIG
     READ
     SET {"name":"value",...}
-    FILE string
+    FILE|LOAD (string) : defaults to "hyper.cfg"
+    SAVE|WRITE (string) : defaults to "hyper.cfg"
   DISPLAY
     PEEK
     POP
