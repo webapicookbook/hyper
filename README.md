@@ -105,7 +105,6 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for   POP - removes top level record from the stack
  - [ ] : support for   WITH-STACK - uses the top level item as a set of local vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [ ] : support for $$_{name}_ return config and/or stack value (read) 
- 
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
