@@ -24,7 +24,7 @@ var responses = new Stack();
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: 'ihs> '
+  prompt: 'i> '
 });
 
 var config = {};
@@ -548,6 +548,38 @@ function activate(words) {
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
+
+    // activate via ID (for SIREN only)
+    if(thisWord && thisWord.toUpperCase()==="WITH-ID") {
+      thisWord = words[pointer++];
+      url = "with-id";
+      
+      try {
+        // strong-type the body here
+        response = JSON.parse(responses.peek().getBody('UTF8'));
+        ctype = responses.peek().headers["content-type"];
+        // siren
+        if(ctype.indexOf("vnd.siren+json")!==-1) {
+          token = "$.entities.*[?(@property==='id'&&@.match(/"+words[2]+"/i))]^"
+          url = JSONPath({path:token, json:response})[0].href;
+          if(url.toLowerCase()==="with-name") {
+            rt = "no response";
+          }
+          else {
+            if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+              if(url.indexOf("//")==-1) {
+                url = "http://" + url;
+              }
+              else {
+                url = "http:" + url;
+              }
+            }
+          }  
+        }
+      } catch {
+        // no-op
+      }
+    } 
     // activate via name
     if(thisWord && thisWord.toUpperCase()==="WITH-NAME") {
       thisWord = words[pointer++];
@@ -801,11 +833,11 @@ function showHelp() {
   ******************************************
 
   ACTIVATE|A|GO|GOTO|CALL -- synonyms
-  ACTIVATE WITH-URL url
-  ACTIVATE WITH-REL string
-  ACTIVATE WITH-NAME string (only SIREN Actions) 
-    WITH-PROFILE
-    WITH-FORMAT
+    WITH-URL url
+    WITH-REL string 
+    WITH-NAME string (only SIREN Actions) 
+    WITH-PROFILE (uses confg.profile property)
+    WITH-FORMAT (uses config.accept property)
     WITH-QUERY {n:v,...}
     WITH-BODY name=value&... OR {"name":"value",...}
     WITH-HEADERS {"name":"value",...}

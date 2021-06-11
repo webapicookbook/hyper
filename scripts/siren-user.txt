@@ -1,0 +1,23 @@
+#
+# SIREN sample to pluck and display a single user record
+#
+
+# get the default resource
+GOTO http://rwcbook10.herokuapp.com
+
+# get the home resource
+GOTO WITH-REL home
+
+# get the user list resource
+GOTO WITH-REL user
+
+# pluck a single user record from the list
+GOTO WITH-ID ted
+
+# show the user record properties
+SIREN PROPERTIES
+
+#
+# EOF
+#
+
