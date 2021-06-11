@@ -1,4 +1,6 @@
+#
 # testing SIREN support
+#
 
 # get resource
 GO WITH-URL http://rwcbook10.herokuapp.com/
@@ -22,4 +24,6 @@ GO WITH-REL self
 GO WITH-NAME taskFormListByUser WITH-QUERY {"assignedUser":"alice"}
 SIREN ENTITIES
 
-# EOF 
+#
+# EOF
+# 

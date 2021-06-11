@@ -5,7 +5,7 @@
  *
  * NOTES:
  *   A simple interactive hypermedia client
- *   type 'hyper' at command line to interactive mode
+ *   type 'hyper' at command line for interactive mode
  *   pipe a file in for script mode
  *   pipe a file out to save session output
  * ********************************************/
@@ -32,7 +32,7 @@ config.verbose = "false";
 
 var currentResponse = {};
 
-// check for args
+// check for input args
 var args = process.argv.slice(2);
 try {
   if(args.length>0) {
@@ -307,7 +307,7 @@ function sirenCommands(words) {
 }
 
 // display and parse a HAL response
-// HAL {command{}
+// HAL {command}
 function halCommands(words) {
   var rt = {};
   var token = words[1]||"";
@@ -332,7 +332,7 @@ function halCommands(words) {
     case "ID":
     case "KEY":  
       token  = "$..*[?(@property==='"+words[2]+"')]";
-      if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
+      if("rel id key".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
           rt = JSONPath({path:token, json:rt});
@@ -397,11 +397,11 @@ function cjCommands(words) {
     case "REL":
     case "ID":
     case "NAME":
-      token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^href";
+      token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^";
       if("rel id name".toLowerCase().indexOf(token.toLowerCase)===-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
-          rt = JSONPath({path:token, json:rt});
+          rt = JSONPath({path:token, json:rt})[0];
         } catch {
           // no-op
         }
