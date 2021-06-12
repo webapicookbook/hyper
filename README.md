@@ -18,12 +18,12 @@ The idea for this shell comes from other REPL-style interactive CLIs like `node`
 
 ```
 # SIREN example
-ACTIVATE http://rwcbook10.herokuapp.com
+GOTO http://rwcbook10.herokuapp.com
 SIREN LINKS
 SIREN ENTITIES
 SIREN ACTIONS
 
-SIREN WITH-REL taskFormListByUser WITH-QUERY {"assignedUser" : "alice"}
+GOTO WITH-REL taskFormListByUser WITH-QUERY {"assignedUser" : "alice"}
 ```
 
 That last command uses the `href` associated with the SIREN action element identified by the `rel:taskFormListByUser`, supplies a querystring argument and makes the request.
