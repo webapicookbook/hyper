@@ -1,0 +1,42 @@
+#
+# test data stack with forms
+#
+
+STACK
+STACK push {"x":"y"}
+STACK
+STACK LEN
+
+STACK push {"x":"z"}
+STACK
+STACK LEN
+
+STACK POP
+STACK
+STACK LEN
+
+STACK push {"x":"z"}
+STACK
+STACK LEN
+
+STACK SAVE
+STACK
+
+STACK POP
+STACK
+
+STACK LOAD
+STACK
+
+STACK DUMP
+STACK LEN
+
+STACK CLEAR
+STACK LEN
+
+STACK FILL
+STACK LEN
+
+# EOF
+
+

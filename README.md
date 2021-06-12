@@ -52,6 +52,17 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SET _{n:v,...}_ shared config file write
+ - [x] : support for **STACK** _{command}_ _{arg}_ JSON object LIFO stack
+ - [x] : support for .. CLEAR|FLUSH clears all the items from the stack
+ - [x] : support for .. PEEK displays the JSON object at the stop of the stack
+ - [x] : support for .. PUSH _{n:v,...}_ adds a new JSON object to the stack
+ - [x] : support for .. POP removes the top item from the stack
+ - [x] : support for .. LEN|LENGTH returns depth of the stack
+ - [x] : support for .. SET _{"n":"v",...}_ update the JSON object on the top of the stack
+ - [x] : support for .. LOAD|FILE _filename_  reads a single JSON object from disk onto the stack (defaults to hyper.dat)
+ - [x] : support for .. SAVE|WRITE _filename_ writes the top item on the stack to disk (defaults to hyper.dat)
+ - [x] : support for .. DUMP _filename_ writes the full stack to disk (defaults to hyper.dmp)
+ - [x] : support for .. FILL _filename_ replaces the current stack with contents in disk file (defaults to hyper.dmp)
  - [x] : support for **ACTIVATE**|CALL|GO WITH-URL _{url}_ - make an http request (always synchronous)
  - [x] : support for **ACTIVATE**|CALL|GO WITH-REL _{string}_ - make a request using href on in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
