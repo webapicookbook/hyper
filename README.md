@@ -111,10 +111,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
  
  ## Other possible features in the future
- - [ ] : support for STACK (PEEK) - reads an open data stack
- - [ ] : support for   PUSH - adds another record to the stack
- - [ ] : support for   POP - removes top level record from the stack
- - [ ] : support for   WITH-STACK - uses the top level item as a set of local vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
+ - [ ] : support for WITH-FORM _{name}_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request
+ - [ ] : support for WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
+ - [ ] : support for URITemplates - required for HAL (and other formats?)
  - [ ] : support for $$_{name}_ return config and/or stack value (read) 
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for ACTIVATE update WITH LOCAL.MAP - mapping inputs to local proeprties (auto-mapping, too)
