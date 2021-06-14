@@ -744,6 +744,8 @@ function display(words) {
 // - WITH-ENCODING application/json
 // - WITH-FORMAT (emits accept header based on config setting)
 // - WITH-PROFILE (emits link profile header based on config setting)
+// - WITH-FORM (uses form metadata  to set HTTP request details)
+// - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 function activate(words) {
   var rt = "";
   var url = words[1]||"#";
@@ -758,6 +760,15 @@ function activate(words) {
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
+
+    // pull form metadata (strong-typed)
+    if(thisWord && thisWord.toUpperCase()==="WITH-FORM") {
+      // set up  url, method, headers, encoding from identified form
+    }
+
+    // use item on the top of the stack to fill in fields (form/query)
+    if(thisWord && thisWord.toUpperCase()==="WITH-STACK") {
+    }
 
     // activate via ID (for SIREN only)
     if(thisWord && thisWord.toUpperCase()==="WITH-ID") {
