@@ -73,6 +73,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for .. WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
+ - [x] : support for .. WITH-FORM _{name}_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
+ - [x] : support for .. WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [x] : support for **DISPLAY** (PEEK) - show saved reponse (from top of the LIFO stack)
  - [x] : support for .. URL - returns actual URL of the response
  - [x] : support for .. STATUS - returns HTTP status of the response
@@ -112,8 +114,6 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a SIREN response
  
  ## Other possible features in the future
- - [ ] : support for WITH-FORM _{name}_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request
- - [ ] : support for WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [ ] : support for URITemplates - required for HAL (and other formats?)
  - [ ] : support for _$${name}$$_ returns the value of the config or stack item named 
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)

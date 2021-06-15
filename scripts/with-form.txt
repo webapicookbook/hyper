@@ -1,0 +1,25 @@
+#
+# WITH-FORM testing : @rwmbook 2021-06
+# 
+# The forms named taskFormListByUser and taskFormAdd are in the response
+# WITH-FORM {formname} pulls all the HTTP details (method, url, encoding)
+# WITH-STACK takes the item on the top of the stack to fill in form fields
+
+# get the list representation
+GOTO http://rwcbook10.herokuapp.com
+
+# add to the stack & execute the query 
+STACK PUSH {"assignedUser":"alice"}
+GOTO WITH-FORM taskFormListByUser WITH-STACK 
+
+# add to the stack and execute the write
+STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
+GOTO WITH-FORM taskFormAdd WITH-STACK 
+
+EXIT
+
+#
+# EOF
+#
+
+

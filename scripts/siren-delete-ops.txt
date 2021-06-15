@@ -1,0 +1,23 @@
+#
+# SIREN CLEAN UP
+#
+# one-time script to clean up old data
+# wanna do something cool? 
+# enable this:
+#  execute query to get a list of records to remove
+# pull the URLs for all those records and place them on the stack
+# use the stack to delete items until the stack is empty (WHILE-STACK?)
+#
+# until then....
+
+# LOAD DATA
+GOTO WITH-URL http://rwcbook10.herokuapp.com
+
+# RUN SOME DELETE OPS
+GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.herokuapp.com/task/528d7pei7xs
+GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.herokuapp.com/task/butu682kw08
+
+GOTO WITH-URL https://rwcbook10.herokuapp.com/task/?dateCreated=2021
+SIREN ENTITIES
+
+

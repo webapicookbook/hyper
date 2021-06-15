@@ -321,6 +321,8 @@ function dsPush(token) {
   var item = {};
   
   try {
+    regex = /\\.\\/gi
+    token = token.replace(regex,' ')
     item = JSON.parse(token);
     dataStack.push(item);
   } catch {
@@ -757,17 +759,79 @@ function activate(words) {
   var thisWord = "";
   var pointer = 1;
   var ctype = "";
+  var form = {};
+  var fields = [];
+  var encoding = "";
+  var fieldSet = {};
+  var dataSet= {};
   
   while (pointer<words.length) {
     thisWord = words[pointer++];
 
+    // use item on the top of the stack to fill in fields (form/query)
+    if(thisWord && thisWord.toUpperCase()==="WITH-STACK") {
+      dataSet = dataStack.peek();
+      for(var d in fieldSet) {
+        fieldSet[d] = dataSet[d];
+      };
+      if(method!=="GET") {
+        body = querystring.stringify(fieldSet);
+        headers["content-type"] = "application/x-www-form-urlencoded";        
+      }      
+      else {
+        url = url + "?" + querystring.stringify(fieldSet);  
+      }
+    }
+    
     // pull form metadata (strong-typed)
     if(thisWord && thisWord.toUpperCase()==="WITH-FORM") {
       // set up  url, method, headers, encoding from identified form
-    }
-
-    // use item on the top of the stack to fill in fields (form/query)
-    if(thisWord && thisWord.toUpperCase()==="WITH-STACK") {
+      thisWord = words[pointer++];
+      form = {};
+      
+      try {
+        // strong-type the body here
+        response = JSON.parse(responses.peek().getBody('UTF8'));
+        ctype = responses.peek().headers["content-type"];
+        // siren
+        if(ctype.indexOf("vnd.siren+json")!==-1) {
+          token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+          form = JSONPath({path:token, json:response})[0];
+          if(form && form.href) {
+            url = form.href;  
+            if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+              if(url.indexOf("//")==-1) {
+                url = "http://" + url;
+              }
+              else {
+                url = "http:" + url;
+              }
+            }
+          }
+          else {
+            url = "#";
+          }          
+          if(form && form.method) {
+            method = form.method;
+          }
+          else {
+            method = "GET";
+          }
+          if(form && form.fields) {
+            fields = form.fields; // we'll use these later
+            fields.forEach(function dataField(f) {
+              fieldSet[f.name] = "";
+            });
+          }
+          if(form & form.type) {
+            if(form.type!=="") {
+              headers["content-type"] = form.type;
+            } 
+          }
+        }
+      } catch {
+        // no-op
+      }       
     }
 
     // activate via ID (for SIREN only)
@@ -949,7 +1013,6 @@ function activate(words) {
         thisWord = words[pointer++];
         query = querystring.stringify(JSON.parse(thisWord));
         url = url+'?'+query
-        console.log(query);
       } catch {
         // no-op
       }
@@ -1064,6 +1127,8 @@ function showHelp() {
     WITH-HEADERS {"name":"value",...}
     WITH-ENCODING string
     WITH-METHOD string
+    WITH-FORM form-identifier-string
+    WITH-STACK (uses top stack item for input/query values)
   CLEAR
   SHELL command-string <== "Here be dragons!"
     LS || DIR folder-string
