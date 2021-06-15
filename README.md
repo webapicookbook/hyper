@@ -38,6 +38,9 @@ GOTO http://rwcbook10.herokuapp.com
 STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
 GOTO WITH-FORM taskFormAdd WITH-STACK 
 
+# check the write results using the same stack data
+GOTO WITH-FORM taskFormListByTag WITH-STACK
+SIREN PATH $..*[?(@property==='tags'&&@.match(/with-test/i))]^
 ```
 
 Note that the client will use whatever URL, HTTP method, or body encoding the server indicates. Also, notice that the client will match up any form fields with it's local data (stack) to fill in the form. Even when the server changes details (new URL, different method, etc.), the client will be able to handle the write operation.

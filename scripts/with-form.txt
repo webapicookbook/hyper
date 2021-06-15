@@ -9,12 +9,22 @@
 GOTO http://rwcbook10.herokuapp.com
 
 # add to the stack & execute the query 
-STACK PUSH {"assignedUser":"alice"}
-GOTO WITH-FORM taskFormListByUser WITH-STACK 
+# STACK PUSH {"assignedUser":"alice"}
+# GOTO WITH-FORM taskFormListByUser WITH-STACK 
 
 # add to the stack and execute the write
+# STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
+# GOTO WITH-FORM taskFormAdd WITH-STACK 
+
+GOTO http://rwcbook10.herokuapp.com
+
+# add datato the stack and execute the write operation
 STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
 GOTO WITH-FORM taskFormAdd WITH-STACK 
+
+# check the write results using the same stack data
+GOTO WITH-FORM taskFormListByTag WITH-STACK
+SIREN PATH $..*[?(@property==='tags'&&@.match(/with-test/i))]^
 
 EXIT
 
