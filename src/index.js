@@ -616,7 +616,10 @@ function cjCommands(words) {
   }
   
   switch (token.toUpperCase()) {
-    case "LINKS":
+    case "METADATA":
+      rt = JSON.parse(response.getBody('UTF8')).collection.metadata;
+      break;
+   case "LINKS":
       rt = JSON.parse(response.getBody('UTF8')).collection.links;
       break;
     case "ITEMS":
@@ -1158,6 +1161,7 @@ function showHelp() {
     LENGTH
     PATH jsonpath-string
   CJ
+    METADATA
     LINKS
     ITEMS
     QUERIES

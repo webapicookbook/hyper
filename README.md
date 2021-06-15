@@ -101,6 +101,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. LENGTH - returns length of saved stack
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from top-of-stack response
  - [x] : support for **CJ** returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
+ - [x] : support for .. METADATA returns metadata array from a collection+JSON response
  - [x] : support for .. LINKS returns links array from a collection+JSON response
  - [x] : support for .. ITEMS returns items array from a collection+JSON response
  - [x] : support for .. QUERIES returns queries array from a collection+JSON response

@@ -1,0 +1,22 @@
+#
+# forms-json testing
+#
+
+CONFIG SET {"accept":"application/forms+json"}
+
+GOTO http://localhost:8181/list/ WITH-FORMAT
+
+DISPLAY PATH $.api
+
+DISPLAY PATH $.api.metadata
+
+DISPLAY PATH $.api.links
+
+DISPLAY PATH $.api.items
+
+EXIT
+
+#
+# EOF
+#
+
