@@ -28,7 +28,21 @@ GOTO WITH-REL taskFormListByUser WITH-QUERY {"assignedUser" : "alice"}
 
 That last command uses the `href` associated with the SIREN action element identified by the `rel:taskFormListByUser`, supplies a querystring argument and makes the request.
 
-You can also use JSONPath to query the response:
+Another way to accomplish the same goal is to load the data stack with some name/value pairs and then use a named form within the response to execute an action. Like this:
+
+```
+# read list 
+GOTO http://rwcbook10.herokuapp.com
+
+# add datato the stack and execute the write operation
+STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
+GOTO WITH-FORM taskFormAdd WITH-STACK 
+
+```
+
+Note that the client will use whatever URL, HTTP method, or body encoding the server indicates. Also, notice that the client will match up any form fields with it's local data (stack) to fill in the form. Even when the server changes details (new URL, different method, etc.), the client will be able to handle the write operation.
+
+You can also use JSONPath to query responses:
 
 ```
 SIREN PATH $.entities.*[?(@property==='id'&&@.match(/rmqzgqfq3d/i))]^.[id,title,href,type]
