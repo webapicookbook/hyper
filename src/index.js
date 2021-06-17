@@ -13,10 +13,11 @@
 const request = require('sync-request');
 const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
-const { spawnSync, execSync, execFileSync } = require("child_process");
 
 const readline = require('readline');
 const fs = require('fs');
+
+const utils = require ('./hyper-utils');
 
 var Stack = require('stack-lifo');
 var responses = new Stack();
@@ -52,14 +53,8 @@ rl.on('line', (line) => {
   
   switch (words[0].toUpperCase()) {
     case "HELP":
-      console.log(showHelp(words));
+      console.log(utils.showHelp(words));
       break;
-    case "SHELL":
-      console.log(runShell(words));
-      break;  
-    case "STACK":
-      console.log(manageStack(words));
-      break;  
     case "EXIT":
     case "STOP":
       process.exit(0)
@@ -70,6 +65,12 @@ rl.on('line', (line) => {
     case "CLEAR":
       console.clear();
       break;
+    case "SHELL":
+      console.log(utils.runShell(words));
+      break;  
+    case "STACK":
+      console.log(manageStack(words));
+      break;  
     case "A":
     case "GO":
     case "GOTO":
@@ -100,7 +101,7 @@ rl.on('line', (line) => {
       break;
     case "ECHO":  
     default:
-      console.log(echo(words)+"\n");
+      console.log(utils.echo(words)+"\n");
       break;
   }
   rl.prompt();
@@ -108,44 +109,6 @@ rl.on('line', (line) => {
 }).on('close', () => {
   process.exit(0);
 });
-
-// run an external shell command
-function runShell(words) {
-  var rt = "";
-  var token = words[1]||"";
-  
-  switch (token.toLowerCase()) {
-    case "ls":
-    case "dir":
-      token = words[2]||".";
-      try {
-        rt = spawnSync("ls -l "+token,{shell:true, encoding:'utf8'}).stdout; 
-      } catch {
-        // no-op
-      }
-      break;
-    default: 
-      try {
-        var cmd = words.slice(1);
-        token = cmd.join(" ");
-        rt = spawnSync(token,{shell:true, encoding:'utf8'}).stdout;   
-      } catch {
-        // no-op
-      }  
-      break;
-  }
-  return rt;
-}
-
-// echo whatever is on the command line
-// ECHO {strings}
-function echo(words) {
-  rt = "";
-  words.forEach(function peek(w) {
-    rt += "word="+w+"\n";
-  });
-  return rt;
-}
 
 // manage json object data stack
 function manageStack(words) {
@@ -854,6 +817,8 @@ function activate(words) {
             rt = "no response";
           }
           else {
+            url = utils.fixUrl(url);
+            /*
             if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
               if(url.indexOf("//")==-1) {
                 url = "http://" + url;
@@ -862,6 +827,7 @@ function activate(words) {
                 url = "http:" + url;
               }
             }
+            */
           }  
         }
       } catch {
@@ -886,6 +852,8 @@ function activate(words) {
           rt = "no response";
         }
         else {
+          url = utils.fixUrl(url);
+          /*
           if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
             if(url.indexOf("//")==-1) {
               url = "http://" + url;
@@ -894,6 +862,7 @@ function activate(words) {
               url = "http:" + url;
             }
           }
+          */
         }  
       } catch {
         // no-op
@@ -936,6 +905,8 @@ function activate(words) {
           rt = "no response";
         }
         else {
+          url = utils.fixUrl(url);
+          /*
           if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
             if(url.indexOf("//")==-1) {
               url = "http://" + url;
@@ -944,6 +915,7 @@ function activate(words) {
               url = "http:" + url;
             }
           }
+          */
         }  
       } catch {
         // no-op
@@ -952,16 +924,18 @@ function activate(words) {
     // url
     if(thisWord && thisWord.toUpperCase()==="WITH-URL") {
       try {
-      url = words[pointer++];
-      if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-        if(url.indexOf("//")==-1) {
-          url = "http://" + url;
+        url = words[pointer++];
+        url = utils.fixUrl(url);
+        /*
+        if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+          if(url.indexOf("//")==-1) {
+            url = "http://" + url;
+          }
+          else {
+            url = "http:" + url;
+          }
         }
-        else {
-          url = "http:" + url;
-        }
-      }
-      
+      */
       } catch {
         // no-op
       }
@@ -1097,6 +1071,7 @@ function timeStamp() {
 }
 
 // return safe index into response collection
+/*
 function respIdx(index) {
   var rt = 0;
   /*
@@ -1107,81 +1082,7 @@ function respIdx(index) {
   } catch {
     // no-op
   }
-  */
   return rt;
 }
+*/
 
-function showHelp() {
-  var rt = "";
-
-  rt  = `
-  ******************************************
-  HYPER - v1.0 : 2021-06
-  ******************************************
-
-  ACTIVATE|A|GO|GOTO|CALL -- synonyms
-    WITH-URL url
-    WITH-REL string 
-    WITH-NAME string (only SIREN Actions) 
-    WITH-PROFILE (uses confg.profile property)
-    WITH-FORMAT (uses config.accept property)
-    WITH-QUERY {n:v,...}
-    WITH-BODY name=value&... OR {"name":"value",...}
-    WITH-HEADERS {"name":"value",...}
-    WITH-ENCODING string
-    WITH-METHOD string
-    WITH-FORM form-identifier-string
-    WITH-STACK (uses top stack item for input/query values)
-  CLEAR
-  SHELL command-string <== "Here be dragons!"
-    LS || DIR folder-string
-  CONFIG
-    READ
-    SET {"name":"value",...}
-    FILE|LOAD (string) : defaults to "hyper.cfg"
-    SAVE|WRITE (string) : defaults to "hyper.cfg"
-  STACK 
-    PEEK 
-    PUSH
-    POP
-    SET {"n":"v",...}
-    LOAD|FILE file-string : defaults to hyper.dat
-    SAVE|WRITE file-string : defaults to hyper.dat
-    DUMP file-string : defaults to hyper.dmp
-    FILL file-string : defaults to hyper.dmp
-    CLEAR|FLUSH
-    LEN|LENGTH
-  DISPLAY
-    URL
-    STATUS
-    CONTENT-TYPE
-    HEADERS
-    PEEK
-    POP
-    LENGTH
-    PATH jsonpath-string
-  CJ
-    METADATA
-    LINKS
-    ITEMS
-    QUERIES
-    TEMPLATE
-    REL string
-    PATH jsonpath-string
-  HAL
-    LINKS || _LINKS
-    ENBEDDED || _EMBEDDED
-    REL || ID || KEY string
-    PATH jsonpath-string
-  SIREN
-    LINKS
-    ENTITIES
-    ACTIONS
-    PROPERTIES
-    ID string (for Entities)
-    REL string (for Links)
-    NAME string (for Actions)
-    PATH jsonpath-string
-`;
-  return rt;
-}

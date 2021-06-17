@@ -19,7 +19,7 @@ GOTO http://rwcbook10.herokuapp.com
 GOTO http://rwcbook10.herokuapp.com
 
 # add datato the stack and execute the write operation
-STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
+STACK PUSH {"title":"testing\.\another\.\one","tags":"with-test","completeFlag":"false","assignedUser":"alice"}
 GOTO WITH-FORM taskFormAdd WITH-STACK 
 
 # check the write results using the same stack data
