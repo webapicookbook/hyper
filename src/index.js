@@ -71,6 +71,15 @@ rl.on('line', (line) => {
     case "STACK":
       console.log(manageStack(words));
       break;  
+    case "CONFIG":
+      console.log(configOp(words));
+      break;  
+    case "RESPONSES":
+      console.log(responses.size());
+      break;
+    case "TIMESTAMP":
+      console.log(utils.timeStamp(line)+"\n");
+      break;
     case "A":
     case "GO":
     case "GOTO":
@@ -89,15 +98,6 @@ rl.on('line', (line) => {
       break;  
     case "SIREN":
       console.log(sirenCommands(words));
-      break;
-    case "CONFIG":
-      console.log(configOp(words));
-      break;  
-    case "RESPONSES":
-      console.log(responses.size());
-      break;
-    case "TIMESTAMP":
-      console.log(timeStamp(line)+"\n");
       break;
     case "ECHO":  
     default:
@@ -668,15 +668,12 @@ function display(words) {
       } 
       break;
     case "STATUS":
-      //index = respIdx(index);
       rt = response.statusCode;  
       break;
     case "HEADERS":
-      index = respIdx(index);
       rt = response.headers;  
       break;
     case "URL":
-      index = respIdx(index);
       rt = response.url;  
       break;
     case "CONTENT-TYPE":
@@ -818,16 +815,6 @@ function activate(words) {
           }
           else {
             url = utils.fixUrl(url);
-            /*
-            if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-              if(url.indexOf("//")==-1) {
-                url = "http://" + url;
-              }
-              else {
-                url = "http:" + url;
-              }
-            }
-            */
           }  
         }
       } catch {
@@ -853,16 +840,6 @@ function activate(words) {
         }
         else {
           url = utils.fixUrl(url);
-          /*
-          if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-            if(url.indexOf("//")==-1) {
-              url = "http://" + url;
-            }
-            else {
-              url = "http:" + url;
-            }
-          }
-          */
         }  
       } catch {
         // no-op
@@ -906,16 +883,6 @@ function activate(words) {
         }
         else {
           url = utils.fixUrl(url);
-          /*
-          if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-            if(url.indexOf("//")==-1) {
-              url = "http://" + url;
-            }
-            else {
-              url = "http:" + url;
-            }
-          }
-          */
         }  
       } catch {
         // no-op
@@ -926,16 +893,6 @@ function activate(words) {
       try {
         url = words[pointer++];
         url = utils.fixUrl(url);
-        /*
-        if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-          if(url.indexOf("//")==-1) {
-            url = "http://" + url;
-          }
-          else {
-            url = "http:" + url;
-          }
-        }
-      */
       } catch {
         // no-op
       }
@@ -1064,25 +1021,3 @@ function activate(words) {
   
   return rt;
 }
-
-// generate a unique string based on date/time
-function timeStamp() {
-  return Date.now().toString(36)
-}
-
-// return safe index into response collection
-/*
-function respIdx(index) {
-  var rt = 0;
-  /*
-  try {
-    rt = parseInt(index);
-    if(rt<0) {rt=0};
-    if(rt>responses.length-1) {rt=responses.length-1};
-  } catch {
-    // no-op
-  }
-  return rt;
-}
-*/
-

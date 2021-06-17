@@ -10,6 +10,7 @@ exports.fixUrl = fixUrl;
 exports.runShell = runShell;
 exports.echo = echo;
 exports.showHelp = showHelp;
+exports.timeStamp = timeStamp;
 
 // clean up any supplied URL
 function fixUrl(url) {
@@ -61,6 +62,12 @@ function echo(words) {
   });
   return rt;
 }
+
+// generate a unique string based on date/time
+function timeStamp() {
+  return Date.now().toString(36)
+}
+
 
 // display help content
 function showHelp() {
