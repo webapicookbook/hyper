@@ -1,0 +1,30 @@
+#
+# CJ interactive session
+#
+
+GOTO http://rwcbook12.herokuapp.com
+CJ LINKS
+
+GOTO WITH-REL user
+CJ QUERIES
+
+GOTO WITH-REL usersByName WITH-QUERY {"name":"alice"}
+CJ ITEMS
+
+CJ PATH $.collection.items[0].links
+
+GOTO WITH-URL http://rwcbook12.herokuapp.com/user/update/alice
+
+CJ TEMPLATE
+CJ PATH $.collection.href
+
+GOTO WITH-URL http://rwcbook12.herokuapp.com/user/update/alice WITH-BODY email=alice-red@example.org WITH-METHOD POST
+
+GOTO http://rwcbook12.herokuapp.com/user/alice
+CJ PATH $.collection.items[0].data
+
+#
+# EOF
+#
+
+

@@ -18,6 +18,7 @@ const readline = require('readline');
 const fs = require('fs');
 
 const utils = require ('./hyper-utils');
+const configOp = require('./config');
 
 var Stack = require('stack-lifo');
 var responses = new Stack();
@@ -31,7 +32,8 @@ const rl = readline.createInterface({
 
 var config = {};
 config.verbose = "false";
-configLoad();
+var args = configOp({config:config,words:["LOAD"]});
+config = args.config;
 
 var currentResponse = {};
 
@@ -50,6 +52,7 @@ rl.prompt();
 rl.on('line', (line) => {
   line = line.trim();
   var words = line.split(" ");
+  var args = {};
   
   switch (words[0].toUpperCase()) {
     case "HELP":
@@ -72,7 +75,11 @@ rl.on('line', (line) => {
       console.log(manageStack(words));
       break;  
     case "CONFIG":
-      console.log(configOp(words));
+      args = {config:config,words:words};
+      args = configOp(args);
+      config = args.config;
+      words = args.words;
+      console.log(args.rt);
       break;  
     case "RESPONSES":
       console.log(responses.size());
@@ -101,7 +108,7 @@ rl.on('line', (line) => {
       break;
     case "ECHO":  
     default:
-      console.log(utils.echo(words)+"\n");
+      console.log(utils.echo(words));
       break;
   }
   rl.prompt();
@@ -319,6 +326,7 @@ function dsSet(token) {
 }
 
 // configuration operations
+/*
 function configOp(words) {
   var rt = "";
   var file = "";
@@ -344,6 +352,7 @@ function configOp(words) {
   }
   return rt;
 }
+*/
 
 // save config file to disk
 function configSave(file) {
