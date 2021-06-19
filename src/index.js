@@ -10,33 +10,38 @@
  *   pipe a file out to save session output
  * ********************************************/
 
-const request = require('sync-request');
-const querystring = require('querystring');
-const {JSONPath} = require('jsonpath-plus');
-
+// node modules
 const readline = require('readline');
 const fs = require('fs');
 
+// installed modules
+const request = require('sync-request');
+const querystring = require('querystring');
+const {JSONPath} = require('jsonpath-plus');
+const Stack = require('stack-lifo');
+
+// local modules
 const utils = require ('./hyper-utils');
 const configOp = require('./config');
 const manageStack = require('./stack');
+const display = require('./display');
 
-var Stack = require('stack-lifo');
-var responses = new Stack();
-var dataStack = new Stack();
-
+// readline instance
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: 'i> '
 });
 
+// state vars
+var responses = new Stack();
+var dataStack = new Stack();
+var currentResponse = {};
+
 var config = {};
 config.verbose = "false";
 var args = configOp({config:config,words:["CONFIG", "LOAD"]});
 config = args.config;
-
-var currentResponse = {};
 
 // check for input args
 var args = process.argv.slice(2);
@@ -98,7 +103,11 @@ rl.on('line', (line) => {
       console.log(activate(words));  
       break;
     case "DISPLAY":
-      console.log(display(words));
+      args = display({responses:responses,currentResponse:currentResponse,words:words});
+      responses = args.responses;
+      currentResponse = args.currentResponse;
+      words = args.words;
+      console.log(args.rt);
       break;
     case "CJ":
       console.log(cjCommands(words));
@@ -345,72 +354,6 @@ function cjCommands(words) {
       }
   }
   return JSON.stringify(rt, null, 2);
-}
-
-
-// display a saved response
-// DISPLAY 
-// - LENGTH returns number of responses saved
-// - {index} returns the response at that index
-function display(words) {
-  var rt = "";
-  var index = 0;
-  var token = words[1]||"0";
-  var response;
-  
-  
-  // shortcut for error
-  try {
-    response = responses.peek();
-  } catch {
-    rt = "no response";
-    return rt;
-  }  
-
-  switch (token.toUpperCase()) {
-    case "LEN":
-    case "lENGTH":
-      rt = responses.size();
-      break;
-    case "POP":
-      try {
-        responses.pop();
-        rt = "OK";
-      } catch {
-        rt = "no response";
-      } 
-      break;
-    case "STATUS":
-      rt = response.statusCode;  
-      break;
-    case "HEADERS":
-      rt = response.headers;  
-      break;
-    case "URL":
-      rt = response.url;  
-      break;
-    case "CONTENT-TYPE":
-      rt = currentResponse.contentType;
-      break;  
-    case "PATH":
-      token = words[2]||"$";
-      console.log(token);
-      try {
-        rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt});
-      } catch {
-        // no-op
-      }
-      break;
-    case "PEEK":
-    default:
-      try {
-        rt = response.getBody("UTF8");
-      } catch {
-        rt = "no response";
-      }
-  }
-  return rt;
 }
 
 // synchronous HTTP request

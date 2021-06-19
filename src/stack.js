@@ -3,7 +3,7 @@
  * **********************************/
 
 // imports
-var Stack = require('stack-lifo');
+const Stack = require('stack-lifo');
 const fs = require('fs');
 
 // exports
@@ -14,10 +14,9 @@ var dataStack = new Stack();
 
 // manage json object data stack
 // args:{dataStack:dataStack,words:words}
-// function main(words) {
 function main(args) {
-  var words = args.words||[];
   dataStack = args.dataStack;
+  var words = args.words||[];
   var rt = "";
   var file = "";
   var set = {};
@@ -76,7 +75,6 @@ function main(args) {
       break;      
   }
   return {dataStack:dataStack,words:words,rt:rt}
-  //return rt;
 }
 
 // load an item and add to top of stack

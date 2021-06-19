@@ -38,7 +38,6 @@ function main(args) {
     default:
       rt = config  
   }
-  
   return {config:config,words:words,rt:rt};
 }
 
