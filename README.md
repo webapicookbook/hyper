@@ -1,15 +1,11 @@
-# hyper : Interactive Hypermedia Shell
+# **hyper** : Interactive Hypermedia Shell
 
-_sample project to explore an interactive shell for hypermedia services_
+_Exploring an interactive REPL/shell for interacting with HTTP-based hypermedia services_
 
 ## Summary
-A simple command-line style shell for interacting with an online services/APIs. Especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). Will be adding support for [PRAG+JSON](https://mamund.github.io/prag-json/) and [UBER](http://uberhypermedia.com/) sometime soon. 
+A simple command-line style shell/REPL for interacting with an online services/APIs. While a fully-functional HTTP client, **hyper** is especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). There are plans at add support for [PRAG+JSON](https://mamund.github.io/prag-json/), [MASH-JSON](https://mamund.github.com/mash-json), and possibly [UBER](http://uberhypermedia.com/) in the future. 
 
-- type a command
-- shell does the work, displays some data
-- got to step one and repeat
-
-Also supports some convience functionality like SHELL commands, config file management, etc.
+Along with HTTP- and mediatype-aware commands, **hyper** also supports some convience functionality like SHELL commands, configuration file management, and a LIFO stack to handle local memory variabes. 
 
 ## Motivation
 The idea for this shell comes from other REPL-style interactive CLIs like `node` and command-line tools like `curl`. You can start a stateful client session by typing `hyper` at the command line. Then you can make an HTTP request (`ACTIVATE`) and manipulate the responses. You can also write hyper commands in a file and pipe this file into hyper for a scripted experience: (`hyper < scripts/sample.txt > scripts/sample.log`).
