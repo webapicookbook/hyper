@@ -77,39 +77,42 @@ rl.on('line', (line) => {
   var args = {};
   
   switch (words[0].toUpperCase()) {
-    case "HELP":
-      console.log(utils.showHelp(words));
-      break;
+    case "#":
+    case "":
+      break;  
     case "EXIT":
     case "STOP":
       process.exit(0)
       break;
-    case "#":
-    case "":
-      break;  
     case "CLEAR":
       console.clear();
+      break;
+    case "HELP":
+      console.log(utils.showHelp(words));
       break;
     case "SHELL":
       console.log(utils.runShell(words));
       break;  
-    case "STACK":
-      args = manageStack({dataStack:dataStack,words:words});
-      dataStack = args.dataStack;
-      words = args.words;
-      console.log(args.rt);
-      break;  
-    case "CONFIG":
-      args = configOp({config:config,words:words});
-      config = args.config;
-      words = args.words;
-      console.log(args.rt);
-      break;  
-    case "RESPONSES":
-      console.log(responses.size());
-      break;
     case "TIMESTAMP":
       console.log(utils.timeStamp(line));
+      break;
+    case "STACK":
+      console.log(runModule(manageStack,words));
+      break;  
+    case "CONFIG":
+      console.log(runModule(configOp,words));
+      break;  
+    case "DISPLAY":
+      console.log(runModule(display, words));
+      break;
+    case "CJ":
+      console.log(runModule(cjCommands, words));
+      break;  
+    case "HAL":
+      console.log(runModule(halCommands, words));
+      break;  
+    case "SIREN":
+      console.log(runModule(sirenCommands, words));
       break;
     case "A":
     case "GO":
@@ -117,38 +120,6 @@ rl.on('line', (line) => {
     case "CALL":  
     case "ACTIVATE":
       console.log(activate(words));  
-      break;
-    case "DISPLAY":
-      args = display({responses:responses,currentResponse:currentResponse,config:config,words:words});
-      config = args.config;
-      responses = args.responses;
-      currentResponse = args.currentResponse;
-      words = args.words;
-      console.log(args.rt);
-      break;
-    case "CJ":
-      args = cjCommands({responses:responses,dataStack:dataStack,config:config,words:words});
-      config = args.config;
-      responses = args.responses;
-      dataStack = args.dataStack;
-      words = args.words;
-      console.log(args.rt);
-      break;  
-    case "HAL":
-      args = halCommands({responses:responses,dataStack:dataStack,config:config,words:words});
-      config = args.config;
-      responses = args.responses;
-      dataStack = args.dataStack;
-      words = args.words;
-      console.log(args.rt);
-      break;  
-    case "SIREN":
-      args = sirenCommands({responses:responses,dataStack:dataStack,config:config,words:words});
-      config = args.config;
-      responses = args.responses;
-      dataStack = args.dataStack;
-      words = args.words;
-      console.log(args.rt);
       break;
     case "ECHO":  
     default:
@@ -160,6 +131,36 @@ rl.on('line', (line) => {
 }).on('close', () => {
   process.exit(0);
 });
+
+
+// fire off external module
+// collect context object, call,
+// update local context
+// show results
+function runModule(moduleName, words) {
+  var args = {};
+  var rt = "";
+  
+  try {
+    args = moduleName(
+      {
+        responses:responses,
+        dataStack:dataStack,
+        config:config,
+        currentResponse:currentResponse,
+        words:words
+      });
+    if(args.responses) {responses = args.responses};
+    if(args.dataStack) {dataStack = args.dataStack};
+    if(args.config) {config = args.config};
+    if(args.currentResponse) {currentResponse = args.currentResponse};
+    if(args.words) {words = args.words};
+    rt = args.rt||"";
+  } catch (err) {
+    rt = console.log(err.message);
+  }      
+  return rt;
+}
 
 // synchronous HTTP request
 // ACTIVATE {url}
