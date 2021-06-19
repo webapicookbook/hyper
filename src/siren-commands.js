@@ -8,9 +8,11 @@ const Stack = require('stack-lifo');
 
 // exports
 module.exports = main;
+
 // internals
 var responses = new Stack();
 var dataStack = new Stack();
+var config = {};
 
 // display and parse a SIREN response
 // SIREN {command}
@@ -112,6 +114,6 @@ function main(args) {
         rt = "no response";
       }
   }
-  return {responses:responses,dataStack:dataStack,words:words,rt:JSON.stringify(rt, null, 2)};
+  return {responses:responses,dataStack:dataStack,config:config,words:words,rt:JSON.stringify(rt, null, 2)};
 }
 

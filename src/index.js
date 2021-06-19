@@ -119,28 +119,32 @@ rl.on('line', (line) => {
       console.log(activate(words));  
       break;
     case "DISPLAY":
-      args = display({responses:responses,currentResponse:currentResponse,words:words});
+      args = display({responses:responses,currentResponse:currentResponse,config:config,words:words});
+      config = args.config;
       responses = args.responses;
       currentResponse = args.currentResponse;
       words = args.words;
       console.log(args.rt);
       break;
     case "CJ":
-      args = cjCommands({responses:responses,dataStack:dataStack,words:words});
+      args = cjCommands({responses:responses,dataStack:dataStack,config:config,words:words});
+      config = args.config;
       responses = args.responses;
       dataStack = args.dataStack;
       words = args.words;
       console.log(args.rt);
       break;  
     case "HAL":
-      args = halCommands({responses:responses,dataStack:dataStack,words:words});
+      args = halCommands({responses:responses,dataStack:dataStack,config:config,words:words});
+      config = args.config;
       responses = args.responses;
       dataStack = args.dataStack;
       words = args.words;
       console.log(args.rt);
       break;  
     case "SIREN":
-      args = sirenCommands({responses:responses,dataStack:dataStack,words:words});
+      args = sirenCommands({responses:responses,dataStack:dataStack,config:config,words:words});
+      config = args.config;
       responses = args.responses;
       dataStack = args.dataStack;
       words = args.words;

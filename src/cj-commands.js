@@ -12,12 +12,13 @@ const Stack = require('stack-lifo');
  // internals
 var responses = new Stack();
 var dataStack = new Stack();
-
+var config = {};
  
 // display a parse CollectionJSON object
 // CJ {command}
-// args: {responses:responses,dataStack:dataStack,words:words}
+// args: {responses:responses,dataStack:dataStack,config:config,words:words}
 function main(args) {
+  config = args.config;
   responses = args.responses;
   dataStack = args.dataStack;  
   var words = args.words;
@@ -88,6 +89,6 @@ function main(args) {
         rt = "no response";
       }
   }
-  return {responses:responses, dataStack:dataStack, words:words, rt:JSON.stringify(rt, null, 2)};
+  return {responses:responses, dataStack:dataStack, config:config, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
 }
 

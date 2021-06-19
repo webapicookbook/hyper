@@ -12,6 +12,7 @@ module.exports = main;
 // internals
 var responses = new Stack();
 var currentResponse = {};
+var config = {};
 
 // display a saved response
 // DISPLAY 
@@ -19,6 +20,7 @@ var currentResponse = {};
 // - {index} returns the response at that index
 // args:{responses:responses,currentResponse:currentResponse,words:words}
 function main(args) {
+  config = args.config;
   responses = args.responses;
   currentResponse = args.currentResponse;
   var words = args.words||[];
@@ -79,7 +81,7 @@ function main(args) {
         rt = "no response";
       }
   }
-  return {responses:responses,currentResponse:currentResponse,words:words,rt:rt}
+  return {responses:responses,currentResponse:currentResponse,config:config,words:words,rt:rt}
   //return rt;
 }
 
