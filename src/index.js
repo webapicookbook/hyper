@@ -26,6 +26,7 @@ const configOp = require('./config');
 const manageStack = require('./stack');
 const display = require('./display');
 const cjCommands = require('./cj-commands');
+const halCommands = require('./hal-commands');
 
 // readline instance
 const rl = readline.createInterface({
@@ -127,10 +128,13 @@ rl.on('line', (line) => {
       dataStack = args.dataStack;
       words = args.words;
       console.log(args.rt);
-      //console.log(cjCommands(words));
       break;  
     case "HAL":
-      console.log(halCommands(words));
+      args = halCommands({responses:responses,dataStack:dataStack,words:words});
+      responses = args.responses;
+      dataStack = args.dataStack;
+      words = args.words;
+      console.log(args.rt);
       break;  
     case "SIREN":
       console.log(sirenCommands(words));
@@ -247,6 +251,7 @@ function sirenCommands(words) {
 
 // display and parse a HAL response
 // HAL {command}
+/*
 function halCommands(words) {
   var rt = {};
   var token = words[1]||"";
@@ -303,6 +308,7 @@ function halCommands(words) {
   }
   return JSON.stringify(rt, null, 2);
 }
+*/
 
 // synchronous HTTP request
 // ACTIVATE {url}
