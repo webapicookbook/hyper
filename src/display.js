@@ -11,18 +11,13 @@ module.exports = main;
 
 // internals
 var responses = new Stack();
-var currentResponse = {};
 var config = {};
 
 // display a saved response
-// DISPLAY 
-// - LENGTH returns number of responses saved
-// - {index} returns the response at that index
-// args:{responses:responses,currentResponse:currentResponse,words:words}
+// args:{responses:responses,words:words}
 function main(args) {
   config = args.config;
   responses = args.responses;
-  currentResponse = args.currentResponse;
   var words = args.words||[];
   var rt = "";
   var index = 0;
@@ -34,7 +29,7 @@ function main(args) {
     response = responses.peek();
   } catch {
     rt = "no response";
-    return {responses:responses,currentResponse:currentResponse,words:words,rt:rt}
+    return {responses:responses,words:words,rt:rt}
     //return rt;
   }  
 
@@ -52,6 +47,7 @@ function main(args) {
       } 
       break;
     case "STATUS":
+    case "STATUS-CODE":
       rt = response.statusCode;  
       break;
     case "HEADERS":
@@ -61,7 +57,7 @@ function main(args) {
       rt = response.url;  
       break;
     case "CONTENT-TYPE":
-      rt = currentResponse.contentType;
+      rt = response.headers["content-type"];
       break;  
     case "PATH":
       token = words[2]||"$";
@@ -81,8 +77,7 @@ function main(args) {
         rt = "no response";
       }
   }
-  return {responses:responses,currentResponse:currentResponse,config:config,words:words,rt:rt}
-  //return rt;
+  return {responses:responses,config:config,words:words,rt:rt}
 }
 
 

@@ -32,9 +32,9 @@ const sirenCommands = require('./siren-commands');
 // state vars
 var responses = new Stack();
 var dataStack = new Stack();
-var currentResponse = {};
-
 var config = {};
+
+// init config and load default file
 config.verbose = "false";
 var args = configOp({config:config,words:["CONFIG", "LOAD"]});
 config = args.config;
@@ -69,13 +69,16 @@ const rl = readline.createInterface({
   prompt: 'i> '
 });
 
+// get first input
 rl.prompt();
 
+// process a line
 rl.on('line', (line) => {
   line = line.trim();
   var words = line.split(" ");
   var args = {};
   
+  // process each word in turn
   switch (words[0].toUpperCase()) {
     case "#":
     case "":
@@ -126,8 +129,10 @@ rl.on('line', (line) => {
       console.log(utils.echo(words));
       break;
   }
+  // wait for another input
   rl.prompt();
 
+// safe exit at the end of inputs
 }).on('close', () => {
   process.exit(0);
 });
@@ -147,13 +152,11 @@ function runModule(moduleName, words) {
         responses:responses,
         dataStack:dataStack,
         config:config,
-        currentResponse:currentResponse,
         words:words
       });
     if(args.responses) {responses = args.responses};
     if(args.dataStack) {dataStack = args.dataStack};
     if(args.config) {config = args.config};
-    if(args.currentResponse) {currentResponse = args.currentResponse};
     if(args.words) {words = args.words};
     rt = args.rt||"";
   } catch (err) {
@@ -464,22 +467,13 @@ function activate(words) {
   }
  
   try {
-    if(config.verbose==="false" && response.statusCode<400) {
+    if(config.verbose==="false") {
       rt = "STATUS "+response.statusCode+"\n"+response.url+"\n"+response.headers["content-type"];
     }
 
   } catch {
     // no-op
   } 
-  
-  try {
-    currentResponse.url = response.url;
-    currentResponse.status = response.statusCode;
-    currentResponse.headers = response.headers;
-    currentResponse.contentType = response.headers["content-type"];
-  } catch {
-    // no-op
-  }  
-  
+    
   return rt;
 }
