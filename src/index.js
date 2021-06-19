@@ -53,6 +53,17 @@ try {
   // no-op
 }
 
+/*
+var cargs = process.argv.slice(2);
+try {
+  if(cargs.length>0) {
+    rl.write(cargs.join(" "));
+  }
+} catch {
+  // no-op
+}
+*/
+
 rl.prompt();
 
 rl.on('line', (line) => {
