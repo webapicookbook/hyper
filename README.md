@@ -7,6 +7,33 @@ A simple command-line style shell/REPL for interacting with an online services/A
 
 Along with HTTP- and mediatype-aware commands, **hyper** also supports some convience functionality like SHELL commands, configuration file management, and a LIFO stack to handle local memory variabes. 
 
+Importantly, **hyper** is not just a shell/REPL, it is a hypermedia DSL. It encourages users to `think' in hypermedia. Rather than writing complex HTTP queries that look like this (an example that works fine in **hyper**):
+
+```
+ACTIVATE http://localhost:8181/task/
+  WITH-METHOD PUT
+  WITH-BODY title=testing&tags=hyper&completeFlag=false 
+  WITH-ENCODING application/x-www-form-urlencoded
+  WITH-HEADERS {"if-none-match":"*"}
+```
+
+The **hyper** shell can also use mediatype-aware convience commands to locate, parse, fill, and execute inline hypermedia controls. This results in a much more readable **hyper** exeperience:
+
+```
+STACK PUSH {
+  "title":"testing",
+  "tags":"hyper",
+  "completeFlag":"false"
+}
+
+ACTIVATE http://locahost:8181/home/
+ACTIVATE WITH-FORM taskFormAdd WITH-STACK 
+```
+
+In both cases, the same work is completed. In the first example, a human can read all the docs and examples and craft a successful HTTP PUT request. This works until the server changes a paramter (e.g. moves from PUT to POST).
+
+In the second example, the **hyper** engine loads available data (it could have been from disk using `STACK LOAD task-record.txt`) and uses identified hypermedia controls (in this case the 'taskFormAdd' control) to complete the work. This will continue to work even if HTTP details (like PUT to POST) are chagned -- as long as the hypermedia form `taskFormAdd` is included in the response.
+
 ## Motivation
 The idea for this shell comes from other REPL-style interactive CLIs like `node` and command-line tools like `curl`. You can start a stateful client session by typing `hyper` at the command line. Then you can make an HTTP request (`ACTIVATE`) and manipulate the responses. You can also write hyper commands in a file and pipe this file into hyper for a scripted experience: (`hyper < scripts/sample.txt > scripts/sample.log`).
 
