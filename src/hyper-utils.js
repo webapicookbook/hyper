@@ -97,8 +97,11 @@ function showHelp() {
   CONFIG
     READ
     SET {"name":"value",...}
-    FILE|LOAD (string) : defaults to "hyper.cfg"
-    SAVE|WRITE (string) : defaults to "hyper.cfg"
+    REMOVE string 
+    CLEAR (removes all settings)
+    RESET (resets to default settings : "hyper.cfg")
+    FILE|LOAD (file-string) : defaults to "hyper.cfg"
+    SAVE|WRITE (file-string) : defaults to "hyper.cfg"
   STACK 
     PEEK 
     PUSH
@@ -112,12 +115,12 @@ function showHelp() {
     LEN|LENGTH
   DISPLAY
     URL
-    STATUS
+    STATUS|STATUS-CODE
     CONTENT-TYPE
     HEADERS
     PEEK
     POP
-    LENGTH
+    LENGTH|LEN
     PATH jsonpath-string
   CJ
     METADATA

@@ -34,6 +34,16 @@ function main(args) {
     case "SET":
       rt = configSet(words[2]);
       break;  
+    case "REMOVE":
+      rt = configRemove(words[2]);
+      break;
+    case "CLEAR":
+      config = {};
+      rt = config;config
+      break;
+    case "RESET":
+      config = {};
+      rt = configLoad(""); 
     case "READ":
     default:
       rt = config  
@@ -102,4 +112,21 @@ function configSet(token) {
   return config;
 }
 
+// remove named item
+function configRemove(token) {
+  var rt = "";
+  var set = {};
+  
+  try {
+    for(var c in config) {
+      if(c!==token) {
+        set[c] = config[c];
+      }
+    }
+    config = set;
+  } catch {
+    // no-op
+  }
+  return config;
+}
 

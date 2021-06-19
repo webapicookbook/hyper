@@ -44,7 +44,7 @@ config = args.config;
 var args = process.argv.slice(2);
 try {
   if(args.length>0) {
-    console.log(showHelp());
+    console.log(utils.showHelp());
   }  
 } catch {
   // no-op
