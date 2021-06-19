@@ -164,17 +164,19 @@ function runModule(moduleName, words) {
   }      
   return rt;
 }
-
-// synchronous HTTP request
-// ACTIVATE {url}
-// - WITH-HEADERS {n:v,...}
-// - WITH-QUERY {n:v,...} (optional, can use "?...." on the URL, too)
-// - WITH-BODY ... (defaults to form-urlencoded)
-// - WITH-METHOD get (defaults to GET)
-// - WITH-ENCODING application/json
+// ************************************************************************************
+// process synchronous HTTP request
+// ACTIVATE|GOTO|CALL|GO|A  (all synonyms
+// - WITH-URL <url>
+// - WITH-REL <string> : string is a REL within the document
+// - WITH-HEADERS <{n:v,...}>
+// - WITH-QUERY {<n:v,...}> (optionally, use "?...." on the URL, too)
+// - WITH-BODY <string> (defaults to form-urlencoded)
+// - WITH-METHOD <string> (defaults to GET)
+// - WITH-ENCODING <string> (defaults to application/x-www-form-urlencoded))
 // - WITH-FORMAT (emits accept header based on config setting)
 // - WITH-PROFILE (emits link profile header based on config setting)
-// - WITH-FORM (uses form metadata  to set HTTP request details)
+// - WITH-FORM [name] (uses form metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 function activate(words) {
   var rt = "";

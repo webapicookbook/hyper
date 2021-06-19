@@ -69,6 +69,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. FILE|LOAD _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SAVE|WRITE _{filename}_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SET _{n:v,...}_ shared config file write
+ - [x] : support for .. CLEAR removes all settings
+ - [x] : support for .. RESET resets to default settings
+ - [x] : support for .. REMOVE _string_ removes the named item
  - [x] : support for **STACK** _{command}_ _{arg}_ JSON object LIFO stack
  - [x] : support for .. CLEAR|FLUSH clears all the items from the stack
  - [x] : support for .. PEEK displays the JSON object at the stop of the stack
@@ -84,12 +87,12 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-URL _{url}_ - uses URL to make the request
  - [x] : support for .. WITH-REL _{string}_ - uses HREF value on the associated in-doc element (id, name, rel)
  - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
- - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
- - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
  - [x] : support for .. WITH-QUERY _{n:v,...}_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
- - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for .. WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
+ - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
+ - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
+ - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
  - [x] : support for .. WITH-FORM _{name}_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
  - [x] : support for .. WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [x] : support for **DISPLAY** (PEEK) - show saved reponse (from top of the LIFO stack)
@@ -106,6 +109,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ITEMS returns items array from a collection+JSON response
  - [x] : support for .. QUERIES returns queries array from a collection+JSON response
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
+ - [x] : support for .. ERROR returns error object from a collection+JSON response
+ - [x] : support for .. RELATED returns the related object from a collection+JSON response
  - [x] : support for .. ID|NAME|REL _{string}_ returns results of a pre-set JSONPath query (shorthand)
  - [x] : support for .. PATH _{JSONPath}_ returns results of a JSONPath query from a collection+JSON response
  - [x] : support for **HAL** returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
