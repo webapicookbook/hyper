@@ -32,7 +32,7 @@ ACTIVATE WITH-FORM taskFormAdd WITH-STACK
 
 In both cases, the same work is completed. In the first example, a human can read all the docs and examples and craft a successful HTTP PUT request. This works until the server changes a parameter (e.g. moves from PUT to POST).
 
-In the second example, the **hyper** engine loads available data (it could have been from disk using `STACK LOAD task-record.txt`) and uses identified hypermedia controls (in this case the `taskFormAdd` control) to complete the work. This will continue to work even if HTTP details (like PUT to POST) are chagned -- as long as the hypermedia form `taskFormAdd` is included in the response.
+In the second example, the **hyper** engine loads available data (it could have been from disk using `STACK LOAD task-record.txt`) and uses identified hypermedia controls (in this case the `taskFormAdd` control) to complete the work. This will continue to work even if HTTP details (like PUT to POST) are changed -- as long as the hypermedia form `taskFormAdd` is included in the response.
 
 ## Motivation
 The idea for this shell comes from other REPL-style interactive CLIs like `node` and command-line tools like `curl`. You can start a stateful client session by typing `hyper` at the command line. Then you can make an HTTP request (`ACTIVATE`) and manipulate the responses. You can also write hyper commands in a file and pipe this file into hyper for a scripted experience: (`hyper < scripts/sample.txt > scripts/sample.log`).
