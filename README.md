@@ -3,7 +3,7 @@
 _Exploring an interactive REPL/shell for interacting with HTTP-based hypermedia services_
 
 ## Summary
-A simple command-line style shell/REPL for interacting with an online services/APIs. While a fully-functional HTTP client, **hyper** is especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). There are plans at add support for [PRAG+JSON](https://mamund.github.io/prag-json/), [MASH-JSON](https://mamund.github.com/mash-json), and possibly [UBER](http://uberhypermedia.com/) in the future. 
+A simple command-line style shell/REPL for interacting with an online services/APIs. While a fully-functional HTTP client, **hyper** is especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). There are plans to add support for [PRAG+JSON](https://mamund.github.io/prag-json/), [MASH+JSON](https://mamund.github.com/mash-json), and possibly [UBER](http://uberhypermedia.com/) in the future. 
 
 Along with HTTP- and mediatype-aware commands, **hyper** also supports some convience functionality like SHELL commands, configuration file management, and a LIFO stack to handle local memory variabes. 
 
@@ -30,9 +30,9 @@ ACTIVATE http://locahost:8181/home/
 ACTIVATE WITH-FORM taskFormAdd WITH-STACK 
 ```
 
-In both cases, the same work is completed. In the first example, a human can read all the docs and examples and craft a successful HTTP PUT request. This works until the server changes a paramter (e.g. moves from PUT to POST).
+In both cases, the same work is completed. In the first example, a human can read all the docs and examples and craft a successful HTTP PUT request. This works until the server changes a parameter (e.g. moves from PUT to POST).
 
-In the second example, the **hyper** engine loads available data (it could have been from disk using `STACK LOAD task-record.txt`) and uses identified hypermedia controls (in this case the 'taskFormAdd' control) to complete the work. This will continue to work even if HTTP details (like PUT to POST) are chagned -- as long as the hypermedia form `taskFormAdd` is included in the response.
+In the second example, the **hyper** engine loads available data (it could have been from disk using `STACK LOAD task-record.txt`) and uses identified hypermedia controls (in this case the `taskFormAdd` control) to complete the work. This will continue to work even if HTTP details (like PUT to POST) are chagned -- as long as the hypermedia form `taskFormAdd` is included in the response.
 
 ## Motivation
 The idea for this shell comes from other REPL-style interactive CLIs like `node` and command-line tools like `curl`. You can start a stateful client session by typing `hyper` at the command line. Then you can make an HTTP request (`ACTIVATE`) and manipulate the responses. You can also write hyper commands in a file and pipe this file into hyper for a scripted experience: (`hyper < scripts/sample.txt > scripts/sample.log`).
