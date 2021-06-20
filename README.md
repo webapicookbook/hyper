@@ -177,9 +177,6 @@ Here's a list of things I think need to be done before #HyperLang (as I like to 
  - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
  - [ ] **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
  
-## Mods
-
- - `STACK PUSH WITH 
 ## Dependencies
 These modules are used in the hyper app.
 
