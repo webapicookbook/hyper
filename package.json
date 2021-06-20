@@ -1,5 +1,5 @@
 {
-  "name": "i-hyper",
+  "name": "hyper",
   "description": "sample project to explore an interactive shell for hypermedia services",
   "version": "1.0.0",
   "main": "./src/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rwmbook/i-hyper.git"
+    "url": "git+https://github.com/rwmbook/hyper.git"
   },
   "keywords": [
     "hypermedia",
@@ -26,7 +26,7 @@
   "author": "Mike Amundsen (@mamund)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rwmbook/i-hyper/issues"
+    "url": "https://github.com/rwmbook/hyper/issues"
   },
   "dependencies": {
     "html2json": "^1.0.2",
@@ -34,5 +34,5 @@
     "stack-lifo": "^0.1.6",
     "sync-request": "^6.1.0"
   },
-  "homepage": "https://github.com/rwmbook/i-hyper#readme"
+  "homepage": "https://github.com/rwmbook/hyper#readme"
 }
