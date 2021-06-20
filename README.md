@@ -166,6 +166,14 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
 
+## TODO Items
+Here's a list of things I think need to be done before #HyperLang (as I like to call it) is "complete":
+
+ - [ ] **Variables** : Current `STACK` support is a good start, can we address sub items with `$$varName$$`? Can this work for both `CONFIG` and `STACK`? Do we add things like `STACK ROTATE` to manipulate the stack?
+ - [ ] **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
+ - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
+ - [ ] **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
+ 
 ## Dependencies
 These modules are used in the hyper app.
 
