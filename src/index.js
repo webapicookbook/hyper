@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**********************************************
- * i-hyper: interactive hypermedia console
+ * hyper: interactive hypermedia console
  * @mamund - 2021-06
  *
  * NOTES:
