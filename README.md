@@ -3,7 +3,7 @@
 _Exploring an interactive REPL/shell for interacting with HTTP-based hypermedia services_
 
 ## Summary
-A simple command-line style shell/REPL for interacting with an online services/APIs. While a fully-functional HTTP client, **hyper** is especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). There are plans to add support for [PRAG+JSON](https://mamund.github.io/prag-json/), [MASH+JSON](https://mamund.github.com/mash-json), and possibly [UBER](http://uberhypermedia.com/) in the future. 
+The **hyper** utility is a simple command-line style shell/REPL for interacting with an online services/APIs. While a fully-functional HTTP client, **hyper** is especially good at dealing with hypermedia services including [Collection+JSON](http://amundsen.com/media-types/collection/), [SIREN](https://github.com/kevinswiber/siren), and [HAL](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-08). There are plans to add support for [PRAG+JSON](https://mamund.github.io/prag-json/), [MASH+JSON](https://mamund.github.com/mash-json), and possibly [UBER](http://uberhypermedia.com/) in the future. 
 
 Along with HTTP- and mediatype-aware commands, **hyper** also supports some convience functionality like SHELL commands, configuration file management, and a LIFO stack to handle local memory variabes. 
 
