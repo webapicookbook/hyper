@@ -99,6 +99,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. CLEAR|FLUSH clears all the items from the stack
  - [x] : support for .. PEEK displays the JSON object at the stop of the stack
  - [x] : support for .. PUSH _{n:v,...}_ adds a new JSON object to the stack
+ - [ ] : support for .. PUSH WITH-REPONSE adds a new item on the stack from the top of the _response_ stack
+ - [ ] : support for .. PUSH WITH-PATH _path-string_ adds a new item on the stack which is the result of the JSONPATH
+ - [ ] : support for .. EXPAND-ARRAY expands the array on the top of the stack into n-items on the stack.
  - [x] : support for .. POP removes the top item from the stack
  - [x] : support for .. LEN|LENGTH returns depth of the stack
  - [x] : support for .. SET _{"n":"v",...}_ update the JSON object on the top of the stack
@@ -174,6 +177,9 @@ Here's a list of things I think need to be done before #HyperLang (as I like to 
  - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
  - [ ] **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
  
+## Mods
+
+ - `STACK PUSH WITH 
 ## Dependencies
 These modules are used in the hyper app.
 
