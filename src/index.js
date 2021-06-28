@@ -371,6 +371,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-HEADERS") {
       try {
         thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
         headers = JSON.parse(thisWord);
       } catch {
         // no-op
@@ -404,6 +405,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-BODY") {
       try {
         thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
         body = thisWord;
         headers["content-type"] = "application/x-www-form-urlencoded";
       } catch {
@@ -415,6 +417,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-QUERY") {
       try {
         thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
         query = querystring.stringify(JSON.parse(thisWord));
         url = url+'?'+query
       } catch {
