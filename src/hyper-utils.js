@@ -99,17 +99,17 @@ function showHelp() {
   ******************************************
 
   ACTIVATE|A|GO|GOTO|CALL -- synonyms
-    WITH-URL url
-    WITH-REL string 
-    WITH-NAME string (only SIREN Actions) 
+    WITH-URL url|$$
+    WITH-REL string|$$ 
+    WITH-NAME string|$$ (only SIREN Actions) 
     WITH-PROFILE (uses confg.profile property)
     WITH-FORMAT (uses config.accept property)
-    WITH-QUERY {n:v,...}
-    WITH-BODY name=value&... OR {"name":"value",...}
-    WITH-HEADERS {"name":"value",...}
-    WITH-ENCODING string
+    WITH-QUERY {n:v,...}|$$
+    WITH-BODY name=value&..|{"name":"value",...}|$$
+    WITH-HEADERS {"name":"value",...}|$$
+    WITH-ENCODING string|$$
     WITH-METHOD string
-    WITH-FORM form-identifier-string
+    WITH-FORM form-identifier-string|$$
     WITH-STACK (uses top stack item for input/query values)
   CLEAR
   SHELL command-string <== "Here be dragons!"

@@ -85,6 +85,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : Initial CLI loop
  - [x] : support for piped scripts (in and out)
  - [x] : support for **#** - comment lines
+ - [x] : support for **EXIT|STOP** - halt and exit with 0
+ - [x] : support for **EXIT-ERR** - halt and exit with 1 
  - [x] : support for **CLEAR** - clears the console
  - [x] : support for **SHELL** _{command}_ simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _{folder/path}_
@@ -110,16 +112,16 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. DUMP _filename_ writes the full stack to disk (defaults to hyper.dmp)
  - [x] : support for .. FILL _filename_ replaces the current stack with contents in disk file (defaults to hyper.dmp)
  - [x] : support for **ACTIVATE**|CALL|GOTO|GO - makes an HTTP request
- - [x] : support for .. WITH-URL _{url}_ - uses URL to make the request
- - [x] : support for .. WITH-REL _{string}_ - uses HREF value on the associated in-doc element (id, name, rel)
- - [x] : support for .. WITH-HEADERS _{n:v,...}_ - request headers
- - [x] : support for .. WITH-QUERY _{n:v,...}_ - query string args as JSON nvps
- - [x] : support for .. WITH-BODY _name=value&..._ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
- - [x] : support for .. WITH-METHOD _{string}_ - to set HTTP method (defaults to GET)
- - [x] : support for .. WITH-ENCODING _{media-type}_ - to set custom encoding for POST/PUT/PATCH
+ - [x] : support for .. WITH-URL _{url}|$$_ - uses URL to make the request
+ - [x] : support for .. WITH-REL _{string}|$$_ - uses HREF value on the associated in-doc element (id, name, rel)
+ - [x] : support for .. WITH-HEADERS _{n:v,...}|$$_ - request headers
+ - [x] : support for .. WITH-QUERY _{n:v,...}|$$_ - query string args as JSON nvps
+ - [x] : support for .. WITH-BODY _name=value&...|$$_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
+ - [x] : support for .. WITH-METHOD _{string}|$$_ - to set HTTP method (defaults to GET)
+ - [x] : support for .. WITH-ENCODING _{media-type}|$$_ - to set custom encoding for POST/PUT/PATCH
  - [x] : support for .. WITH-FORMAT - sets `accept` header w/ config value
  - [x] : support for .. WITH-PROFILE - sets `link` profile header w/ config value
- - [x] : support for .. WITH-FORM _{name}_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
+ - [x] : support for .. WITH-FORM _{name}|$$_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
  - [x] : support for .. WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [x] : support for **DISPLAY** (PEEK) - show saved reponse (from top of the LIFO stack)
  - [x] : support for .. URL - returns actual URL of the response
@@ -164,7 +166,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  
  ## Other possible features in the future
  - [ ] : support for URITemplates - required for HAL (and other formats?)
- - [ ] : support for _$${name}$$_ returns the value of the config or stack item named 
+ - [x] : support for _$${name}$$_ returns the value of the config item named 
  - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
