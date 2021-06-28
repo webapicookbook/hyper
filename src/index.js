@@ -82,7 +82,10 @@ rl.on('line', (line) => {
   switch (words[0].toUpperCase()) {
     case "#":
     case "":
-      break;  
+      break;
+    case "EXIT-ERR":
+      process.exit(1);
+      break;
     case "EXIT":
     case "STOP":
       process.exit(0)
@@ -216,7 +219,8 @@ function activate(words) {
     // pull form metadata (strong-typed)
     if(thisWord && thisWord.toUpperCase()==="WITH-FORM") {
       // set up  url, method, headers, encoding from identified form
-      thisWord = words[pointer++];      
+      thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
       form = {};
       
       try {
@@ -260,6 +264,7 @@ function activate(words) {
     // activate via ID (for SIREN only)
     if(thisWord && thisWord.toUpperCase()==="WITH-ID") {
       thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
       url = "with-id";
       
       try {
@@ -268,7 +273,7 @@ function activate(words) {
         ctype = responses.peek().headers["content-type"];
         // siren
         if(ctype.indexOf("vnd.siren+json")!==-1) {
-          token = "$.entities.*[?(@property==='id'&&@.match(/"+words[2]+"/i))]^"
+          token = "$.entities.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
           url = JSONPath({path:token, json:response})[0].href;
           if(url.toLowerCase()==="with-name") {
             rt = "no response";
@@ -284,6 +289,7 @@ function activate(words) {
     // activate via name
     if(thisWord && thisWord.toUpperCase()==="WITH-NAME") {
       thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
       url = "with-name";
       
       try {
@@ -308,6 +314,8 @@ function activate(words) {
     // activate via rel
     if(thisWord && thisWord.toUpperCase()==="WITH-REL") {
       thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
+
       try {
         response = JSON.parse(responses.peek().getBody('UTF8'));
         // strong-type the body here
@@ -418,6 +426,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-METHOD") {
       try {
         thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
         if(thisWord.toLowerCase()==="put-c" || thisWord.toLowerCase()==="put-create") {
           method="PUT";
           headers["if-none-match"]="*";
@@ -432,6 +441,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-ENCODING") {
       try {
         thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
         headers["content-type"] = thisWord;
       } catch {
         // no-op
