@@ -28,6 +28,7 @@ const display = require('./display');
 const cjCommands = require('./cj-commands');
 const halCommands = require('./hal-commands');
 const sirenCommands = require('./siren-commands');
+const wstlCommands = require('./wstl-commands');
 
 // state vars
 var responses = new Stack();
@@ -119,6 +120,9 @@ rl.on('line', (line) => {
       break;  
     case "SIREN":
       console.log(runModule(sirenCommands, words));
+      break;
+    case "WSTL":
+      console.log(runModule(wstlCommands, words));
       break;
     case "A":
     case "GO":
@@ -418,6 +422,9 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        try {
+          thisWord = JSON.stringify(thisWord)
+        } catch {}
         query = querystring.stringify(JSON.parse(thisWord));
         url = url+'?'+query
       } catch {

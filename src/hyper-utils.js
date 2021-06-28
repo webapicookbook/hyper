@@ -99,38 +99,38 @@ function showHelp() {
   ******************************************
 
   ACTIVATE|A|GO|GOTO|CALL -- synonyms
-    WITH-URL url|$$
-    WITH-REL string|$$ 
-    WITH-NAME string|$$ (only SIREN Actions) 
+    WITH-URL <url|$$>
+    WITH-REL <string|$$> 
+    WITH-NAME <string|$$> (only SIREN Actions) 
     WITH-PROFILE (uses confg.profile property)
     WITH-FORMAT (uses config.accept property)
-    WITH-QUERY {n:v,...}|$$
-    WITH-BODY name=value&..|{"name":"value",...}|$$
-    WITH-HEADERS {"name":"value",...}|$$
-    WITH-ENCODING string|$$
-    WITH-METHOD string
-    WITH-FORM form-identifier-string|$$
+    WITH-QUERY <{n:v,...}|$$>
+    WITH-BODY <name=value&..|{"name":"value",...}|$$>
+    WITH-HEADERS <{"name":"value",...}|$$>
+    WITH-ENCODING <string|$$>
+    WITH-METHOD <string>
+    WITH-FORM <form-identifier-string|$$>
     WITH-STACK (uses top stack item for input/query values)
   CLEAR
   SHELL command-string <== "Here be dragons!"
-    LS || DIR folder-string
+    LS || DIR [folder-string]
   CONFIG
     READ
-    SET {"name":"value",...}
-    REMOVE string 
+    SET <{"name":"value",...}>
+    REMOVE <string> 
     CLEAR (removes all settings)
     RESET (resets to default settings : "hyper.cfg")
-    FILE|LOAD (file-string) : defaults to "hyper.cfg"
-    SAVE|WRITE (file-string) : defaults to "hyper.cfg"
+    FILE|LOAD [file-string] : defaults to "hyper.cfg"
+    SAVE|WRITE [file-string] : defaults to "hyper.cfg"
   STACK 
     PEEK 
     PUSH
     POP
-    SET {"n":"v",...}
-    LOAD|FILE file-string : defaults to hyper.dat
-    SAVE|WRITE file-string : defaults to hyper.dat
-    DUMP file-string : defaults to hyper.dmp
-    FILL file-string : defaults to hyper.dmp
+    SET <{"n":"v",...}>
+    LOAD|FILE [file-string] : defaults to hyper.dat
+    SAVE|WRITE [file-string] : defaults to hyper.dat
+    DUMP [file-strin]g : defaults to hyper.dmp
+    FILL [file-string] : defaults to hyper.dmp
     CLEAR|FLUSH
     LEN|LENGTH
   DISPLAY
@@ -141,29 +141,29 @@ function showHelp() {
     PEEK
     POP
     LENGTH|LEN
-    PATH jsonpath-string
+    PATH <jsonpath-string>
   CJ
     METADATA
     LINKS
     ITEMS
     QUERIES
     TEMPLATE
-    REL string
-    PATH jsonpath-string
+    REL <string>
+    PATH <jsonpath-string>
   HAL
-    LINKS || _LINKS
-    ENBEDDED || _EMBEDDED
-    REL || ID || KEY string
-    PATH jsonpath-string
+    LINKS|_LINKS
+    ENBEDDED|_EMBEDDED
+    REL|ID|KEY <string>
+    PATH <jsonpath-string>
   SIREN
     LINKS
     ENTITIES
     ACTIONS
     PROPERTIES
-    ID string (for Entities)
-    REL string (for Links)
-    NAME string (for Actions)
-    PATH jsonpath-string
+    ID <string> (for Entities)
+    REL <string> (for Links)
+    NAME <string> (for Actions)
+    PATH <jsonpath-string>
 `;
   return rt;
 }

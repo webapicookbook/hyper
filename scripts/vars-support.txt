@@ -1,0 +1,24 @@
+#
+# testing support for config vars
+#
+
+CONFIG
+CONFIG SET {"user-url":"http://rwcbook10.herokuapp.com/user/"}
+CONFIG SET {"user-filter":{"email":"mamund"}}
+CONFIG SET {"user-add":"userAddForm"}
+CONFIG SET {"user-body":"nick=mamund&name=mamunda&password=m@m*nd&email=mamund@example.org"}
+CONFIG SET {"encoding":"application/x-www-form-urlencoded"}
+
+ACTIVATE WITH-URL $$user-url$$
+
+ACTIVATE WITH-URL $$user-url$$ WITH-BODY $$user-body$$ WITH-METHOD POST WITH-ENCODING $$encoding$$
+
+ACTIVATE WITH-URL $$user-url$$ WITH-QUERY $$user-filter$$
+SIREN PROPERTIES
+
+CONFIG SET {"verbose":"true"}
+ACTIVATE http://rwcbook10.herokuapp.com/user/mamund WITH-METHOD DELETE
+
+#
+# EOF
+# 
