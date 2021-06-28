@@ -11,6 +11,7 @@ exports.runShell = runShell;
 exports.echo = echo;
 exports.showHelp = showHelp;
 exports.timeStamp = timeStamp;
+exports.configValue = configValue;
 
 // clean up any supplied URL
 function fixUrl(url) {
@@ -68,6 +69,25 @@ function timeStamp() {
   return Date.now().toString(36)
 }
 
+// pluck config value from varpointer
+// args: {config:config,value:value}
+function configValue(args) {
+  var rt = "";
+  config = args.config||{};
+  val = args.value||"";
+  rt = val;  
+  
+  if(config!=={} && val!=="" && val.length>4) {
+    if(val.substring(0,2)==="$$" &&  val.substring(val.length-2)==="$$") {
+      val = val.substring(2,val.length-2);
+      rt = config[val]||val;
+    } 
+    else {
+      rt = val;
+    }  
+  }
+  return rt;
+}
 
 // display help content
 function showHelp() {

@@ -216,7 +216,7 @@ function activate(words) {
     // pull form metadata (strong-typed)
     if(thisWord && thisWord.toUpperCase()==="WITH-FORM") {
       // set up  url, method, headers, encoding from identified form
-      thisWord = words[pointer++];
+      thisWord = words[pointer++];      
       form = {};
       
       try {
@@ -229,14 +229,7 @@ function activate(words) {
           form = JSONPath({path:token, json:response})[0];
           if(form && form.href) {
             url = form.href;  
-            if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-              if(url.indexOf("//")==-1) {
-                url = "http://" + url;
-              }
-              else {
-                url = "http:" + url;
-              }
-            }
+            url = utils.fixUrl(url);
           }
           else {
             url = "#";
@@ -357,8 +350,10 @@ function activate(words) {
     }
     // url
     if(thisWord && thisWord.toUpperCase()==="WITH-URL") {
+
       try {
         url = words[pointer++];
+        url = utils.configValue({config:config,value:url})
         url = utils.fixUrl(url);
       } catch {
         // no-op
