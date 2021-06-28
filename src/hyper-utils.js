@@ -141,29 +141,37 @@ function showHelp() {
     PEEK
     POP
     LENGTH|LEN
-    PATH <jsonpath-string>
+    PATH <jsonpath-string|$>
   CJ
     METADATA
     LINKS
     ITEMS
     QUERIES
     TEMPLATE
-    REL <string>
-    PATH <jsonpath-string>
+    REL <string|$>
+    PATH <jsonpath-string|$>
   HAL
     LINKS|_LINKS
     ENBEDDED|_EMBEDDED
-    REL|ID|KEY <string>
-    PATH <jsonpath-string>
+    REL|ID|KEY <string|$>
+    PATH <jsonpath-string|$>
   SIREN
     LINKS
     ENTITIES
     ACTIONS
     PROPERTIES
-    ID <string> (for Entities)
-    REL <string> (for Links)
-    NAME <string> (for Actions)
-    PATH <jsonpath-string>
+    ID <string|$> (for Entities)
+    REL <string|$> (for Links)
+    NAME <string|$> (for Actions)
+    PATH <jsonpath-string|$>
+  WSTL
+    TITLE
+    DATA
+    CONTENT
+    ACTIONS
+    RELATED
+    ID|REL|NAME <string|$>
+    PATH <json-path|$>
 `;
   return rt;
 }

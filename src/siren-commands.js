@@ -5,6 +5,7 @@
 // imports
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
+const utils = require('./hyper-utils');
 
 // exports
 module.exports = main;
@@ -25,6 +26,7 @@ function main(args) {
   var token = words[1]||"";
   var response;
   var node = {};
+  var thisWord = "";
 
   try {
     response = responses.peek();
@@ -46,7 +48,9 @@ function main(args) {
       rt = JSON.parse(response.getBody('UTF8')).entities;
       break;
     case "ID": // entities -- by convention, tho
-      token = "$.entities.*[?(@property==='id'&&@.match(/"+words[2]+"/i))]^"
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      token = "$.entities.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
          try {
           rt = JSON.parse(response.getBody('UTF8'));
@@ -60,7 +64,9 @@ function main(args) {
       }
       break;
     case "NAME": // actions
-      token = "$.actions.*[?(@property==='name'&&@.match(/"+words[2]+"/i))]^"
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
          try {
           rt = JSON.parse(response.getBody('UTF8'));
@@ -98,6 +104,7 @@ function main(args) {
       break;
     case "PATH":  
       token = words[2]||"$";
+      token = utils.configValue({config:config,value:token});
       console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));

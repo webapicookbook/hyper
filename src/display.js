@@ -5,6 +5,7 @@
 // imports
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
+const utils = require('./hyper-utils');
 
 // exports
 module.exports = main;
@@ -61,6 +62,7 @@ function main(args) {
       break;  
     case "PATH":
       token = words[2]||"$";
+      token = utils.configValue({config:config,value:token});
       console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));

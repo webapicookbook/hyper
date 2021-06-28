@@ -2,14 +2,15 @@
  * collection-json module
  *****************************************/
  
- // imports
+// imports
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
+const utils = require('./hyper-utils');
 
- // exports
- module.exports = main;
+// exports
+module.exports = main;
  
- // internals
+// internals
 var responses = new Stack();
 var dataStack = new Stack();
 var config = {};
@@ -26,6 +27,7 @@ function main(args) {
   var index = 0;
   var token = words[1]||"";
   var response;
+  var thisWord = "";
 
   try {
     response = responses.peek();
@@ -58,7 +60,9 @@ function main(args) {
     case "REL":
     case "ID":
     case "NAME":
-      token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+words[2]+"/i))]^";
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      token  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+thisWord+"/i))]^";
       if("rel id name".toLowerCase().indexOf(token.toLowerCase)===-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
@@ -73,6 +77,7 @@ function main(args) {
       break;
     case "PATH":  
       token = words[2]||"$";
+      token = utils.configValue({config:config,value:token});
       console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));

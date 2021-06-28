@@ -5,11 +5,12 @@
 // imports
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
+const utils = require('./hyper-utils');
 
- // exports
- module.exports = main;
+// exports
+module.exports = main;
  
- // internals
+// internals
 var responses = new Stack();
 var dataStack = new Stack();
 var config = {};
@@ -25,7 +26,8 @@ function main(args) {
   var rt = {};
   var token = words[1]||"";
   var response;
-  
+  var thisWord = "";
+
   try {
     response = responses.peek();
   } catch {
@@ -43,8 +45,10 @@ function main(args) {
       break;
     case "REL":
     case "ID":
-    case "KEY":  
-      token  = "$..*[?(@property==='"+words[2]+"')]";
+    case "KEY":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      token  = "$..*[?(@property==='"+thisWord+"')]";
       if("rel id key".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
@@ -59,6 +63,7 @@ function main(args) {
       break;
     case "PATH":  
       token = words[2]||"$";
+      token = utils.configValues({config:config,value:thisWord});
       console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));
