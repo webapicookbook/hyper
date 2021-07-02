@@ -81,7 +81,6 @@ function main(args) {
       rt = JSON.parse(response.getBody('UTF8'))._embedded;
       break;
     case "REL":
-    case "ID":
     case "KEY":
     case "NAME":
       thisWord = words[2];
@@ -99,29 +98,54 @@ function main(args) {
         rt = "no response";
       }  
       break;
+    case "ID":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      token  = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt})[0];
+      } catch {
+        // no-op
+      }
+      break;    
     case "KEYS":
       rt = JSON.parse(response.getBody('UTF8'));
       var final = [];
+      var rel = {};
       try {
-        rt = Object.keys(rt);
-        for(var i=0; i<rt.length; i++) {
-          var rel = rt[i];
-          //for(var j=0; j<rel.length; j++) {
-            if(final.indexOf(rel)===-1) {
-              final.push(rel);
-          //  }    
+        var list = Object.keys(rt._links);
+        for(var i=0; i<list.length; i++) {
+          rel = list[i];
+          if(final.indexOf(rel)===-1) {
+            final.push(rel);
+          }
+        }
+        list = Object.keys(rt._embedded)
+        for(var i=0; i<list.length; i++) {
+          rel = list[i];
+          if(final.indexOf(rel)===-1) {
+            final.push(rel);
           }
         }
         rt = final;        
       } catch (err){
         // no-op
-        // console.log(err);
+        console.log(err);
+      }
+      break;
+    case "IDS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='id')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
       }
       break;
     case "PATH":  
       token = words[2]||"$";
-      token = utils.configValue({config:config,value:thisWord});
-      console.log(token);
+      token = utils.configValue({config:config,value:token});
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
