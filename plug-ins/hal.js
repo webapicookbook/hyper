@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel};
+module.exports = {main, mediaType, withRel, withId, withName};
  
 // internals
 var responses = new Stack();
@@ -20,11 +20,36 @@ function mediaType() {
   return "application/vnd.hal+json";
 }
 
+// support for WITH-REL
 function withRel(args) {
   var response = args.response;
   var thisWord = args.thisWord;
   var path = "$..*[?(@property==='"+thisWord+"')].href";
   return JSONPath({path:path,json:response})[0];
+}
+
+// soft support for WITH-ID
+// just use REL instead
+function withId(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var path = "$..*[?(@property==='"+thisWord+"')].href";
+  return JSONPath({path:path,json:response})[0];
+}
+
+// no support for WITH-NAME in HAL
+// just use REL instead
+function withName(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var path = "$..*[?(@property==='"+thisWord+"')].href";
+  return JSONPath({path:path,json:response})[0];
+}
+
+// support for WITH-FORM
+// no support for forms in HAL
+// consider supporting HAL-FORMS instead
+function withForm(args) {
 }
 
 // display and parse a HAL response
@@ -58,6 +83,7 @@ function main(args) {
     case "REL":
     case "ID":
     case "KEY":
+    case "NAME":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
       token  = "$..*[?(@property==='"+thisWord+"')]";
@@ -72,6 +98,25 @@ function main(args) {
       else {
         rt = "no response";
       }  
+      break;
+    case "KEYS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      var final = [];
+      try {
+        rt = Object.keys(rt);
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          //for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel)===-1) {
+              final.push(rel);
+          //  }    
+          }
+        }
+        rt = final;        
+      } catch (err){
+        // no-op
+        // console.log(err);
+      }
       break;
     case "PATH":  
       token = words[2]||"$";

@@ -49,7 +49,7 @@ function withName(args) {
 }
 
 // support WITH-FORM
-// queries in CJ
+// only queries in CJ 
 function withForm(args) {
   var response = args.response;
   var thisWord = args.thisWord
@@ -90,6 +90,12 @@ function withForm(args) {
   return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
 }
  
+// support WITH-TEMPLATE 
+// special CJ templating support
+// WITH-TEMPLATE CREATE|UPDATE|DELETE
+function withTemplate(args) {
+}
+
 // display a parse CollectionJSON object
 // CJ {command}
 // args: {responses:responses,dataStack:dataStack,config:config,words:words}
