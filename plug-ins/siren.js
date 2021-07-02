@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel, withId};
+module.exports = {main, mediaType, withRel, withId, withName, withForm};
 
 // internals
 var responses = new Stack();
@@ -44,7 +44,6 @@ function withRel(args) {
   return url;
 }
 
-
 // support for WITH-ID
 function withId(args) {
   var response = args.response;
@@ -59,6 +58,62 @@ function withId(args) {
     console.log(err);
   }
   return rt; 
+}
+
+// support for WITH-NAME
+function withName(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  thisWord = utils.configValue({config:config,value:thisWord});
+  var token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
+  try {
+    rt = JSONPath({path:token, json:response})[0].href;
+  } catch (err){
+    // no-op
+    console.log(err);
+  }
+  return rt; 
+}
+
+// support WITH-FORM
+function withForm(args) {
+  var response = args.response;
+  var thisWord = args.thisWord
+  var headers = args.headers;
+  var method = args.method;
+  var body = args.body;
+  var fields = args.fields
+  var fieldSet = args.fieldSet;
+  var url = args.url;
+  var action, form;
+  var path = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+
+  form = JSONPath({path:path, json:response})[0];
+  if(form && form.href) {
+    url = form.href;  
+    url = utils.fixUrl(url);
+  }
+  else {
+    url = "#";
+  }          
+  if(form && form.method) {
+    method = form.method;
+  }
+  else {
+    method = "GET";
+  }
+  if(form && form.fields) {
+    fields = form.fields; // we'll use these later
+    fields.forEach(function dataField(f) {
+      fieldSet[f.name] = "";
+    });
+  }
+  if(form & form.type) {
+    if(form.type!=="") {
+      headers["content-type"] = form.type;
+    } 
+  }
+  return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
 }
 
 // display and parse a SIREN response
@@ -123,8 +178,18 @@ function main(args) {
     case "RELS":
       rt = JSON.parse(response.getBody('UTF8'));
       token = "$..*[?(@property==='rel')]";
+      var final = [];
       try {
         rt = JSONPath({path:token,json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }
+        rt = final;        
       } catch {
         // no-op
       }
@@ -200,12 +265,14 @@ function main(args) {
       }
       break;
     default:  
+      /*
       try {
         response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
+      */
   }
   return {responses:responses,dataStack:dataStack,config:config,words:words,rt:JSON.stringify(rt, null, 2)};
 }

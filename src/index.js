@@ -226,33 +226,21 @@ function activate(words) {
         // strong-type the body here
         response = JSON.parse(responses.peek().getBody('UTF8'));
         ctype = responses.peek().headers["content-type"];
-        // siren
-        if(ctype.indexOf("vnd.siren+json")!==-1) {
-          token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
-          form = JSONPath({path:token, json:response})[0];
-          if(form && form.href) {
-            url = form.href;  
+        
+        // loop through plugins for WITH-FORM support
+        for(var p in plugins) {
+          if(ctype.indexOf(plugins[p].mediaType())!==-1) {
+            var formObject = plugins[p].withForm(
+              {response:response, thisWord:thisWord, headers:headers, method:method, 
+              body:body, url:url, fields:fields, fieldSet:fieldSet}
+            );
+            headers = formObject.headers||[];
+            method = formObject.method||"GET";
+            body = formObject.body||{};
+            fields = formObject.fields||[];
+            fieldSet = formObject.fieldSet||{};
+            url = formObject.url||"";
             url = utils.fixUrl(url);
-          }
-          else {
-            url = "#";
-          }          
-          if(form && form.method) {
-            method = form.method;
-          }
-          else {
-            method = "GET";
-          }
-          if(form && form.fields) {
-            fields = form.fields; // we'll use these later
-            fields.forEach(function dataField(f) {
-              fieldSet[f.name] = "";
-            });
-          }
-          if(form & form.type) {
-            if(form.type!=="") {
-              headers["content-type"] = form.type;
-            } 
           }
         }
       } catch {
@@ -260,7 +248,7 @@ function activate(words) {
       }       
     }
 
-    // activate via ID (for SIREN only)
+    // activate via ID
     if(thisWord && thisWord.toUpperCase()==="WITH-ID") {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
@@ -271,6 +259,7 @@ function activate(words) {
         response = JSON.parse(responses.peek().getBody('UTF8'));
         ctype = responses.peek().headers["content-type"];
 
+        /// loop through plug-ins for WITH-ID support
         for(var p in plugins) {
           if(ctype.indexOf(plugins[p].mediaType())!==-1) {
             url = plugins[p].withId({response:response, thisWord:thisWord});
@@ -291,11 +280,13 @@ function activate(words) {
         // strong-type the body here
         response = JSON.parse(responses.peek().getBody('UTF8'));
         ctype = responses.peek().headers["content-type"];
-        // siren
-        if(ctype.indexOf("vnd.siren+json")!==-1) {
-          token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
-          url = JSONPath({path:token, json:response})[0].href;
-        }
+
+        // loop through plugins for WITH-NAME support
+        for(var p in plugins) {
+          if(ctype.indexOf(plugins[p].mediaType())!==-1) {
+            url = plugins[p].withName({response:response, thisWord:thisWord});
+          }
+        }        
         if(url.toLowerCase()==="with-name") {
           rt = "no response";
         }
@@ -314,7 +305,8 @@ function activate(words) {
       try {
         response = JSON.parse(responses.peek().getBody('UTF8'));
         ctype = responses.peek().headers["content-type"];
-        
+
+        // loop through plugins for WITH-REL support        
         for(var p in plugins) {
           if(ctype.indexOf(plugins[p].mediaType())!==-1) {
             url = plugins[p].withRel({response:response, thisWord:thisWord});
@@ -392,13 +384,11 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
-        try {
-          thisWord = JSON.stringify(thisWord)
-        } catch {}
         query = querystring.stringify(JSON.parse(thisWord));
-        url = url+'?'+query
-      } catch {
+        url = url+'?'+query;
+      } catch (err) {
         // no-op
+        console.log(err);
       }
     }
     // add method

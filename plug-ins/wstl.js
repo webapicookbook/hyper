@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel, withId};
+module.exports = {main, mediaType, withRel, withId, withName, withForm};
  
 // internals
 var responses = new Stack();
@@ -20,6 +20,7 @@ function mediaType() {
   return "application/vnd.wstl+json";
 } 
 
+// support WITH-REL
 function withRel(args) {
   var response = args.response;
   var thisWord = args.thisWord;
@@ -43,18 +44,96 @@ function withRel(args) {
   return url;
 }
 
+// support WITH-ID
 function withId(args) {
   var response = args.response;
-  var thisWord = args.withWord;
+  var thisWord = args.thisWord;
   var path = "$.data.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^";
+  var url = "";
+  
   try {
-    rt = JSONPath({path:path,json:response})[0].href;
+    url = JSONPath({path:path,json:response})[0].href;
   } catch {
     // no-op
   }
-  return rt;
+  return url;
 }
 
+// support WITH-NAME
+function withName(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var path = "$..*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+  var url = "";
+  
+  try {
+    url = JSONPath({path:path,json:response})[0].href;
+  } catch (err) {
+    // no-op
+    // console.log(err);
+  }
+  return url;
+}
+
+// support WITH-FORM
+function withForm(args) {
+  var response = args.response;
+  var thisWord = args.thisWord
+  var headers = args.headers;
+  var method = args.method;
+  var body = args.body;
+  var fields = args.fields
+  var fieldSet = args.fieldSet;
+  var url = args.url;
+  var action, form;
+  var path = "$.wstl.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+
+  form = JSONPath({path:token, json:response})[0];
+  if(form && form.href) {
+    url = form.href;  
+    url = utils.fixUrl(url);
+  }
+  else {
+    url = "#";
+  }          
+  if(form && form.action) {
+    action = form.action.toLowerCase(); // resolve for action words
+    switch (action) {
+      case "add":
+      case "append":
+        method = "POST";
+        break;
+      case "update":
+        method = "PUT";
+        break;
+      case "remove":
+        method = "DELETE";
+        break;
+      case "diff":
+        method = "PATCH";
+        break;      
+      case "read":
+      default:
+        method = "GET";
+        break;
+    }          
+  }
+  if(form && form.inputs) { // resolve for **inputs**
+    fields = form.inputs; // we'll use these later
+    fields.forEach(function dataField(f) {
+      fieldSet[f.name] = "";
+    });
+  }
+  if(form & form.format) {
+    if(form.format!=="") {
+      headers["content-type"] = form.format;
+    }
+    else {
+      headers["content-type"] = "application/x-www-form-urlencoded";
+    } 
+  }
+  return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
+}
 // display a parse WeSTL-JSON object
 // WSTL {command}
 // args: {responses:responses,dataStack:dataStack,config:config,words:words}
@@ -101,6 +180,15 @@ function main(args) {
         // no-op
       }
       break;  
+    case "FORMS":  
+      token = "$.wstl.actions.*[?(@property==='name')]";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;  
     case "IDS":
       token = "$..*[?(@property==='id')]";
       try {
@@ -112,13 +200,35 @@ function main(args) {
       break;  
     case "RELS":
       token = "$..*[?(@property==='rel')]";
+      var final = [];
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }
+        rt = final;
+      } catch (err){
+        // no-op
+        //console.log(err);
+      }
+      break;  
+    case "FORM":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      path  = "$.wstl.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:path, json:rt})[0];
       } catch {
         // no-op
       }
-      break;  
+      break;
     case "ID":
     case "NAME":
       thisWord = words[2];
