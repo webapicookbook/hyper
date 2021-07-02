@@ -113,7 +113,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. FILL _[filename]_ replaces the current stack with contents in disk file (defaults to hyper.dmp)
  - [x] : support for **ACTIVATE**|CALL|GOTO|GO - makes an HTTP request
  - [x] : support for .. WITH-URL _<url}|$>_ - uses URL to make the request
- - [x] : support for .. WITH-REL _<string|$>_ - uses HREF value on the associated in-doc element (id, name, rel)
+ - [x] : support for .. WITH-REL _<string|$>_ - uses HREF value on the associated in-doc element 
+ - [x] : support for .. WITH-ID _<string|$>_ - uses HREF value on the associated in-doc element
+ - [x] : support for .. WITH-NAME _<string|$>_ - uses HREF value on the associated in-doc element
  - [x] : support for .. WITH-HEADERS _<{n:v,...}|$>_ - request headers
  - [x] : support for .. WITH-QUERY _<{n:v,...}|$>_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _<name=value&...|$>_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
@@ -140,11 +142,13 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ERROR returns error object from a collection+JSON response
  - [x] : support for .. RELATED returns the related object from a collection+JSON response
  - [x] : support for .. ID|NAME|REL _<string|$>_ returns results of a pre-set JSONPath query (shorthand)
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a collection+JSON response
  - [x] : support for **HAL** returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
  - [x] : support for .. LINKS returns links array from a HAL response
  - [x] : support for .. EMBEDDED returns items array from a HAL response
  - [x] : support for .. KEY|ID|REL _<string|$>_ returns results of a pre-set JSONPath query (shorthand)
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a HAL response
  - [x] : support for **SIREN** returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
  - [x] : support for .. LINKS returns links array from a SIREN response
@@ -154,6 +158,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ID _<string|$>_ returns an entity associated with the ID
  - [x] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [x] : support for .. NAME _<string|$>_ returns an action associated with the NAME
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [x] : support for **WSTL** returns a strong-typed version of response from top of the stack (`vnd.wstl+json`)
  - [x] : support for .. TITLE returns title string from a WSTL response
@@ -164,7 +169,17 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ID _<string|$>_ returns an entity associated with the ID
  - [x] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [x] : support for .. NAME _<string|$>_ returns an action associated with the NAME
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a WSTL response
+ - [ ] : support for **MASH** returns a strong-typed version of response from top of the stack (`vnd.mash+json`)
+ - [ ] : support for .. METADATA returns metadata array from a response
+ - [ ] : support for .. LINKS returns links array from a response
+ - [ ] : support for .. ITEMS returns items array from a response
+ - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
+ - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
+ - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [ ] : support for **PRAG** returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
  - [ ] : support for .. METADATA returns metadata array from a PRAG response
  - [ ] : support for .. LINKS returns links array from a PRAG response
@@ -172,6 +187,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
  - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
  - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  
  ## Other possible features in the future
@@ -184,7 +200,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
 ## TODO Items
 Here's a list of things I think need to be done before #HyperLang (as I like to call it) is "complete":
 
- - [ ] **Variables** : Current `STACK` support is a good start, can we address sub items with `$$varName$$`? Can this work for both `CONFIG` and `STACK`? Do we add things like `STACK ROTATE` to manipulate the stack?
+ - [x] **Variables** : Current `STACK` support is a good start, can we address sub items with `$$varName$$`? Can this work for both `CONFIG` and `STACK`? Do we add things like `STACK ROTATE` to manipulate the stack?
  - [ ] **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
  - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
  - [ ] **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
