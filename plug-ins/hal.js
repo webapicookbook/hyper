@@ -29,7 +29,7 @@ function withRel(args) {
 
 // display and parse a HAL response
 // HAL {command}
-// args: {responses:responses,dataStack:dataStack,words:words}
+// args: {responses:responses,dataStack:dataStack,config:config,words:words}
 function main(args) {
   config = args.config;
   responses = args.responses;
@@ -84,13 +84,16 @@ function main(args) {
         // no-op
       }
       break;
-    default:  
+    default: 
+      /* 
       try {
         response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
+      */
+      rt = "";
   }
   return {responses:responses, dataStack:dataStack, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
 }

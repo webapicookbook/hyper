@@ -421,19 +421,22 @@ function activate(words) {
 
   if(config.verbose!=="false") {
     console.log("\n******************");
-    console.log(url);
-    console.log(query);
-    console.log(headers);
-    console.log(method);
-    console.log(body);
+    console.log("URL: " + url);
+    console.log("QUERY: " + query);
+    console.log("HEADERS: " + headers);
+    console.log("METHOD: " + method);
+    console.log("BODY: " + body);
     console.log("******************\n");
   }
     
   // make the actual call
   try {
-    if(body) {
+    if(body && method.toUpperCase()!=="GET") {
       response = request(method, url, {headers:headers, body:body});
     } else {
+      if(body) {
+        url = url + querystring.stringify(body);
+      }
       response = request(method, url, {headers:headers});
     }
     responses.push(response);

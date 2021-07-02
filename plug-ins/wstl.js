@@ -273,13 +273,16 @@ function main(args) {
         // no-op
       }
       break;
-    default:  
+    default: 
+    /* 
       try {
         response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
+      */
+      rt = "";
   }
   return {responses:responses, dataStack:dataStack, config:config, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
 }

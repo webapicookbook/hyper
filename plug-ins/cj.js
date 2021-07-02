@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel};
+module.exports = {main, mediaType, withRel, withId, withForm};
  
 // internals
 var responses = new Stack();
@@ -25,6 +25,69 @@ function withRel(args) {
  var thisWord = args.thisWord;
  var path = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
  return JSONPath({path:path,json:response})[0].href;
+}
+
+// support WITH-ID 
+// soft support (items MAY have ids)
+function withId(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  thisWord = utils.configValue({config:config,value:thisWord});
+  var token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  try {
+    rt = JSONPath({path:token, json:response})[0].href;
+  } catch (err){
+    // no-op
+    // console.log(err);
+  }
+  return rt; 
+}
+
+// support WITH-NAME
+function withName(args) {
+  // no support for name -> href in CJ
+}
+
+// support WITH-FORM
+// queries in CJ
+function withForm(args) {
+  var response = args.response;
+  var thisWord = args.thisWord
+  var headers = args.headers;
+  var method = args.method;
+  var body = args.body;
+  var fields = args.fields
+  var fieldSet = args.fieldSet;
+  var url = args.url;
+  var action, form;
+  var path = "$.collection.queries.*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+
+  form = JSONPath({path:path, json:response})[0];
+  if(form && form.href) {
+    url = form.href;  
+    url = utils.fixUrl(url);
+  }
+  else {
+    url = "#";
+  }          
+  if(form && form.method) {
+    method = form.method;
+  }
+  else {
+    method = "GET";
+  }
+  if(form && form.data) {
+    fields = form.data; // we'll use these later
+    fields.forEach(function dataField(f) {
+      fieldSet[f.name] = "";
+    });
+  }
+  if(form & form.type) {
+    if(form.type!=="") {
+      headers["content-type"] = form.type;
+    } 
+  }
+  return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
 }
  
 // display a parse CollectionJSON object
@@ -87,6 +150,58 @@ function main(args) {
         rt = "no response";
       }  
       break;
+    case "IDS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='id')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    case "RELS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='rel')]";
+      var final = [];
+      try {
+        rt = JSONPath({path:token,json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          rel = rel.split(" ");
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }  
+        rt = final;  
+      } catch (err) {
+        // no-op
+        // console.log(err)
+      }
+      break;
+    case "NAMES":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='name')]";
+      var final = [];
+      try {
+        rt = JSONPath({path:token,json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          rel = rel.split(" ");
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }  
+        rt = final;  
+      } catch (err) {
+        // no-op
+        // console.log(err)
+      }
+      break;
+      
     case "PATH":  
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
@@ -98,13 +213,16 @@ function main(args) {
         // no-op
       }
       break;
-    default:  
+    default:
+      /*  
       try {
         response = responses.peek()
         rt = JSON.parse(response.getBody("UTF8"));
       } catch {
         rt = "no response";
       }
+      */
+      rt = "";
   }
   return {responses:responses, dataStack:dataStack, config:config, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
 }

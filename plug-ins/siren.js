@@ -55,7 +55,7 @@ function withId(args) {
     rt = JSONPath({path:token, json:response})[0].href;
   } catch (err){
     // no-op
-    console.log(err);
+    // console.log(err);
   }
   return rt; 
 }
@@ -118,8 +118,9 @@ function withForm(args) {
 
 // display and parse a SIREN response
 // SIREN {command}
-// args:{responses:responses,dataStack:dataStack,words:words}
+// args: {responses:responses,dataStack:dataStack,config:config,words:words}
 function main(args) {
+  config = args.config;
   responses = args.responses;
   dataStack = args.dataStack;
   var words = args.words;
@@ -190,8 +191,9 @@ function main(args) {
           }
         }
         rt = final;        
-      } catch {
+      } catch (err){
         // no-op
+        // console.log(err);
       }
       break;
     case "ID": // entities -- by convention, tho
@@ -273,6 +275,7 @@ function main(args) {
         rt = "no response";
       }
       */
+      rt = "";
   }
   return {responses:responses,dataStack:dataStack,config:config,words:words,rt:JSON.stringify(rt, null, 2)};
 }
