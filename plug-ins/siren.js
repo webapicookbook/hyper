@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel};
+module.exports = {main, mediaType, withRel, withId};
 
 // internals
 var responses = new Stack();
@@ -44,6 +44,23 @@ function withRel(args) {
   return url;
 }
 
+
+// support for WITH-ID
+function withId(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  thisWord = utils.configValue({config:config,value:thisWord});
+  var token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  console.log(token);
+  try {
+    rt = JSONPath({path:token, json:response})[0].href;
+  } catch (err){
+    // no-op
+    console.log(err);
+  }
+  return rt; 
+}
+
 // display and parse a SIREN response
 // SIREN {command}
 // args:{responses:responses,dataStack:dataStack,words:words}
@@ -70,13 +87,50 @@ function main(args) {
     case "PROPERTIES":
       rt = JSON.parse(response.getBody('UTF8')).properties;
       break;
-   case "ACTIONS":
+    case "ACTIONS":
       rt = JSON.parse(response.getBody('UTF8')).actions;
       break;
     case "ENTITIES":
       rt = JSON.parse(response.getBody('UTF8')).entities;
       break;
+    case "FORMS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$.actions.*[?(@property==='name')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    case "NAMES":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='name')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    case "IDS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='id')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    case "RELS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='rel')]";
+      try {
+        rt = JSONPath({path:token,json:rt});
+      } catch {
+        // no-op
+      }
+      break;
     case "ID": // entities -- by convention, tho
+    case "ENTITY":  
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
       token = "$.entities.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
@@ -93,6 +147,8 @@ function main(args) {
       }
       break;
     case "NAME": // actions
+    case "FORM":
+    case "ACTION":  
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
       token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
@@ -109,6 +165,7 @@ function main(args) {
       }
       break;
     case "REL": // links
+    case "LINK":  
       token = "$.links"
       if("rel id name".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {

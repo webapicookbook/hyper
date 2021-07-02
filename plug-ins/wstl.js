@@ -8,7 +8,7 @@ const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
 
 // exports
-module.exports = {main, mediaType, withRel};
+module.exports = {main, mediaType, withRel, withId};
  
 // internals
 var responses = new Stack();
@@ -41,6 +41,18 @@ function withRel(args) {
     // no-op
   }
   return url;
+}
+
+function withId(args) {
+  var response = args.response;
+  var thisWord = args.withWord;
+  var path = "$.data.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^";
+  try {
+    rt = JSONPath({path:path,json:response})[0].href;
+  } catch {
+    // no-op
+  }
+  return rt;
 }
 
 // display a parse WeSTL-JSON object

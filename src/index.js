@@ -270,16 +270,12 @@ function activate(words) {
         // strong-type the body here
         response = JSON.parse(responses.peek().getBody('UTF8'));
         ctype = responses.peek().headers["content-type"];
-        // siren
-        if(ctype.indexOf("vnd.siren+json")!==-1) {
-          token = "$.entities.*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
-          url = JSONPath({path:token, json:response})[0].href;
-          if(url.toLowerCase()==="with-name") {
-            rt = "no response";
-          }
-          else {
+
+        for(var p in plugins) {
+          if(ctype.indexOf(plugins[p].mediaType())!==-1) {
+            url = plugins[p].withId({response:response, thisWord:thisWord});
             url = utils.fixUrl(url);
-          }  
+          }
         }
       } catch {
         // no-op
