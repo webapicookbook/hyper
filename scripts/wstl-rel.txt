@@ -1,0 +1,12 @@
+# WSTL REL 
+
+CONFIG LOAD
+CONFIG SET {"accept":"application/vnd.wstl+json"}
+REQUEST http://localhost:8282 WITH-FORMAT
+
+WSTL RELS
+WSTL REL delete-form
+
+# EOF
+
+

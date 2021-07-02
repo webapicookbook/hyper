@@ -29,6 +29,7 @@
     "url": "https://github.com/rwmbook/hyper/issues"
   },
   "dependencies": {
+    "glob": "^7.1.7",
     "html2json": "^1.0.2",
     "jsonpath-plus": "^5.0.7",
     "stack-lifo": "^0.1.6",

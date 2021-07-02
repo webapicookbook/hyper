@@ -12,9 +12,11 @@
 
 // node modules
 const readline = require('readline');
+const path = require('path');
 const fs = require('fs');
 
 // installed modules
+const glob = require('glob');
 const request = require('sync-request');
 const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
@@ -25,10 +27,17 @@ const utils = require ('./hyper-utils');
 const configOp = require('./config');
 const manageStack = require('./stack');
 const display = require('./display');
-const cjCommands = require('./cj-commands');
-const halCommands = require('./hal-commands');
-const sirenCommands = require('./siren-commands');
-const wstlCommands = require('./wstl-commands');
+
+// holds external plug-ins
+var plugins = {};
+glob.sync(__dirname + '/../plug-ins/*.js').forEach(function(file) {
+  let dash = file.split("/");
+  let dot = dash[dash.length-1].split(".");
+  if(dot.length == 2) {
+    let key = dot[0];
+    plugins[key] = require(file);
+  }
+});
 
 // state vars
 var responses = new Stack();
@@ -51,18 +60,6 @@ try {
   // no-op
 }
 
-/*
-gobble commandline and inject into stdin
-var cargs = process.argv.slice(2);
-try {
-  if(cargs.length>0) {
-    rl.write(cargs.join(" "));
-  }
-} catch {
-  // no-op
-}
-*/
-
 // readline instance
 const rl = readline.createInterface({
   input: process.stdin,
@@ -78,9 +75,10 @@ rl.on('line', (line) => {
   line = line.trim();
   var words = line.split(" ");
   var args = {};
+  var act = words[0].toUpperCase();
   
   // process each word in turn
-  switch (words[0].toUpperCase()) {
+  switch (act) {
     case "#":
     case "":
       break;
@@ -100,40 +98,38 @@ rl.on('line', (line) => {
     case "SHELL":
       console.log(utils.runShell(words));
       break;  
+    case "PLUGINS":
+      console.log(JSON.stringify(Object.keys(plugins)));
+      break;
     case "TIMESTAMP":
       console.log(utils.timeStamp(line));
       break;
     case "STACK":
-      console.log(runModule(manageStack,words));
+      console.log(run(manageStack,words));
       break;  
     case "CONFIG":
-      console.log(runModule(configOp,words));
+      console.log(run(configOp,words));
       break;  
     case "DISPLAY":
-      console.log(runModule(display, words));
-      break;
-    case "CJ":
-      console.log(runModule(cjCommands, words));
-      break;  
-    case "HAL":
-      console.log(runModule(halCommands, words));
-      break;  
-    case "SIREN":
-      console.log(runModule(sirenCommands, words));
-      break;
-    case "WSTL":
-      console.log(runModule(wstlCommands, words));
+      console.log(run(display, words));
       break;
     case "A":
     case "GO":
     case "GOTO":
     case "CALL":  
+    case "REQUEST":
     case "ACTIVATE":
       console.log(activate(words));  
       break;
     case "ECHO":  
+      console.log(utils.echo(words));  
     default:
-      console.log(utils.echo(words));
+      if(plugins.hasOwnProperty(act.toLowerCase())) {
+        console.log(run(plugins[act.toLowerCase()].main,words));
+      }
+      else {
+        console.log(utils.echo(words));
+      }       
       break;
   }
   // wait for another input
@@ -144,12 +140,11 @@ rl.on('line', (line) => {
   process.exit(0);
 });
 
-
 // fire off external module
 // collect context object, call,
 // update local context
 // show results
-function runModule(moduleName, words) {
+function run(moduleName, words) {
   var args = {};
   var rt = "";
   
@@ -322,32 +317,11 @@ function activate(words) {
 
       try {
         response = JSON.parse(responses.peek().getBody('UTF8'));
-        // strong-type the body here
         ctype = responses.peek().headers["content-type"];
-        // cj
-        if(ctype.indexOf("vnd.collection+json")!==-1) {
-          url = JSONPath({path:"$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^",json:response})[0].href;
-        }
-        // hal
-        if(ctype.indexOf("vnd.hal+json")!==-1) {
-          url = JSONPath({path:"$..*[?(@property==='"+thisWord+"')].href",json:response})[0];
-        }
-        // siren (it's gnarly!)
-        if(ctype.indexOf("vnd.siren+json")!==-1) {
-          url = "with-rel";
-          token = "$.links"
-          try {
-            rt = JSONPath({path:token, json:response})[0];
-            for(var i=0; i<rt.length; i++) {
-              var link = rt[i];
-              for(var j=0; j<link.rel.length; j++) {
-                if(link.rel[j]===thisWord) {
-                  url = link.href; // finally got it!
-                }
-              }
-            }
-          } catch {
-            // no-op
+        
+        for(var p in plugins) {
+          if(ctype.indexOf(plugins[p].mediaType())!==-1) {
+            url = plugins[p].withRel({response:response, thisWord:thisWord});
           }
         }
         if(url.toLowerCase()==="with-rel") {
