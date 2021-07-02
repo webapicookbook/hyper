@@ -23,8 +23,17 @@ function mediaType() {
 function withRel(args) {
  var response = args.response;
  var thisWord = args.thisWord;
- var path = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
- return JSONPath({path:path,json:response})[0].href;
+ var path = "";
+ var rt = "";
+ 
+ path = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+ 
+ try {
+   rt = JSONPath({path:path,json:response})[0].href;
+ } catch (err) {
+   // no-op
+ }
+ return rt;
 }
 
 // support WITH-ID 
@@ -32,8 +41,11 @@ function withRel(args) {
 function withId(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  thisWord = utils.configValue({config:config,value:thisWord});
-  var token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  var token = "";
+  var rt = "";
+   
+  token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  
   try {
     rt = JSONPath({path:token, json:response})[0].href;
   } catch (err){
@@ -60,7 +72,9 @@ function withForm(args) {
   var fieldSet = args.fieldSet;
   var url = args.url;
   var action, form;
-  var path = "$.collection.queries.*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+  var path = "";
+  
+  path = "$.collection.queries.*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
 
   form = JSONPath({path:path, json:response})[0];
   if(form && form.href) {

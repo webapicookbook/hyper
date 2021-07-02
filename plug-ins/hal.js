@@ -24,8 +24,18 @@ function mediaType() {
 function withRel(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  var path = "$..*[?(@property==='"+thisWord+"')].href";
-  return JSONPath({path:path,json:response})[0];
+  var path -= "";
+  var rt = "";
+  
+  path = "$..*[?(@property==='"+thisWord+"')].href";
+  
+  try {
+    rt = JSONPath({path:path,json:response})[0];
+  } catch (err) {
+    // no-op
+  }
+  
+  return rt;
 }
 
 // soft support for WITH-ID
@@ -33,8 +43,18 @@ function withRel(args) {
 function withId(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  var path = "$..*[?(@property==='"+thisWord+"')].href";
-  return JSONPath({path:path,json:response})[0];
+  var path = "";
+  var rt = "";
+  
+  path = "$..*[?(@property==='"+thisWord+"')].href";
+  
+  try {
+    rt = JSONPath({path:path,json:response})[0];
+  } catch (err) {
+    // no-op
+  }
+  
+  return rt;
 }
 
 // no support for WITH-NAME in HAL
@@ -42,8 +62,18 @@ function withId(args) {
 function withName(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  var path = "$..*[?(@property==='"+thisWord+"')].href";
-  return JSONPath({path:path,json:response})[0];
+  var path = "";
+  var rt = "";
+
+  path = "$..*[?(@property==='"+thisWord+"')].href";
+  
+  try {
+    rt = JSONPath({path:path,json:response})[0];
+  } catch (err) {
+    // no-op
+  }
+  
+  return rt;
 }
 
 // support for WITH-FORM

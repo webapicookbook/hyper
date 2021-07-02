@@ -27,7 +27,7 @@ function withRel(args) {
   var path = "$.links"; 
   var url = "";
   var rt, link;
-  
+
   try {
     rt = JSONPath({path:path, json:response})[0];
     for(var i=0; i<rt.length; i++) {
@@ -48,9 +48,11 @@ function withRel(args) {
 function withId(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  thisWord = utils.configValue({config:config,value:thisWord});
-  var token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
-  console.log(token);
+  var token = "";
+  var rt = "";  
+  
+  token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  
   try {
     rt = JSONPath({path:token, json:response})[0].href;
   } catch (err){
@@ -64,13 +66,16 @@ function withId(args) {
 function withName(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  thisWord = utils.configValue({config:config,value:thisWord});
-  var token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
+  var token = "";
+  var rt = "";
+  
+  token = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
+  
   try {
     rt = JSONPath({path:token, json:response})[0].href;
   } catch (err){
     // no-op
-    console.log(err);
+    // console.log(err);
   }
   return rt; 
 }
@@ -85,8 +90,9 @@ function withForm(args) {
   var fields = args.fields
   var fieldSet = args.fieldSet;
   var url = args.url;
-  var action, form;
-  var path = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+  var action, form, path;
+  
+  path = "$.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
 
   form = JSONPath({path:path, json:response})[0];
   if(form && form.href) {
