@@ -24,7 +24,7 @@ function mediaType() {
 function withRel(args) {
   var response = args.response;
   var thisWord = args.thisWord;
-  var path -= "";
+  var path = "";
   var rt = "";
   
   path = "$..*[?(@property==='"+thisWord+"')].href";

@@ -30,6 +30,9 @@ const display = require('./display');
 
 // holds external plug-ins
 var plugins = {};
+plugins = loadPlugins(plugins);
+
+/*
 glob.sync(__dirname + '/../plug-ins/*.js').forEach(function(file) {
   let dash = file.split("/");
   let dot = dash[dash.length-1].split(".");
@@ -38,6 +41,7 @@ glob.sync(__dirname + '/../plug-ins/*.js').forEach(function(file) {
     plugins[key] = require(file);
   }
 });
+*/
 
 // state vars
 var responses = new Stack();
@@ -99,6 +103,7 @@ rl.on('line', (line) => {
       console.log(utils.runShell(words));
       break;  
     case "PLUGINS":
+      plugins = loadPlugins(plugins);
       console.log(JSON.stringify(Object.keys(plugins)));
       break;
     case "TIMESTAMP":
@@ -118,6 +123,7 @@ rl.on('line', (line) => {
     case "GOTO":
     case "CALL":  
     case "REQUEST":
+    case "REQ":
     case "ACTIVATE":
       console.log(activate(words));  
       break;
@@ -166,19 +172,39 @@ function run(moduleName, words) {
   }      
   return rt;
 }
+
+// load/refresh external plugins
+function loadPlugins(plugins) {
+  try {
+    glob.sync(__dirname + '/../plug-ins/*.js').forEach(function(file) {
+      let dash = file.split("/");
+      let dot = dash[dash.length-1].split(".");
+      if(dot.length == 2) {
+        let key = dot[0];
+        plugins[key] = require(file);
+      }
+    });
+  } catch {
+    plugins = {}
+  }  
+  return plugins;
+}
+
 // ************************************************************************************
 // process synchronous HTTP request
-// ACTIVATE|GOTO|CALL|GO|A  (all synonyms
-// - WITH-URL <url>
-// - WITH-REL <string> : string is a REL within the document
-// - WITH-HEADERS <{n:v,...}>
-// - WITH-QUERY {<n:v,...}> (optionally, use "?...." on the URL, too)
-// - WITH-BODY <string> (defaults to form-urlencoded)
-// - WITH-METHOD <string> (defaults to GET)
-// - WITH-ENCODING <string> (defaults to application/x-www-form-urlencoded))
+// ACTIVATE|REQUEST|REQ|GOTO|CALL|GO|A  (all synonyms
+// - WITH-URL <url|$>
+// - WITH-REL <string|$> : string is a REL within the document
+// - WITH-ID <string|$> : string is an ID within the document
+// - WITH-NAME <string|$> : string is a NAME within the document
+// - WITH-HEADERS <{n:v,...}|$>
+// - WITH-QUERY {<n:v,...}|$> (optionally, use "?...." on the URL, too)
+// - WITH-BODY <string|$> (defaults to form-urlencoded)
+// - WITH-METHOD <string|$> (defaults to GET)
+// - WITH-ENCODING <string|$> (defaults to application/x-www-form-urlencoded))
 // - WITH-FORMAT (emits accept header based on config setting)
 // - WITH-PROFILE (emits link profile header based on config setting)
-// - WITH-FORM [name] (uses form metadata to set HTTP request details)
+// - WITH-FORM <string|$> (uses FORM metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 function activate(words) {
   var rt = "";
