@@ -99,21 +99,23 @@ function showHelp() {
   ******************************************
 
   ACTIVATE|A|GO|GOTO|CALL -- synonyms
-    WITH-URL <url|$$>
-    WITH-REL <string|$$> 
-    WITH-NAME <string|$$> (only SIREN Actions) 
+    WITH-URL <url|$>
+    WITH-REL <string|$> 
+    WITH-NAME <string|$> 
+    WITH-ID <string|$> 
     WITH-PROFILE (uses confg.profile property)
     WITH-FORMAT (uses config.accept property)
-    WITH-QUERY <{n:v,...}|$$>
-    WITH-BODY <name=value&..|{"name":"value",...}|$$>
-    WITH-HEADERS <{"name":"value",...}|$$>
+    WITH-QUERY <{n:v,...}|$>
+    WITH-BODY <name=value&..|{"name":"value",...}|$>
+    WITH-HEADERS <{"name":"value",...}|$>
     WITH-ENCODING <string|$$>
     WITH-METHOD <string>
-    WITH-FORM <form-identifier-string|$$>
+    WITH-FORM <form-identifier-string|$>
     WITH-STACK (uses top stack item for input/query values)
   CLEAR
   SHELL command-string <== "Here be dragons!"
     LS || DIR [folder-string]
+  PLUGINS (returns list of loaded plug-in modules)  
   CONFIG
     READ
     SET <{"name":"value",...}>
@@ -148,21 +150,26 @@ function showHelp() {
     ITEMS
     QUERIES
     TEMPLATE
-    REL <string|$>
+    RELATED
+    ERRORS|ERROR
+    ID|REL|NAME <string|$> (returns single node)
+    IDS|RELS|NAMES (returns simple list)
     PATH <jsonpath-string|$>
   HAL
     LINKS|_LINKS
     ENBEDDED|_EMBEDDED
-    REL|ID|KEY <string|$>
+    ID|REL|KEY|NAME <string|$> (returns single node)
+    IDS|RELS|KEYS (returns simple list)
     PATH <jsonpath-string|$>
   SIREN
     LINKS
     ENTITIES
-    ACTIONS
+    ACTIONS|FORMS
     PROPERTIES
-    ID <string|$> (for Entities)
-    REL <string|$> (for Links)
-    NAME <string|$> (for Actions)
+    IDS|RELS|NAMES|FORMS (returns simple list)
+    ID|ENTITY <string|$> (for Entities)
+    REL|LINK <string|$> (for Links)
+    NAME|FORM|ACTION <string|$> (for Actions)
     PATH <jsonpath-string|$>
   WSTL
     TITLE
@@ -170,7 +177,8 @@ function showHelp() {
     CONTENT
     ACTIONS
     RELATED
-    ID|REL|NAME <string|$>
+    IDS|RELS|NAMES|FORMS (returns simple list)
+    ID|REL|NAME|FORM <string|$>
     PATH <json-path|$>
 `;
   return rt;

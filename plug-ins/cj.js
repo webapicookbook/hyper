@@ -147,6 +147,7 @@ function main(args) {
       rt = JSON.parse(response.getBody('UTF8')).collection.template;
       break;
     case "ERROR":
+    case "ERRORS":
       rt = JSON.parse(response.getBody('UTF8')).collection.error||{};
       break;
     case "RELATED":
