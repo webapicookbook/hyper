@@ -410,6 +410,9 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        if(typeof thisWord === 'object') {
+          thisWord = JSON.stringify(thisWord);
+        }
         query = querystring.stringify(JSON.parse(thisWord));
         url = url+'?'+query;
       } catch (err) {
