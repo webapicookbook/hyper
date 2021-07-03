@@ -90,6 +90,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for **CLEAR** - clears the console
  - [x] : support for **SHELL** simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _[folder/path]_
+ - [x] : support for **PLUGINS** returns list of loaded external plug-ins
  - [x] : support for **CONFIG** (READ) returns NVP of saved config data
  - [x] : support for .. FILE|LOAD _[filename]_ loads config file (defaults to "hyper.cfg")
  - [x] : support for .. SAVE|WRITE _[filename]_ loads config file (defaults to "hyper.cfg")
@@ -139,7 +140,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ITEMS returns items array from a collection+JSON response
  - [x] : support for .. QUERIES returns queries array from a collection+JSON response
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
- - [x] : support for .. ERROR returns error object from a collection+JSON response
+ - [x] : support for .. ERROR|ERRORS returns error object from a collection+JSON response
  - [x] : support for .. RELATED returns the related object from a collection+JSON response
  - [x] : support for .. ID|NAME|REL _<string|$>_ returns results of a pre-set JSONPath query (shorthand)
  - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
