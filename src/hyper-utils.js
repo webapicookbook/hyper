@@ -126,9 +126,12 @@ function showHelp() {
     SAVE|WRITE [file-string] : defaults to "hyper.cfg"
   STACK 
     PEEK 
-    PUSH
+    PUSH <{"n":"v",...}>
+    PUSH WITH-RESPONSE
+    PUSH WITH-PATH <json-path-string>
     POP
     SET <{"n":"v",...}>
+    EXPAND-ARRAY [name] : expands array on the stop of the stack using _name_
     LOAD|FILE [file-string] : defaults to hyper.dat
     SAVE|WRITE [file-string] : defaults to hyper.dat
     DUMP [file-strin]g : defaults to hyper.dmp
