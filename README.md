@@ -142,24 +142,24 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
  - [x] : support for .. ERROR|ERRORS returns error object from a collection+JSON response
  - [x] : support for .. RELATED returns the related object from a collection+JSON response
- - [x] : support for .. ID|NAME|REL _<string|$>_ returns results of a pre-set JSONPath query (shorthand)
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [x] : support for .. ID|NAME|REL _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|NAMES returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a collection+JSON response
  - [x] : support for **HAL** returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
  - [x] : support for .. LINKS returns links array from a HAL response
  - [x] : support for .. EMBEDDED returns items array from a HAL response
- - [x] : support for .. KEY|ID|REL _<string|$>_ returns results of a pre-set JSONPath query (shorthand)
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [x] : support for .. ID|REL|KEY|NAME _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|KEYS returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a HAL response
  - [x] : support for **SIREN** returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
  - [x] : support for .. LINKS returns links array from a SIREN response
- - [x] : support for .. ACTIONS returns actions array from a SIREN response
+ - [x] : support for .. ACTIONS|FORMS returns actions array from a SIREN response
  - [x] : support for .. ENTITIES returns entities array from a SIREN response
  - [x] : support for .. PROPERTIES returns properties array from a SIREN response
- - [x] : support for .. ID _<string|$>_ returns an entity associated with the ID
- - [x] : support for .. REL _<string|$>_ returns a link associated with the REL
- - [x] : support for .. NAME _<string|$>_ returns an action associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [x] : support for .. ID|ENTITY _<string|$>_ returns an entity associated with the ID
+ - [x] : support for .. REL|LINK _<string|$>_ returns a link associated with the REL
+ - [x] : support for .. NAME|FORM|ACTION _<string|$>_ returns an action associated with the NAME
+ - [ ] : support for .. IDS|RELS|NAMES|FORMS returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [x] : support for **WSTL** returns a strong-typed version of response from top of the stack (`vnd.wstl+json`)
  - [x] : support for .. TITLE returns title string from a WSTL response
@@ -167,10 +167,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. DATA returns entities array from a WSTL response
  - [x] : support for .. RELATED returns related object from a WSTL response
  - [x] : support for .. CONTENT returns content object from a WSTL response
- - [x] : support for .. ID _<string|$>_ returns an entity associated with the ID
- - [x] : support for .. REL _<string|$>_ returns a link associated with the REL
- - [x] : support for .. NAME _<string|$>_ returns an action associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [x] : support for .. ID|REL|NAME|FORM _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|NAMES|FORMS returns a simple list
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a WSTL response
  - [ ] : support for **MASH** returns a strong-typed version of response from top of the stack (`vnd.mash+json`)
  - [ ] : support for .. METADATA returns metadata array from a response
@@ -179,7 +177,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
  - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [ ] : support for **PRAG** returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
  - [ ] : support for .. METADATA returns metadata array from a PRAG response
@@ -188,19 +186,16 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
  - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list of all the ID, NAME, REL, FORM values in the current response
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  
- ## Other possible features in the future
- - [ ] : support for URITemplates - required for HAL (and other formats?)
- - [x] : support for _$${name}$$_ returns the value of the config item named 
- - [ ] : support for SHOW-ACTIONS - showing all actions (links & forms)
- - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
- - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
-
 ## TODO Items
 Here's a list of things I think need to be done before #HyperLang (as I like to call it) is "complete":
 
+ - [ ] : support for URITemplates - required for HAL (and other formats?)
+ - [x] : support for _$${name}$$_ returns the value of the config item named 
+ - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
+ - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
  - [x] **Variables** : Current `STACK` support is a good start, can we address sub items with `$$varName$$`? Can this work for both `CONFIG` and `STACK`? Do we add things like `STACK ROTATE` to manipulate the stack?
  - [ ] **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
  - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
@@ -213,7 +208,11 @@ These modules are used in the hyper app.
  * https://www.npmjs.com/package/jsonpath-plus
  * https://www.npmjs.com/package/stack-lifo
  * https://www.npmjs.com/package/html2json
+ * https://www.npmjs.com/package/glob
 
+## Plug-ins Support
+You an author your own **hyper** plug-in and place it in the `/plugins/` folder of the project. It will be automatically loaded at runtime. See [Plug-In Authoring](plugin-authoring.md) for details.
+ 
 ## Source Code
 You'll find the source code for this utility in the [src](src/) folder. 
 

@@ -1,0 +1,224 @@
+/*****************************************
+ * stub plug-in
+ *****************************************/
+ 
+ // imports
+const {JSONPath} = require('jsonpath-plus');
+const Stack = require('stack-lifo');
+const utils = require('../src/hyper-utils');
+
+// exports
+module.exports = {main, mediaType, withRel, withId, withName, withForm};
+ 
+// internals
+var responses = new Stack();
+var dataStack = new Stack();
+var config = {};
+
+// return media type : returns the |single| media type this plug in supports
+// many commands validate the media type 
+function mediaType() {
+  return "application/vnd.wstl+json";
+} 
+
+// support WITH-REL : returns URL
+// args: {response:response, thisWord:thisWord}
+function withRel(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var url = "";
+  
+  return url;
+}
+
+// support WITH-ID : returns URL
+// args: {response:response, thisWord:thisWord}
+function withId(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var url = "";
+  
+  return url;
+}
+
+// support WITH-NAME : returns URL
+// args: {response:response, thisWord:thisWord}
+function withName(args) {
+  var response = args.response;
+  var thisWord = args.thisWord;
+  var url = "";
+  
+  return url;
+}
+
+// support WITH-FORM : handles HTTP FORM details (url, method, body, fields, etc.)
+// args: {response:response, thisWord:thisWord, headers:headers, method:method, 
+//       body:body, url:url, fields:fields, fieldSet:fieldSet}
+function withForm(args) {
+  var response = args.response;
+  var thisWord = args.thisWord
+  var headers = args.headers;
+  var method = args.method;
+  var body = args.body;
+  var fields = args.fields
+  var fieldSet = args.fieldSet;
+  var url = args.url;
+  
+  return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
+}
+// mainline support
+// <name of this file (e.g. WSTL.js == WSTL) invokes this plugin
+// args: {responses:responses,dataStack:dataStack,config:config,words:words}
+// NOTE: sample code below is an old vesrion of WSTL support
+function main(args) {
+  config = args.config;
+  responses = args.responses;
+  dataStack = args.dataStack;  
+  var words = args.words;
+  var rt = {};
+  var index = 0;
+  var token = words[1]||"";
+  var response;
+  var thisWord = "";
+  var path = "";
+  
+  try {
+    response = responses.peek();
+  } catch {
+    token="";
+  }
+  
+  switch (token.toUpperCase()) {
+    case "TITLE":
+      rt = JSON.parse(response.getBody('UTF8')).wstl.title||"";
+      break;
+   case "ACTIONS":
+      rt = JSON.parse(response.getBody('UTF8')).wstl.actions||[];
+      break;
+    case "CONTENT":
+      rt = JSON.parse(response.getBody('UTF8')).wstl.content||{};
+      break;
+    case "DATA":
+      rt = JSON.parse(response.getBody('UTF8')).wstl.data||[];
+      break;
+    case "RELATED":
+      rt = JSON.parse(response.getBody('UTF8')).wstl.related||{};
+      break;
+    case "NAMES":
+      token =   "$..*[?(@property==='name')]";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;  
+    case "FORMS":  
+      token = "$.wstl.actions.*[?(@property==='name')]";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;  
+    case "IDS":
+      token = "$..*[?(@property==='id')]";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;  
+    case "RELS":
+      token = "$..*[?(@property==='rel')]";
+      var final = [];
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }
+        rt = final;
+      } catch (err){
+        // no-op
+        //console.log(err);
+      }
+      break;  
+    case "FORM":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      path  = "$.wstl.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:path, json:rt})[0];
+      } catch {
+        // no-op
+      }
+      break;
+    case "ID":
+    case "NAME":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      path  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+thisWord+"/i))]^";
+      if("rel id name".toLowerCase().indexOf(token.toLowerCase)===-1) {
+        try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:path, json:rt})[0];
+        } catch {
+          // no-op
+        }
+      }  
+      else {
+        rt = "no response";
+      }  
+      break;
+    case "REL":
+      try {
+        rt = JSON.parse(response.getBody('UTF8')).wstl.actions;
+        for(var i=0; i<rt.length; i++) {
+          var action = rt[i];
+          for(var j=0; j<action.rel.length; j++) {
+            if(action.rel[j]===words[2]) {
+              node = action;
+            }
+          }
+        }
+        rt = node;
+      } catch {
+        // no-op
+      }
+      break;
+    case "PATH":  
+      token = words[2]||"$";
+      token = utils.configValue({config:config,value:token});
+      console.log(token);
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
+    default: 
+    /* 
+      try {
+        response = responses.peek()
+        rt = JSON.parse(response.getBody("UTF8"));
+      } catch {
+        rt = "no response";
+      }
+      */
+      rt = "";
+  }
+  // return REPL state (possibly updated)
+  return {responses:responses, dataStack:dataStack, config:config,  
+    words:words, rt:JSON.stringify(rt, null, 2)};
+}
+
