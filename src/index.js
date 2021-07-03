@@ -110,7 +110,7 @@ rl.on('line', (line) => {
       console.log(utils.timeStamp(line));
       break;
     case "STACK":
-      console.log(run(manageStack,words));
+      console.log(JSON.stringify(run(manageStack,words), null, 2));
       break;  
     case "CONFIG":
       console.log(run(configOp,words));

@@ -3,6 +3,7 @@
  * **********************************/
 
 // imports
+const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
 const fs = require('fs');
 
@@ -11,10 +12,12 @@ module.exports = main;
 
 // internals
 var dataStack = new Stack();
+var responses = new Stack();
 
 // manage json object data stack
-// args:{dataStack:dataStack,words:words}
+// args:{dataStack:dataStack,responses:responses,words:words}
 function main(args) {
+  responses = args.responses;
   dataStack = args.dataStack;
   var words = args.words||[];
   var rt = "";
@@ -44,7 +47,8 @@ function main(args) {
       }
       break;  
     case "PUSH": // add a new item to the stack
-      rt = dsPush(words[2]||"");
+      //rt = dsPush(words[2]||"");
+      rt = dsPush(words);
       break;      
     case "POP": // pop off the top of the stack
       try {
@@ -64,7 +68,21 @@ function main(args) {
     case "FLUSH":
       dataStack.clear();
       rt = "OK";
-      break;  
+      break;
+    case "EXPAND-ARRAY":
+      list = dataStack.peek();
+      var name = words[2]||"value";
+      if(Array.isArray(list)===true) {
+        list = list.reverse();
+        dataStack.pop();
+        for(var i in list) {
+          ds = {};
+          ds[name] = list[i];
+          dataStack.push(ds);
+        }
+      }
+      rt = list;
+      break;
     case "PEEK": // get the current item from the top of the stack
     default:
       try {
@@ -184,17 +202,32 @@ function dsFill(file) {
 }
 
 // add a new item to the stack
-function dsPush(token) {
+function dsPush(words) {
   var rt = "";
   var item = {};
-  
+  var list =[];
+  var token = words[2]||"";
+  var path = words[3]||"$";
+
   try {
     regex = /\\.\\/gi
-    token = token.replace(regex,' ')
-    item = JSON.parse(token);
+    token = token.replace(regex,' ');
+    switch (token.toLowerCase()) {
+      case "with-response":
+        item = JSON.parse(responses.peek().getBody('UTF8'));
+        break;
+      case "with-path":
+        item = JSON.parse(responses.peek().getBody('UTF8'));
+        item = JSONPath({path:path,json:item});
+        break;
+     default:
+        item = JSON.parse(token);
+        break;
+    }
     dataStack.push(item);
-  } catch {
+  } catch (err) {
     // no-op
+    // console.log(err);
   }  
   return item;
 }
