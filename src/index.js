@@ -32,16 +32,8 @@ const display = require('./display');
 var plugins = {};
 plugins = loadPlugins(plugins);
 
-/*
-glob.sync(__dirname + '/../plug-ins/*.js').forEach(function(file) {
-  let dash = file.split("/");
-  let dot = dash[dash.length-1].split(".");
-  if(dot.length == 2) {
-    let key = dot[0];
-    plugins[key] = require(file);
-  }
-});
-*/
+// version info
+var versionInfo = {"version":"1.0","rel":"2021-07","author":"@mamund"}
 
 // state vars
 var responses = new Stack();
@@ -86,6 +78,9 @@ rl.on('line', (line) => {
     case "#":
     case "":
       break;
+    case "VERSION":
+      console.log(showVersionInfo());
+      break;  
     case "EXIT-ERR":
       process.exit(1);
       break;
@@ -191,21 +186,26 @@ function loadPlugins(plugins) {
   return plugins;
 }
 
+// return version info block
+function showVersionInfo() {
+  return versionInfo
+}
+
 // ************************************************************************************
 // process synchronous HTTP request
 // ACTIVATE|REQUEST|REQ|GOTO|CALL|GO|A  (all synonyms
-// - WITH-URL <url|$>
-// - WITH-REL <string|$> : string is a REL within the document
-// - WITH-ID <string|$> : string is an ID within the document
-// - WITH-NAME <string|$> : string is a NAME within the document
-// - WITH-HEADERS <{n:v,...}|$>
-// - WITH-QUERY {<n:v,...}|$> (optionally, use "?...." on the URL, too)
-// - WITH-BODY <string|$> (defaults to form-urlencoded)
-// - WITH-METHOD <string|$> (defaults to GET)
-// - WITH-ENCODING <string|$> (defaults to application/x-www-form-urlencoded))
+// - WITH-URL <url|$#>
+// - WITH-REL <string|$#> : string is a REL within the document
+// - WITH-ID <string|$#> : string is an ID within the document
+// - WITH-NAME <string|$#> : string is a NAME within the document
+// - WITH-HEADERS <{n:v,...}|$#>
+// - WITH-QUERY {<n:v,...}|$#> (optionally, use "?...." on the URL, too)
+// - WITH-BODY <string|$#> (defaults to form-urlencoded)
+// - WITH-METHOD <string|$#> (defaults to GET)
+// - WITH-ENCODING <string|$#> (defaults to application/x-www-form-urlencoded))
 // - WITH-FORMAT (emits accept header based on config setting)
 // - WITH-PROFILE (emits link profile header based on config setting)
-// - WITH-FORM <string|$> (uses FORM metadata to set HTTP request details)
+// - WITH-FORM <string|$#> (uses FORM metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 function activate(words) {
   var rt = "";
@@ -247,6 +247,7 @@ function activate(words) {
       // set up  url, method, headers, encoding from identified form
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       form = {};
       
       try {
@@ -279,6 +280,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-ID") {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       url = "with-id";
       
       try {
@@ -301,6 +303,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-NAME") {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       url = "with-name";
       
       try {
@@ -328,6 +331,7 @@ function activate(words) {
     if(thisWord && thisWord.toUpperCase()==="WITH-REL") {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
 
       try {
         response = JSON.parse(responses.peek().getBody('UTF8'));
@@ -355,6 +359,7 @@ function activate(words) {
       try {
         url = words[pointer++];
         url = utils.configValue({config:config,value:url})
+        url = utils.stackValue({dataStack:dataStack,value:url});
         url = utils.fixUrl(url);
       } catch {
         // no-op
@@ -365,6 +370,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         headers = JSON.parse(thisWord);
       } catch {
         // no-op
@@ -399,6 +405,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         body = thisWord;
         headers["content-type"] = "application/x-www-form-urlencoded";
       } catch {
@@ -411,6 +418,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         if(typeof thisWord === 'object') {
           thisWord = JSON.stringify(thisWord);
         }
@@ -427,6 +435,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         if(thisWord.toLowerCase()==="put-c" || thisWord.toLowerCase()==="put-create") {
           method="PUT";
           headers["if-none-match"]="*";
@@ -442,6 +451,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         headers["content-type"] = thisWord;
       } catch {
         // no-op
@@ -452,6 +462,7 @@ function activate(words) {
       try {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         headers["accept"] = thisWord;
       } catch {
         // no-op

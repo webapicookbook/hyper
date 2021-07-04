@@ -115,6 +115,7 @@ function main(args) {
     case "NAME":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       token  = "$..*[?(@property==='"+thisWord+"')]";
       if("rel id key".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
@@ -131,6 +132,7 @@ function main(args) {
     case "ID":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       token  = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
@@ -142,6 +144,7 @@ function main(args) {
     case "TAG":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       path  = "$..*[?(@property==='target'&&@.match(/"+thisWord+"/i))]^";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
@@ -207,6 +210,7 @@ function main(args) {
     case "PATH":  
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
+      token = utils.stackValue({dataStack:dataStack,value:token});
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});

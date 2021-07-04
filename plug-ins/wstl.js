@@ -243,6 +243,7 @@ function main(args) {
     case "TARGET":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       path  = "$.wstl.actions.*[?(@property==='target'&&@.match(/"+thisWord+"/i))]^";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
@@ -254,6 +255,7 @@ function main(args) {
     case "FORM":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       path  = "$.wstl.actions.*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
@@ -266,6 +268,7 @@ function main(args) {
     case "NAME":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       path  = "$..*[?(@property==='"+token.toLowerCase()+"'&&@.match(/"+thisWord+"/i))]^";
       if("rel id name".toLowerCase().indexOf(token.toLowerCase)===-1) {
         try {
@@ -280,12 +283,15 @@ function main(args) {
       }  
       break;
     case "REL":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       try {
         rt = JSON.parse(response.getBody('UTF8')).wstl.actions;
         for(var i=0; i<rt.length; i++) {
           var action = rt[i];
           for(var j=0; j<action.rel.length; j++) {
-            if(action.rel[j]===words[2]) {
+            if(action.rel[j]===thisWord) {
               node = action;
             }
           }
@@ -298,6 +304,7 @@ function main(args) {
     case "PATH":  
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
+      token = utils.stackValue({dataStack:dataStack,value:token});
       console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));
