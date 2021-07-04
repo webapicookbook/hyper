@@ -202,6 +202,27 @@ function main(args) {
         // console.log(err);
       }
       break;
+    case "TAGS":
+    case "CLASSES":  
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='class')]";
+      var final = [];
+      try {
+        rt = JSONPath({path:token,json:rt});
+        for(var i=0; i<rt.length; i++) {
+          var rel = rt[i];
+          for(var j=0; j<rel.length; j++) {
+            if(final.indexOf(rel[j])===-1) {
+              final.push(rel[j]);
+            }    
+          }
+        }
+        rt = final;        
+      } catch (err){
+        // no-op
+        // console.log(err);
+      }
+      break;
     case "ID": // entities -- by convention, tho
     case "ENTITY":  
       thisWord = words[2];
@@ -260,6 +281,16 @@ function main(args) {
       else {
         rt = "no response";
       }  
+      break;
+    case "TAG":
+    case "CLASS":  
+      token = "$..*[?(@property==='class')]^";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+      } catch {
+        // no-op
+      }
       break;
     case "PATH":  
       token = words[2]||"$";

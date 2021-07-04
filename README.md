@@ -117,6 +117,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-REL _<string|$>_ - uses HREF value on the associated in-doc element 
  - [x] : support for .. WITH-ID _<string|$>_ - uses HREF value on the associated in-doc element
  - [x] : support for .. WITH-NAME _<string|$>_ - uses HREF value on the associated in-doc element
+ - [x] : support for .. WITH-ACCEPT _string|$>_ - sets the accept header
  - [x] : support for .. WITH-HEADERS _<{n:v,...}|$>_ - request headers
  - [x] : support for .. WITH-QUERY _<{n:v,...}|$>_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _<name=value&...|$>_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
@@ -142,24 +143,25 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. TEMPLATE returns template collection from a collection+JSON response
  - [x] : support for .. ERROR|ERRORS returns error object from a collection+JSON response
  - [x] : support for .. RELATED returns the related object from a collection+JSON response
- - [x] : support for .. ID|NAME|REL _<string|$>_ returns a single node
- - [ ] : support for .. IDS|RELS|NAMES returns a simple list 
+ - [x] : support for .. ID|NAME|REL|TAG _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|NAMES|TAGS returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a collection+JSON response
  - [x] : support for **HAL** returns a strong-typed version of response from top of the stack (`vnd.hal+json`)
  - [x] : support for .. LINKS returns links array from a HAL response
  - [x] : support for .. EMBEDDED returns items array from a HAL response
- - [x] : support for .. ID|REL|KEY|NAME _<string|$>_ returns a single node
- - [ ] : support for .. IDS|RELS|KEYS returns a simple list 
+ - [x] : support for .. ID|REL|KEY|NAME|TAG _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|KEYSTAGS returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a HAL response
  - [x] : support for **SIREN** returns a strong-typed version of response from top of the stack (`vnd.siren+json`)
  - [x] : support for .. LINKS returns links array from a SIREN response
  - [x] : support for .. ACTIONS|FORMS returns actions array from a SIREN response
  - [x] : support for .. ENTITIES returns entities array from a SIREN response
  - [x] : support for .. PROPERTIES returns properties array from a SIREN response
+ - [x] : support for .. TAG|CLASS _<string|$>_ returns nodes associated with the CLASS value
  - [x] : support for .. ID|ENTITY _<string|$>_ returns an entity associated with the ID
  - [x] : support for .. REL|LINK _<string|$>_ returns a link associated with the REL
  - [x] : support for .. NAME|FORM|ACTION _<string|$>_ returns an action associated with the NAME
- - [ ] : support for .. IDS|RELS|NAMES|FORMS returns a simple list 
+ - [ ] : support for .. IDS|RELS|NAMES|FORMS|TAGS|CLASSES returns a simple list 
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [x] : support for **WSTL** returns a strong-typed version of response from top of the stack (`vnd.wstl+json`)
  - [x] : support for .. TITLE returns title string from a WSTL response
@@ -167,26 +169,28 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. DATA returns entities array from a WSTL response
  - [x] : support for .. RELATED returns related object from a WSTL response
  - [x] : support for .. CONTENT returns content object from a WSTL response
- - [x] : support for .. ID|REL|NAME|FORM _<string|$>_ returns a single node
- - [ ] : support for .. IDS|RELS|NAMES|FORMS returns a simple list
+ - [x] : support for .. ID|REL|NAME|FORM|TAG|TARGET _<string|$>_ returns a single node
+ - [ ] : support for .. IDS|RELS|NAMES|FORMS|TAGS|TARGETS returns a simple list
  - [x] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a WSTL response
  - [ ] : support for **MASH** returns a strong-typed version of response from top of the stack (`vnd.mash+json`)
  - [ ] : support for .. METADATA returns metadata array from a response
  - [ ] : support for .. LINKS returns links array from a response
  - [ ] : support for .. ITEMS returns items array from a response
+ - [ ] : support for .. TAG _<string|$>_ returns matching nodes
  - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
  - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list 
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  - [ ] : support for **PRAG** returns a strong-typed version of response from top of the stack (`vnd.prag+json`)
  - [ ] : support for .. METADATA returns metadata array from a PRAG response
  - [ ] : support for .. LINKS returns links array from a PRAG response
  - [ ] : support for .. ITEMS returns items array from a PRAG response
  - [ ] : support for .. ID _<string|$>_ returns an element (metadata, link, item) associated with the ID
+ - [ ] : support for .. TAG _<string|$>_ returns matching nodes
  - [ ] : support for .. REL _<string|$>_ returns a link associated with the REL
  - [ ] : support for .. NAME _<string|$>_ returns an element (metadata, link, property) associated with the NAME
- - [ ] : support for .. IDS|NAMES|RELS|FORMS returns a simple list 
+ - [ ] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$>_ returns results of a JSONPath query from a SIREN response
  
 ## TODO Items

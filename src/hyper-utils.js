@@ -155,21 +155,22 @@ function showHelp() {
     TEMPLATE
     RELATED
     ERRORS|ERROR
-    ID|REL|NAME <string|$> (returns single node)
-    IDS|RELS|NAMES (returns simple list)
+    ID|REL|NAME|TAG <string|$> (returns matching nodes)
+    IDS|RELS|NAMES|TAGS (returns simple list)
     PATH <jsonpath-string|$>
   HAL
     LINKS|_LINKS
     ENBEDDED|_EMBEDDED
-    ID|REL|KEY|NAME <string|$> (returns single node)
-    IDS|RELS|KEYS (returns simple list)
+    ID|REL|KEY|NAME|TAG <string|$> (returns matching nodes)
+    IDS|RELS|KEYSTAGS (returns simple list)
     PATH <jsonpath-string|$>
   SIREN
     LINKS
     ENTITIES
     ACTIONS|FORMS
     PROPERTIES
-    IDS|RELS|NAMES|FORMS (returns simple list)
+    IDS|RELS|NAMES|FORMS|TAGS|CLASSES (returns simple list)
+    TAG|CLASS <string|$> returns matching nodes
     ID|ENTITY <string|$> (for Entities)
     REL|LINK <string|$> (for Links)
     NAME|FORM|ACTION <string|$> (for Actions)
@@ -180,8 +181,8 @@ function showHelp() {
     CONTENT
     ACTIONS
     RELATED
-    IDS|RELS|NAMES|FORMS (returns simple list)
-    ID|REL|NAME|FORM <string|$>
+    IDS|RELS|NAMES|FORMS|TAGS|TARGETS (returns simple list)
+    ID|REL|NAME|FORM|TAG|TARGET <string|$> returns matching nodes
     PATH <json-path|$>
 `;
   return rt;

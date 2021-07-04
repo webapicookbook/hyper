@@ -184,7 +184,8 @@ function loadPlugins(plugins) {
         plugins[key] = require(file);
       }
     });
-  } catch {
+  } catch (err) {
+    console.log(err);
     plugins = {}
   }  
   return plugins;
@@ -442,6 +443,16 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         headers["content-type"] = thisWord;
+      } catch {
+        // no-op
+      }
+    }
+    // set accept header
+    if(thisWord && thisWord.toUpperCase()==="WITH-ACCEPT") {
+      try {
+        thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
+        headers["accept"] = thisWord;
       } catch {
         // no-op
       }

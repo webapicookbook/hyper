@@ -171,6 +171,27 @@ function main(args) {
     case "RELATED":
       rt = JSON.parse(response.getBody('UTF8')).wstl.related||{};
       break;
+    case "TAGS":
+    case "TARGETS":
+      token =   "$..*[?(@property==='target')]";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:token, json:rt});
+        var final = [];
+        for(var i in rt) {
+          var p = rt[i].split(" ");
+          for (var j in p) {
+            if(final.indexOf(p[j])===-1) {
+              final.push(p[j]);
+            }
+          }
+        }
+        rt = final;
+      } catch (err) {
+        // no-op
+        console.log(err);
+      }
+      break;  
     case "NAMES":
       token =   "$..*[?(@property==='name')]";
       try {
@@ -218,6 +239,18 @@ function main(args) {
         //console.log(err);
       }
       break;  
+    case "TAG":
+    case "TARGET":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      path  = "$.wstl.actions.*[?(@property==='target'&&@.match(/"+thisWord+"/i))]^";
+      try {
+        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSONPath({path:path, json:rt});
+      } catch {
+        // no-op
+      }
+      break;
     case "FORM":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
