@@ -118,7 +118,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-REL _<string|$#>_ - uses HREF value on the associated in-doc element 
  - [x] : support for .. WITH-ID _<string|$#>_ - uses HREF value on the associated in-doc element
  - [x] : support for .. WITH-NAME _<string|$#>_ - uses HREF value on the associated in-doc element
- - [x] : support for .. WITH-ACCEPT _string|$#>_ - sets the accept header
+ - [x] : support for .. WITH-PATH _<json-path-string|$#>_ - uses value from JSONPath result as the URL
+ - [x] : support for .. WITH-ACCEPT _string|$#>_ - sets the accept header directly
  - [x] : support for .. WITH-HEADERS _<{n:v,...}|$#>_ - request headers
  - [x] : support for .. WITH-QUERY _<{n:v,...}|$#>_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _<name=value&...|$#>_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
