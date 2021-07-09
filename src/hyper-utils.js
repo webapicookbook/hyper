@@ -128,14 +128,15 @@ function showHelp() {
     WITH-NAME <string|$#> 
     WITH-ID <string|$#>
     WITH-PATH <json-path-string|$#> (applies JSONPath that returns URL)
-    WITH-PROFILE (uses confg.profile property)
+    WITH-ACCEPT <string|$#> (sets the HTTP accept header directly)
     WITH-FORMAT (uses config.accept property)
-    WITH-QUERY <{n:v,...}|$>
-    WITH-BODY <name=value&..|{"name":"value",...}|$>
-    WITH-HEADERS <{"name":"value",...}|$>
-    WITH-ENCODING <string|$$>
+    WITH-PROFILE (uses confg.profile property)
+    WITH-QUERY <{n:v,...}|$#>
+    WITH-BODY <name=value&..|{"name":"value",...}|$#>
+    WITH-HEADERS <{"name":"value",...}|$#>
+    WITH-ENCODING <string|$#>
     WITH-METHOD <string>
-    WITH-FORM <form-identifier-string|$>
+    WITH-FORM <form-identifier-string|#>
     WITH-STACK (uses top stack item for input/query values)
   CLEAR
   VERSION (returns version of hyper repl)
