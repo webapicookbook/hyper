@@ -123,10 +123,11 @@ function showHelp() {
   ******************************************
 
   ACTIVATE|A|GO|GOTO|CALL -- synonyms
-    WITH-URL <url|$>
-    WITH-REL <string|$> 
-    WITH-NAME <string|$> 
-    WITH-ID <string|$> 
+    WITH-URL <url|$#>
+    WITH-REL <string|$#> 
+    WITH-NAME <string|$#> 
+    WITH-ID <string|$#>
+    WITH-PATH <json-path-string|$#> (applies JSONPath that returns URL)
     WITH-PROFILE (uses confg.profile property)
     WITH-FORMAT (uses config.accept property)
     WITH-QUERY <{n:v,...}|$>
@@ -180,24 +181,24 @@ function showHelp() {
     TEMPLATE
     RELATED
     ERRORS|ERROR
-    ID|REL|NAME|TAG <string|$> (returns matching nodes)
+    ID|REL|NAME|TAG <string|$#> (returns matching nodes)
     IDS|RELS|NAMES|TAGS (returns simple list)
-    PATH <jsonpath-string|$>
+    PATH <jsonpath-string|$#>
   HAL
     LINKS|_LINKS
     ENBEDDED|_EMBEDDED
-    ID|REL|KEY|NAME|TAG <string|$> (returns matching nodes)
+    ID|REL|KEY|NAME|TAG <string|$#> (returns matching nodes)
     IDS|RELS|KEYSTAGS (returns simple list)
-    PATH <jsonpath-string|$>
+    PATH <jsonpath-string|$#>
   SIREN
     LINKS
     ENTITIES
     ACTIONS|FORMS
     PROPERTIES
     IDS|RELS|NAMES|FORMS|TAGS|CLASSES (returns simple list)
-    TAG|CLASS <string|$> returns matching nodes
-    ID|ENTITY <string|$> (for Entities)
-    REL|LINK <string|$> (for Links)
+    TAG|CLASS <string|$#> returns matching nodes
+    ID|ENTITY <string|$#> (for Entities)
+    REL|LINK <string|$#> (for Links)
     NAME|FORM|ACTION <string|$> (for Actions)
     PATH <jsonpath-string|$>
   WSTL
@@ -207,7 +208,7 @@ function showHelp() {
     ACTIONS
     RELATED
     IDS|RELS|NAMES|FORMS|TAGS|TARGETS (returns simple list)
-    ID|REL|NAME|FORM|TAG|TARGET <string|$> returns matching nodes
+    ID|REL|NAME|FORM|TAG|TARGET <string|$#> returns matching nodes
     PATH <json-path|$>
 `;
   return rt;
