@@ -1,0 +1,9 @@
+# JSON+FORMS support
+
+goto with-url localhost:8484/list/
+
+# jf metadata
+# display
+jf links
+# jf items
+

@@ -194,6 +194,16 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. NAME _<string|$#>_ returns an element (metadata, link, property) associated with the NAME
  - [ ] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a SIREN response
+  - [x] : support for **FJ** returns a strong-typed version of JSON+FORMS response from top of the stack (`forms+json`)
+ - [x] : support for .. METADATA returns metadata array from a response
+ - [x] : support for .. LINKS returns links array from a response
+ - [x] : support for .. ITEMS returns items array from a response
+ - [x] : support for .. ID _<string|$#>_ returns an element (metadata, link, item) associated with the ID
+ - [x] : support for .. TAG _<string|$#>_ returns matching nodes
+ - [x] : support for .. REL _<string|$#>_ returns a link associated with the REL
+ - [x] : support for .. NAME _<string|$#>_ returns an element (metadata, link, property) associated with the NAME
+ - [x] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
+ - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a response
  
 ## TODO Items
 Here's a list of things I think need to be done before #HyperLang (as I like to call it) is "complete":

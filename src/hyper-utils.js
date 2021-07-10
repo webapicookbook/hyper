@@ -210,7 +210,14 @@ function showHelp() {
     RELATED
     IDS|RELS|NAMES|FORMS|TAGS|TARGETS (returns simple list)
     ID|REL|NAME|FORM|TAG|TARGET <string|$#> returns matching nodes
-    PATH <json-path|$>
+    PATH <json-path|$#>
+  FJ
+    METADATA
+    LINKS
+    ITEMS
+    IDS|RELS|NAMES|FORMS|TAGS (returns simple list)
+    ID|REL|NAME|FORM|TAG <string|$#> (returns matching modes)
+    PATH
 `;
   return rt;
 }

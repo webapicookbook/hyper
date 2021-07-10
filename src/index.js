@@ -198,6 +198,7 @@ function showVersionInfo() {
 // - WITH-REL <string|$#> : string is a REL within the document
 // - WITH-ID <string|$#> : string is an ID within the document
 // - WITH-NAME <string|$#> : string is a NAME within the document
+// - WITH-PATH <string|$#> :json-path against current response that returns a URL
 // - WITH-HEADERS <{n:v,...}|$#>
 // - WITH-QUERY {<n:v,...}|$#> (optionally, use "?...." on the URL, too)
 // - WITH-BODY <string|$#> (defaults to form-urlencoded)
@@ -353,9 +354,22 @@ function activate(words) {
         // no-op
       } 
     }
+    // path
+    if(thisWord && thisWord.toUpperCase()==="WITH-PATH") {
+      try {
+        var wpath = words[pointer++];
+        wpath = utils.configValue({config:config,value:wpath})
+        wpath = utils.stackValue({dataStack:dataStack,value:wpath});
+        rt = JSON.parse(responses.peek().getBody('UTF8'));
+        rt = JSONPath({path:wpath, json:rt})[0];
+        url = utils.fixUrl(rt);
+      } catch (err) {
+        // no-op
+        // console.log(err)
+      }
+    }
     // url
     if(thisWord && thisWord.toUpperCase()==="WITH-URL") {
-
       try {
         url = words[pointer++];
         url = utils.configValue({config:config,value:url})
