@@ -95,13 +95,18 @@ function main(args) {
   var response;
   var thisWord = "";
 
-  try {
-    response = responses.peek();
-  } catch {
-    token="";
+  if(token.toUpperCase()!=="HELP") {
+    try {
+      response = responses.peek();
+    } catch {
+      token="";
+    }
   }
   
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "LINKS":
     case "_LINKS":
       rt = JSON.parse(response.getBody('UTF8'))._links;
@@ -230,5 +235,22 @@ function main(args) {
       rt = "";
   }
   return {responses:responses, dataStack:dataStack, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
+}
+
+// show help text
+function showHelp(thisWord) {
+  var rt = ""
+  rt = 
+ `HAL
+    LINKS|_LINKS
+    ENBEDDED|_EMBEDDED
+    ID|REL|KEY|NAME|TAG <string|$#> (returns matching nodes)
+    IDS|RELS|KEYSTAGS (returns simple list)
+    PATH <jsonpath-string|$#>
+`;
+      
+    console.log(rt);    
+  
+  return "";
 }
 

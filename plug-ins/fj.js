@@ -86,7 +86,7 @@ function withForm(args) {
   var url = args.url;
   var action, form, path;
   
-  path = "$..*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^";
+  path = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^";
 
   form = JSONPath({path:path, json:response})[0];
   if(form && form.href) {
@@ -130,13 +130,18 @@ function main(args) {
   var node = {};
   var thisWord = "";
 
-  try {
-    response = responses.peek();
-  } catch {
-    token="";
+  if(token.toUpperCase()!=="HELP") {
+    try {
+      response = responses.peek();
+    } catch {
+      token="";
+    }
   }
   
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "METADATA":
       token = "$..metadata";
       try {
@@ -166,7 +171,7 @@ function main(args) {
       }
     break;
     case "FORMS":
-      token = "$..*[?(@property==='href')]^.name";
+      token = "$..links.*[?(@property==='href')]^.id";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token,json:rt});
@@ -258,7 +263,7 @@ function main(args) {
       token = "$..*[?(@property==='tags'&&@.match(/"+thisWord+"/i))]^"
       try {
         rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt})[0];
+        rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
       }
@@ -270,7 +275,7 @@ function main(args) {
       token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
       try {
         rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt})[0];
+        rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
       }
@@ -282,7 +287,7 @@ function main(args) {
       token = "$..*[?(@property==='name'&&@.match(/"+thisWord+"/i))]^"
       try {
         rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt})[0];
+        rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
       }
@@ -294,19 +299,26 @@ function main(args) {
       token = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt})[0];
+        rt = JSONPath({path:token, json:rt});
       } catch {
-        // no-op
+        // no-
       }
       break;
     case "FORM":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      token = "$..*[?(@property==='name')&&2.match(/"+thisWord+"/i)]^";
+      token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
       try {
         rt = JSON.parse(response.getBody('UTF8'));
-        rt = JSONPath({path:token,json:rt})[0];
+        rt = JSONPath({path:token, json:rt});
+        var fin = [];
+        for(r in rt) {
+          if(rt[r].href && fin.indexOf(rt[r])===-1) {
+            fin.push(rt[r]);
+          }
+        }
+        rt = fin;
       } catch {
         // no-op
       }
@@ -336,4 +348,23 @@ function main(args) {
   }
   return {responses:responses,dataStack:dataStack,config:config,words:words,rt:JSON.stringify(rt, null, 2)};
 }
+
+// show help text
+function showHelp(thisWord) {
+  var rt = ""
+  rt = 
+ `FJ
+    METADATA
+    LINKS
+    ITEMS
+    IDS|RELS|NAMES|FORMS|TAGS (returns simple list)
+    ID|REL|NAME|FORM|TAG <string|$#> (returns matching modes)
+    PATH`;
+      
+    console.log(rt);    
+  
+  return "";
+}
+
+
 

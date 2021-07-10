@@ -26,15 +26,20 @@ function main(args) {
   var response;
   
   // shortcut for error
-  try {
-    response = responses.peek();
-  } catch {
-    rt = "no response";
-    return {responses:responses,words:words,rt:rt}
-    //return rt;
-  }  
-
+  if(token.toUpperCase()!=='HELP') {
+    try {
+      response = responses.peek();
+    } catch {
+      rt = "no response";
+      return {responses:responses,words:words,rt:rt}
+      //return rt;
+    }  
+  }
+  
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "LEN":
     case "lENGTH":
       rt = responses.size();
@@ -82,4 +87,21 @@ function main(args) {
   return {responses:responses,config:config,words:words,rt:rt}
 }
 
+function showHelp(thisWord) {
+  var rt = "";
+  
+  rt = `
+  DISPLAY
+    URL
+    STATUS|STATUS-CODE
+    CONTENT-TYPE
+    HEADERS
+    PEEK
+    POP
+    LENGTH|LEN
+    PATH <jsonpath-string|$>`
+
+  console.log(rt);
+  return "";
+}
 

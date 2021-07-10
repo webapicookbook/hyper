@@ -27,6 +27,9 @@ function main(args) {
   var token = words[1]||"";
   
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "FILE":
     case "LOAD": // load a JSON object item from disk
       rt = dsLoad(words[2]||"");
@@ -254,5 +257,29 @@ function dsSet(token) {
     // no-op
   }  
   return item;
+}
+
+// show help text
+function showHelp(thisWord) {
+  var rt = ""
+  rt = 
+   `STACK 
+      PEEK 
+      PUSH <{"n":"v",...}>
+      PUSH WITH-RESPONSE
+      PUSH WITH-PATH <json-path-string>
+      POP
+      SET <{"n":"v",...}>
+      EXPAND-ARRAY [name] : expands array on the stop of the stack using _name_
+      LOAD|FILE [file-string] : defaults to hyper.dat
+      SAVE|WRITE [file-string] : defaults to hyper.dat
+      DUMP [file-string] : defaults to hyper.dmp
+      FILL [file-string] : defaults to hyper.dmp
+      CLEAR|FLUSH
+      LEN|LENGTH`;
+      
+    console.log(rt);    
+  
+  return "";
 }
 

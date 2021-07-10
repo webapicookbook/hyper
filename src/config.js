@@ -23,6 +23,9 @@ function main(args) {
   var token = words[1]||"";
   
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "FILE":
     case "LOAD":
       rt = configLoad(words[2]||"");
@@ -129,4 +132,22 @@ function configRemove(token) {
   }
   return config;
 }
+
+function showHelp(thisWord) {
+  var rt = "";
+  
+  rt = `
+  CONFIG
+    READ
+    SET <{"name":"value",...}>
+    REMOVE <string> 
+    CLEAR (removes all settings)
+    RESET (resets to default settings : "hyper.cfg")
+    FILE|LOAD [file-string] : defaults to "hyper.cfg"
+    SAVE|WRITE [file-string] : defaults to "hyper.cfg"`
+
+  console.log(rt);
+  return "";
+}
+
 

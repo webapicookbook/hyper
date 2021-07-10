@@ -118,11 +118,7 @@ function showHelp() {
   var rt = "";
 
   rt  = `
-  ******************************************
-  HYPER - v1.0 : 2021-07
-  ******************************************
-
-  ACTIVATE|A|GO|GOTO|CALL -- synonyms
+  ACTIVATE|A|GO|GOTO|CALL|REQUEST|REQ -- synonyms
     WITH-URL <url|$#>
     WITH-REL <string|$#> 
     WITH-NAME <string|$#> 
@@ -142,7 +138,10 @@ function showHelp() {
   VERSION (returns version of hyper repl)
   SHELL command-string <== "Here be dragons!"
     LS || DIR [folder-string]
-  PLUGINS (returns list of loaded plug-in modules)  
+  PLUGINS (returns list of loaded plug-in modules)
+
+  See also: STACK, CONFIG, DISPLAY and any loaded PLUGINS`;
+/*    
   CONFIG
     READ
     SET <{"name":"value",...}>
@@ -219,5 +218,7 @@ function showHelp() {
     ID|REL|NAME|FORM|TAG <string|$#> (returns matching modes)
     PATH
 `;
+*/
+
   return rt;
 }

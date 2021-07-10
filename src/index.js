@@ -497,7 +497,12 @@ function activate(words) {
   // make the actual call
   try {
     if(body && method.toUpperCase()!=="GET") {
-      response = request(method, url, {headers:headers, body:body});
+      if(method.toUpperCase()==="DELETE") {
+        response = request(method, url, {headers:headers});        
+      }
+      else {
+        response = request(method, url, {headers:headers, body:body});
+      }
     } else {
       if(body) {
         url = url + querystring.stringify(body);

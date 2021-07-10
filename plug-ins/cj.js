@@ -124,13 +124,18 @@ function main(args) {
   var response;
   var thisWord = "";
 
-  try {
-    response = responses.peek();
-  } catch {
-    token="";
+  if(token.toUpperCase()!=="HELP") {
+    try {
+      response = responses.peek();
+    } catch {
+      token="";
+    }
   }
   
   switch (token.toUpperCase()) {
+    case "HELP":
+      rt = showHelp(words[2]||"");
+      break;
     case "METADATA":
       rt = JSON.parse(response.getBody('UTF8')).collection.metadata||[];
       break;
@@ -280,4 +285,26 @@ function main(args) {
   }
   return {responses:responses, dataStack:dataStack, config:config, config:config, words:words, rt:JSON.stringify(rt, null, 2)};
 }
+
+// show help text
+function showHelp(thisWord) {
+  var rt = "";
+  rt = 
+ `CJ
+    METADATA
+    LINKS
+    ITEMS
+    QUERIES
+    TEMPLATE
+    RELATED
+    ERRORS|ERROR
+    ID|REL|NAME|TAG <string|$#> (returns matching nodes)
+    IDS|RELS|NAMES|TAGS (returns simple list)
+    PATH <jsonpath-string|$#>`;
+      
+    console.log(rt);    
+  
+  return "";
+}
+
 
