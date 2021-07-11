@@ -26,7 +26,7 @@ Note the `WITH-AUTH0 <name|$#>` option for `ACTIVATE` command. This looks up the
 ### Example Workflow
 
 ```
-AUTH0 DEFINE example {"url":"...","id":"...","secret":"...","audience":"...","type":"client_credential"}
+AUTH0 DEFINE example {"url":"...","id":"...","secret":"...","audience":"...","type":"client_credentials"}
 AUTH0 GENERATE example
 GOTO WITH-URL http://secure-api.example.org WITH-AUTH0 example
 STATUS 200
