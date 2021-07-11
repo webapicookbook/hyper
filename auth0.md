@@ -10,7 +10,7 @@ Below is the list of commands for the `AUTH0` plug-in:
 ```
 AUTH0
   LIST [name|$#] (lists existing auth0 definitions using optional name filter
-  DEFINE <name> <{"id":"...","secret":"...","audience":"...","type":"..."}> (creates a new definition)
+  DEFINE <name> <{"ur":"...","id":"...","secret":"...","audience":"...","type":"..."}> (creates a new definition)
   UPDATE <name|$#> <{"n":"...","v":"..."}> (updates existing <name> definition)
   REMOVE <name|$#> (removes <name> from auth0 collection
   GENERATE <auth-name|$#> (gets a token from Auth0 and loads it into the <name> definition)
@@ -26,7 +26,7 @@ Note the `WITH-AUTH0 <name|$#>` option for `ACTIVATE` command. This looks up the
 ### Example Workflow
 
 ```
-AUTH0 DEFINE example {...}
+AUTH0 DEFINE example {"url":"...","id":"...","secret":"...","audience":"...","type":"client_credential"}
 AUTH0 GENERATE example
 GOTO WITH-URL http://secure-api.example.org WITH-AUTH0 example
 STATUS 200
