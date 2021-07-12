@@ -79,6 +79,12 @@ Similar methods exist for HAL, CollectionJSON, and other supported formats.
 ## Examples
 See the [scripts](scripts/) folder for lots of working examples.
 
+## Futures
+Some notes on future enhancements
+
+ * [Conditionals](conditionals.md)
+ * [Auth0 Plugin](auth0.md)
+
 ## Feature tracking
 This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
 
