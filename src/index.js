@@ -39,6 +39,7 @@ var versionInfo = {"version":"1.0","rel":"2021-07","author":"@mamund"}
 var responses = new Stack();
 var dataStack = new Stack();
 var config = {};
+var authStore = {};
 
 // init config and load default file
 config.verbose = "false";
@@ -155,12 +156,14 @@ function run(moduleName, words) {
         responses:responses,
         dataStack:dataStack,
         config:config,
-        words:words
+        words:words,
+        authStore:authStore
       });
     if(args.responses) {responses = args.responses};
     if(args.dataStack) {dataStack = args.dataStack};
     if(args.config) {config = args.config};
     if(args.words) {words = args.words};
+    if(args.authStore) {authStore = args.authStore};
     rt = args.rt||"";
   } catch (err) {
     rt = console.log(err.message);
@@ -191,9 +194,9 @@ function showVersionInfo() {
   return versionInfo
 }
 
-// ************************************************************************************
+// ***********************************************************************************
 // process synchronous HTTP request
-// ACTIVATE|REQUEST|REQ|GOTO|CALL|GO|A  (all synonyms
+// ACTIVATE|REQUEST|REQ|GOTO|CALL|GO|A  (all synonyms)
 // - WITH-URL <url|$#>
 // - WITH-REL <string|$#> : string is a REL within the document
 // - WITH-ID <string|$#> : string is an ID within the document
@@ -208,6 +211,8 @@ function showVersionInfo() {
 // - WITH-PROFILE (emits link profile header based on config setting)
 // - WITH-FORM <string|$#> (uses FORM metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
+// - WITH-AUTH0 <string|$#> (uses token stored at <string> for authentication header)
+// ***********************************************************************************
 function activate(words) {
   var rt = "";
   var url = words[1]||"#";
@@ -354,6 +359,26 @@ function activate(words) {
         // no-op
       } 
     }
+    // pull oauth
+    if(thisWord && thisWord.toUpperCase()==="WITH-OAUTH") {
+      thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+
+      try {
+        var oAuthToken = "";
+        // loop through plugins for WITH-OAUTH support        
+        for(var p in plugins) {
+          if(plugins[p].withOAuth) {
+            oAuthToken = plugins[p].withOAuth({authStore:authStore,thisWord:thisWord});
+            headers.authorization = "Bearer "+oAuthToken;
+          }
+        }
+      } catch {
+        // no-op
+      } 
+    }
+    
     // path
     if(thisWord && thisWord.toUpperCase()==="WITH-PATH") {
       try {
@@ -487,8 +512,8 @@ function activate(words) {
   if(config.verbose!=="false") {
     console.log("\n******************");
     console.log("URL: " + url);
-    console.log("QUERY: " + query);
-    console.log("HEADERS: " + headers);
+    console.log("QUERY: " + JSON.stringify(query));
+    console.log("HEADERS: " + JSON.stringify(headers));
     console.log("METHOD: " + method);
     console.log("BODY: " + body);
     console.log("******************\n");

@@ -1,0 +1,33 @@
+#
+# test OpenAuth w/ Auth0
+#
+# note: id and secret are incomplete in this script
+#
+
+# try to access service w/o token (401)
+GOTO WITH-URL localhost:8484
+
+# load any existing oauth blocks (from disk)
+OAUTH LOAD
+
+# define a new oauth block
+OAUTH DEFINE mike {"id":"JEAv...9ArP"}
+OAUTH UPDATE mike {"secret":"U0yNe...rowxUwdq4AfpO"}
+OAUTH UPDATE mike {"audience":"http://mamund.com/bigco-company"}
+OAUTH UPDATE mike {"url":"https://mamund.auth0.com/oauth/token"}
+
+# list the completed block
+OAUTH LIST mike
+
+# generate a token with the provider
+OAUTH GEN mike
+
+# now try with the token (200)
+GOTO WITH-URL localhost:8484 WITH-OAUTH mike
+
+# save the updated oauth blocks block (to disk)
+OAUTH SAVE
+
+# EOF
+
+

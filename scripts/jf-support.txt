@@ -1,9 +1,18 @@
 # JSON+FORMS support
 
-goto with-url localhost:8484/list/
+GOTO WITH-URL localhost:8484/list/
 
-# jf metadata
-# display
-jf links
-# jf items
+JF METADATA
+JF LINKS
+JF ITEMS
+
+GOTO WITH-REL list
+GOTO WITH-FORM filter WITH-QUERY {"status":"active"}
+
+EXIT
+
+#
+# EOF
+#
+
 
