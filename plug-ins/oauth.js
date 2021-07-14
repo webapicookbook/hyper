@@ -18,6 +18,8 @@ var dataStack = new Stack();
 var config = {};
 var authStore = {};
 
+var defaultFile = __dirname + "/../oauth.env";
+
 // return media type
 function mediaType() {
   return "/"; // fits for all types
@@ -212,7 +214,10 @@ function oauthSave(words) {
   var data = "";
   var target = "";
   data = JSON.stringify(authStore, null, 2);
-  target = words[2]||"./oauth.env";
+  target = words[2]||defaultFile;
+  
+  console.log(__dirname);
+  
   try {
     fs.writeFileSync(target,data);
     rt = "oAuth store saved as ["+target+"]";
@@ -228,11 +233,9 @@ function oauthLoad(words) {
   var rt = "";
   var set = {};
   var data = "";
-  var target = words[2]||"./oauth.env";
-  
+  var target = words[2]||defaultFile;
+
   try {
-    console.log(target);
-    if(target==="") {target = "./oauth.env"};
     if(fs.existsSync(target)) {
       data = fs.readFileSync(target, {encoding:'utf8', flag:'r'});
       set = JSON.parse(data);

@@ -10,6 +10,7 @@ module.exports = main;
 
 // internals
 var config = {};
+var defaultFile = __dirname + "/../hyper.config";
 
 // configuration operations
 // args = {config:config,words:words}
@@ -60,7 +61,8 @@ function configSave(file) {
   var data = "";
   var target = "";
   data = JSON.stringify(config, null, 2);
-  target = file||"./hyper.cfg";
+  target = file||defaultFile;
+  
   try {
     fs.writeFileSync(target,data);
     rt = "config saved as ["+target+"]";
@@ -76,11 +78,9 @@ function configLoad(file) {
   var rt = "";
   var set = {};
   var data = "";
-  var target = file||"./hyper.cfg";
+  var target = file||defaultFile;
   
   try {
-    console.log(target);
-    if(target==="") {target = "./hyper.cfg"};
     if(fs.existsSync(target)) {
       data = fs.readFileSync(target, {encoding:'utf8', flag:'r'});
       set = JSON.parse(data);

@@ -13,6 +13,8 @@ module.exports = main;
 // internals
 var dataStack = new Stack();
 var responses = new Stack();
+var defaultItemFile = __dirname + "/../hyper.stack";
+var defaultStackFile = __dirname + "/../hyper.dump";
 
 // manage json object data stack
 // args:{dataStack:dataStack,responses:responses,words:words}
@@ -103,11 +105,9 @@ function dsLoad(file) {
   var rt = "";
   var set = {};
   var data = "";
-  var target = file||"./hyper.dat";
+  var target = file||defaultItemFile;
   
   try {
-    console.log(target);
-    if(target==="") {target = "./hyper.dat"};
     if(fs.existsSync(target)) {
       data = fs.readFileSync(target, {encoding:'utf8', flag:'r'});
       set = JSON.parse(data);
@@ -130,7 +130,8 @@ function dsWrite(file) {
   var target = "";
 
   data = JSON.stringify(dataStack.peek(), null, 2);
-  target = file||"./hyper.dat";
+  target = file||defaultItemFile;
+  
   try {
     fs.writeFileSync(target,data);
     rt = "stack item saved as ["+target+"]";
@@ -149,7 +150,7 @@ function dsDump(file) {
   var target = "";
   var cpStack = new Stack();
   
-  target = file||"./hyper.dmp";
+  target = file||defaultStackFile;
   
   // drain the current stack
   while (!dataStack.isEmpty()) {
@@ -180,10 +181,9 @@ function dsFill(file) {
   var rt = "";
   var set = {};
   var data = "";
-  var target = file||"./hyper.dmp";
+  var target = file||defaultStackFile;
   
   try {
-    if(target==="") {target = "./hyper.dmp"};
     if(fs.existsSync(target)) {
       data = fs.readFileSync(target, {encoding:'utf8', flag:'r'});
       set = JSON.parse(data);
