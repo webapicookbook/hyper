@@ -119,6 +119,13 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. SAVE|WRITE _[filename]_ writes the top item on the stack to disk (defaults to hyper.dat)
  - [x] : support for .. DUMP _[filename]_ writes the full stack to disk (defaults to hyper.dmp)
  - [x] : support for .. FILL _[filename]_ replaces the current stack with contents in disk file (defaults to hyper.dmp)
+ - [x] : support for **OAUTH** OAuth 2.0 support
+ - [x] : support for .. LOAD _[filename]_ loads OAuth config file (defaults to "oauth.env")
+ - [x] : support for .. SAVE _[filename]_ loads OAuth config file (defaults to "oauth.env")
+ - [x] : support for .. DEFINE _<string>_ _<{n:v,...}>_ Creates an entry in the OAuth configuration
+ - [x] : support for .. UPDATE _<string>_ _<{n:v,...}>_ Modifies settings in an existing OAuth configuration
+ - [x] : support for .. GENERATE|GEN _<string>_ Generates an access token using the configuration data
+ - [x] : support for .. REMOVE _<string>_ removes the named item
  - [x] : support for **ACTIVATE**|CALL|GOTO|GO - makes an HTTP request
  - [x] : support for .. WITH-URL _<url}|$#>_ - uses URL to make the request
  - [x] : support for .. WITH-REL _<string|$#>_ - uses HREF value on the associated in-doc element 
@@ -127,6 +134,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-PATH _<json-path-string|$#>_ - uses value from JSONPath result as the URL
  - [x] : support for .. WITH-ACCEPT _string|$#>_ - sets the accept header directly
  - [x] : support for .. WITH-HEADERS _<{n:v,...}|$#>_ - request headers
+ - [x] : support for .. WITH-OAUTH _<string|$#>_ - Sets the `authorization` header using the named OAUTH token 
  - [x] : support for .. WITH-QUERY _<{n:v,...}|$#>_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _<name=value&...|$#>_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for .. WITH-METHOD _<string}|$#>_ - to set HTTP method (defaults to GET)
@@ -180,6 +188,16 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. ID|REL|NAME|FORM|TAG|TARGET _<string|$#>_ returns a single node
  - [ ] : support for .. IDS|RELS|NAMES|FORMS|TAGS|TARGETS returns a simple list
  - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a WSTL response
+ - [x] : support for **FJ** returns a strong-typed version of JSON+FORMS response from top of the stack (`forms+json`)
+ - [x] : support for .. METADATA returns metadata array from a response
+ - [x] : support for .. LINKS returns links array from a response
+ - [x] : support for .. ITEMS returns items array from a response
+ - [x] : support for .. ID _<string|$#>_ returns an element (metadata, link, item) associated with the ID
+ - [x] : support for .. TAG _<string|$#>_ returns matching nodes
+ - [x] : support for .. REL _<string|$#>_ returns a link associated with the REL
+ - [x] : support for .. NAME _<string|$#>_ returns an element (metadata, link, property) associated with the NAME
+ - [x] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
+ - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a response
  - [ ] : support for **MASH** returns a strong-typed version of response from top of the stack (`vnd.mash+json`)
  - [ ] : support for .. METADATA returns metadata array from a response
  - [ ] : support for .. LINKS returns links array from a response
@@ -200,28 +218,17 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [ ] : support for .. NAME _<string|$#>_ returns an element (metadata, link, property) associated with the NAME
  - [ ] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
  - [ ] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a SIREN response
-  - [x] : support for **FJ** returns a strong-typed version of JSON+FORMS response from top of the stack (`forms+json`)
- - [x] : support for .. METADATA returns metadata array from a response
- - [x] : support for .. LINKS returns links array from a response
- - [x] : support for .. ITEMS returns items array from a response
- - [x] : support for .. ID _<string|$#>_ returns an element (metadata, link, item) associated with the ID
- - [x] : support for .. TAG _<string|$#>_ returns matching nodes
- - [x] : support for .. REL _<string|$#>_ returns a link associated with the REL
- - [x] : support for .. NAME _<string|$#>_ returns an element (metadata, link, property) associated with the NAME
- - [x] : support for .. IDS|NAMES|RELS|FORMS|TAGS returns a simple list 
- - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from a response
  
 ## TODO Items
 Here's a list of things I think need to be done before #HyperLang (as I like to call it) is "complete":
 
+ - [ ] : improved support for VERBOSE setting, possibly levels. See noting (0), see status (1), see errors (2)
  - [ ] : support for URITemplates - required for HAL (and other formats?)
- - [x] : support for _$$name$$_ returns the value of the config item named 
- - [x] : support for _##name##_ returns the value of the names element at the top of the stack
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
- - [ ] **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
- - [ ] **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
- - [ ] **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
+ - [ ] : **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
+ - [ ] : **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
+ - [ ] : **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
  
 ## Dependencies
 These modules are used in the hyper app.
