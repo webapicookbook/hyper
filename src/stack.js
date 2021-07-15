@@ -6,6 +6,7 @@
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
 const fs = require('fs');
+const utils = require ('./hyper-utils');
 
 // exports
 module.exports = main;
@@ -213,8 +214,7 @@ function dsPush(words) {
   var path = words[3]||"$";
 
   try {
-    regex = /\\.\\/gi
-    token = token.replace(regex,' ');
+    token = utils.fixString(token);
     switch (token.toLowerCase()) {
       case "with-response":
         item = JSON.parse(responses.peek().getBody('UTF8'));
@@ -222,6 +222,9 @@ function dsPush(words) {
       case "with-path":
         item = JSON.parse(responses.peek().getBody('UTF8'));
         item = JSONPath({path:path,json:item});
+        if(Array.isArray(item) && item.length<2) {
+          item = item[0];
+        }
         break;
      default:
         item = JSON.parse(token);
@@ -230,7 +233,7 @@ function dsPush(words) {
     dataStack.push(item);
   } catch (err) {
     // no-op
-    // console.log(err);
+    console.log(err);
   }  
   return item;
 }
@@ -242,6 +245,7 @@ function dsSet(token) {
   var item = {};
   
   try {
+    token = utils.fixString(token);
     set = JSON.parse(token);
     if(dataStack.size()>0) {
       item = dataStack.peek();
@@ -253,8 +257,9 @@ function dsSet(token) {
       }
       dataStack.push(item);
     }
-  } catch {
+  } catch (err){
     // no-op
+    console.log(err)
   }  
   return item;
 }

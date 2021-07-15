@@ -6,6 +6,7 @@
 const { spawnSync, execSync, execFileSync } = require("child_process");
 
 // export list
+exports.fixString = fixString;
 exports.fixUrl = fixUrl;
 exports.runShell = runShell;
 exports.echo = echo;
@@ -13,6 +14,15 @@ exports.showHelp = showHelp;
 exports.timeStamp = timeStamp;
 exports.configValue = configValue;
 exports.stackValue = stackValue;
+
+// clean up strings
+// replace \.\ with " "
+function fixString(token) {
+  var rt = "";
+  var regex = /\\.\\/gi;
+  rt = token.replace(regex, ' ');
+  return rt;
+}
 
 // clean up any supplied URL
 function fixUrl(url) {
@@ -124,6 +134,7 @@ function showHelp() {
     WITH-NAME <string|$#> 
     WITH-ID <string|$#>
     WITH-PATH <json-path-string|$#> (applies JSONPath that returns URL)
+    WITH-OAUTH <string|$#> (sets the HTTP authorization header from named OAUTH config)
     WITH-ACCEPT <string|$#> (sets the HTTP accept header directly)
     WITH-FORMAT (uses config.accept property)
     WITH-PROFILE (uses confg.profile property)

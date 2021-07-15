@@ -410,6 +410,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+        thisWord = utils.fixString(thisWord);
         headers = JSON.parse(thisWord);
       } catch {
         // no-op
@@ -445,7 +446,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        body = thisWord;
+        body = utils.fixString(thisWord);
         headers["content-type"] = "application/x-www-form-urlencoded";
       } catch {
         // no-op
@@ -458,6 +459,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+        thisWord = utils.fixString(thisWord);
         if(typeof thisWord === 'object') {
           thisWord = JSON.stringify(thisWord);
         }

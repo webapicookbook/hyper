@@ -4,6 +4,7 @@
 
 // imports
 const fs = require('fs');
+const utils = require('./hyper-utils');
 
 // exports
 module.exports = main;
@@ -105,6 +106,7 @@ function configSet(token) {
   var set = {};
   
   try {
+    token = utils.fixString(token);
     set = JSON.parse(token);
     for(var c in set) {
     config[c] = set[c];
