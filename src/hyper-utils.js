@@ -69,9 +69,17 @@ function runShell(words) {
 // ECHO {strings}
 function echo(words) {
   rt = "";
+  
+  /*
   words.forEach(function peek(w) {
     rt += "word="+w+"\n";
   });
+  */
+  if(words[0].toUpperCase()==="ECHO") {
+    words.shift();
+  }  
+  rt = words.join(" ");
+  
   return rt;
 }
 

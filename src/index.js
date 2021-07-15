@@ -61,7 +61,7 @@ try {
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: 'i> '
+  prompt: '> '
 });
 
 // get first input
@@ -125,6 +125,7 @@ rl.on('line', (line) => {
       break;
     case "ECHO":  
       console.log(utils.echo(words));  
+      break;
     default:
       if(plugins.hasOwnProperty(act.toLowerCase())) {
         console.log(run(plugins[act.toLowerCase()].main,words));
