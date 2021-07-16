@@ -204,7 +204,7 @@ function showVersionInfo() {
 // - WITH-NAME <string|$#> : string is a NAME within the document
 // - WITH-PATH <string|$#> :json-path against current response that returns a URL
 // - WITH-HEADERS <{n:v,...}|$#>
-// - WITH-QUERY {<n:v,...}|$#> (optionally, use "?...." on the URL, too)
+// - WITH-QUERY <{<n:v,...}|$#> (optionally, use "?...." on the URL, too)
 // - WITH-BODY <string|$#> (defaults to form-urlencoded)
 // - WITH-METHOD <string|$#> (defaults to GET)
 // - WITH-ENCODING <string|$#> (defaults to application/x-www-form-urlencoded))
@@ -212,6 +212,7 @@ function showVersionInfo() {
 // - WITH-PROFILE (emits link profile header based on config setting)
 // - WITH-FORM <string|$#> (uses FORM metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
+// - WITH-DATA <{n:v,...}|$#> (uses data in JSON object to fill in a request (form, query)
 // - WITH-AUTH0 <string|$#> (uses token stored at <string> for authentication header)
 // ***********************************************************************************
 function activate(words) {
@@ -234,6 +235,25 @@ function activate(words) {
   while (pointer<words.length) {
     thisWord = words[pointer++];
 
+    // use the JSON object to fill in fields (form/query)
+    if(thisWord && thisWord.toUpperCase()==="WITH-DATA") {
+      thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+      thisWord = utils.fixString(thisWord);
+      dataSet = JSON.parse(thisWord);
+      for(var d in fieldSet) {
+        fieldSet[d] = dataSet[d];
+      };
+      if(method!=="GET") {
+        body = querystring.stringify(fieldSet);
+        headers["content-type"] = "application/x-www-form-urlencoded";        
+      }      
+      else {
+        url = url + "?" + querystring.stringify(fieldSet);  
+      }
+    }
+    
     // use item on the top of the stack to fill in fields (form/query)
     if(thisWord && thisWord.toUpperCase()==="WITH-STACK") {
       dataSet = dataStack.peek();

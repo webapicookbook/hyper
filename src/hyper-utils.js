@@ -153,6 +153,7 @@ function showHelp() {
     WITH-METHOD <string>
     WITH-FORM <form-identifier-string|#>
     WITH-STACK (uses top stack item for input/query values)
+    WITH-DATA <{n:v,...}|$#> (uses JSON object for input/query values)
   CLEAR
   VERSION (returns version of hyper repl)
   SHELL command-string <== "Here be dragons!"
@@ -160,84 +161,6 @@ function showHelp() {
   PLUGINS (returns list of loaded plug-in modules)
 
   See also: STACK, CONFIG, DISPLAY and any loaded PLUGINS`;
-/*    
-  CONFIG
-    READ
-    SET <{"name":"value",...}>
-    REMOVE <string> 
-    CLEAR (removes all settings)
-    RESET (resets to default settings : "hyper.cfg")
-    FILE|LOAD [file-string] : defaults to "hyper.cfg"
-    SAVE|WRITE [file-string] : defaults to "hyper.cfg"
-  STACK 
-    PEEK 
-    PUSH <{"n":"v",...}>
-    PUSH WITH-RESPONSE
-    PUSH WITH-PATH <json-path-string>
-    POP
-    SET <{"n":"v",...}>
-    EXPAND-ARRAY [name] : expands array on the stop of the stack using _name_
-    LOAD|FILE [file-string] : defaults to hyper.dat
-    SAVE|WRITE [file-string] : defaults to hyper.dat
-    DUMP [file-strin]g : defaults to hyper.dmp
-    FILL [file-string] : defaults to hyper.dmp
-    CLEAR|FLUSH
-    LEN|LENGTH
-  DISPLAY
-    URL
-    STATUS|STATUS-CODE
-    CONTENT-TYPE
-    HEADERS
-    PEEK
-    POP
-    LENGTH|LEN
-    PATH <jsonpath-string|$>
-  CJ
-    METADATA
-    LINKS
-    ITEMS
-    QUERIES
-    TEMPLATE
-    RELATED
-    ERRORS|ERROR
-    ID|REL|NAME|TAG <string|$#> (returns matching nodes)
-    IDS|RELS|NAMES|TAGS (returns simple list)
-    PATH <jsonpath-string|$#>
-  HAL
-    LINKS|_LINKS
-    ENBEDDED|_EMBEDDED
-    ID|REL|KEY|NAME|TAG <string|$#> (returns matching nodes)
-    IDS|RELS|KEYSTAGS (returns simple list)
-    PATH <jsonpath-string|$#>
-  SIREN
-    LINKS
-    ENTITIES
-    ACTIONS|FORMS
-    PROPERTIES
-    IDS|RELS|NAMES|FORMS|TAGS|CLASSES (returns simple list)
-    TAG|CLASS <string|$#> returns matching nodes
-    ID|ENTITY <string|$#> (for Entities)
-    REL|LINK <string|$#> (for Links)
-    NAME|FORM|ACTION <string|$> (for Actions)
-    PATH <jsonpath-string|$>
-  WSTL
-    TITLE
-    DATA
-    CONTENT
-    ACTIONS
-    RELATED
-    IDS|RELS|NAMES|FORMS|TAGS|TARGETS (returns simple list)
-    ID|REL|NAME|FORM|TAG|TARGET <string|$#> returns matching nodes
-    PATH <json-path|$#>
-  FJ
-    METADATA
-    LINKS
-    ITEMS
-    IDS|RELS|NAMES|FORMS|TAGS (returns simple list)
-    ID|REL|NAME|FORM|TAG <string|$#> (returns matching modes)
-    PATH
-`;
-*/
 
   return rt;
 }
