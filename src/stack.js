@@ -276,10 +276,10 @@ function showHelp(thisWord) {
       POP
       SET <{"n":"v",...}>
       EXPAND-ARRAY [name] : expands array on the stop of the stack using _name_
-      LOAD|FILE [file-string] : defaults to hyper.dat
-      SAVE|WRITE [file-string] : defaults to hyper.dat
-      DUMP [file-string] : defaults to hyper.dmp
-      FILL [file-string] : defaults to hyper.dmp
+      LOAD|FILE [file-string] : defaults to hyper.stack
+      SAVE|WRITE [file-string] : defaults to hyper.stack
+      DUMP [file-string] : defaults to hyper.dump
+      FILL [file-string] : defaults to hyper.dump
       CLEAR|FLUSH
       LEN|LENGTH`;
       

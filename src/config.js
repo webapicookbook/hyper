@@ -144,9 +144,9 @@ function showHelp(thisWord) {
     SET <{"name":"value",...}>
     REMOVE <string> 
     CLEAR (removes all settings)
-    RESET (resets to default settings : "hyper.cfg")
-    FILE|LOAD [file-string] : defaults to "hyper.cfg"
-    SAVE|WRITE [file-string] : defaults to "hyper.cfg"`
+    RESET (resets to default settings : "hyper.config")
+    FILE|LOAD [file-string] : defaults to "hyper.config"
+    SAVE|WRITE [file-string] : defaults to "hyper.config"`
 
   console.log(rt);
   return "";
