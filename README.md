@@ -118,8 +118,8 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. LS|DIR _[folder/path]_
  - [x] : support for **PLUGINS** returns list of loaded external plug-ins
  - [x] : support for **CONFIG** (READ) returns NVP of saved config data
- - [x] : support for .. FILE|LOAD _[filename]_ loads config file (defaults to "hyper.cfg")
- - [x] : support for .. SAVE|WRITE _[filename]_ loads config file (defaults to "hyper.cfg")
+ - [x] : support for .. FILE|LOAD _[filename]_ loads config file (defaults to "hyper.config")
+ - [x] : support for .. SAVE|WRITE _[filename]_ loads config file (defaults to "hyper.config")
  - [x] : support for .. SET _<{n:v,...}>_ shared config file write
  - [x] : support for .. CLEAR removes all settings
  - [x] : support for .. RESET resets to default settings
@@ -134,10 +134,10 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. POP removes the top item from the stack
  - [x] : support for .. LEN|LENGTH returns depth of the stack
  - [x] : support for .. SET _<{"n":"v",...}>_ update the JSON object on the top of the stack
- - [x] : support for .. LOAD|FILE _[filename]_  reads a single JSON object from disk onto the stack (defaults to hyper.dat)
- - [x] : support for .. SAVE|WRITE _[filename]_ writes the top item on the stack to disk (defaults to hyper.dat)
- - [x] : support for .. DUMP _[filename]_ writes the full stack to disk (defaults to hyper.dmp)
- - [x] : support for .. FILL _[filename]_ replaces the current stack with contents in disk file (defaults to hyper.dmp)
+ - [x] : support for .. LOAD|FILE _[filename]_  reads a single JSON object from disk onto the stack (defaults to hyper.stack)
+ - [x] : support for .. SAVE|WRITE _[filename]_ writes the top item on the stack to disk (defaults to hyper.stack)
+ - [x] : support for .. DUMP _[filename]_ writes the full stack to disk (defaults to hyper.dump)
+ - [x] : support for .. FILL _[filename]_ replaces the current stack with contents in disk file (defaults to hyper.dump)
  - [x] : support for **OAUTH** OAuth 2.0 support
  - [x] : support for .. LOAD _[filename]_ loads OAuth config file (defaults to "oauth.env")
  - [x] : support for .. SAVE _[filename]_ loads OAuth config file (defaults to "oauth.env")
@@ -146,7 +146,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. GENERATE|GEN _<string>_ Generates an access token using the configuration data
  - [x] : support for .. REMOVE _<string>_ removes the named item
  - [x] : support for **ACTIVATE**|CALL|GOTO|GO - makes an HTTP request
- - [x] : support for .. WITH-URL _<url}|$#>_ - uses URL to make the request
+ - [x] : support for .. WITH-URL _<url|$#>_ - uses URL to make the request
  - [x] : support for .. WITH-REL _<string|$#>_ - uses HREF value on the associated in-doc element 
  - [x] : support for .. WITH-ID _<string|$#>_ - uses HREF value on the associated in-doc element
  - [x] : support for .. WITH-NAME _<string|$#>_ - uses HREF value on the associated in-doc element
@@ -245,9 +245,8 @@ Here's a list of things I think need to be done before #HyperLang (as I like to 
  - [ ] : support for URITemplates - required for HAL (and other formats?)
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
- - [ ] : **Conditionals** : We need some kind of IF construct(s). `IF-ERROR`, `IF-STATUS`, `IF-EQUALS`, etc. Since it is important to stick to a _readline_ model, we might support `IF-EQUALS $$accept$$ "application/json" CALL http://.... ELSE ...`. Do we get a bunch of dedicated `IF-*` tokens or a general `IF conditional THEN action ELSE action` pattern? Whatever, it needs to be a single line.
  - [ ] : **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
- - [ ] : **Branching** : Would ike to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
+ - [ ] : **Branching** : Would like to avoid branching but might consider `JUMP EXIT` or `JUMP :label|line` (much harder)
  
 ## Dependencies
 These modules are used in the hyper app.
