@@ -1,5 +1,6 @@
 #
-# Sample SIREN Session
+# SIREN Edit Session
+# read a record, save it, modify it, write it back to the server
 #
 
 ECHO ** make initial request
