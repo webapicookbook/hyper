@@ -49,7 +49,7 @@ SIREN ACTIONS
 GOTO WITH-REL taskFormListByUser WITH-QUERY {"assignedUser" : "alice"}
 ```
 
-That last command uses the `href` associated with the SIREN action element identified by the `rel:taskFormListByUser`, supplies a querystring argument and makes the request.
+That last command 1) uses the `href` associated with the SIREN action element identified by the `rel:taskFormListByUser`,  2) supplies a querystring argument and 3) makes the HTTP request.
 
 Another way to use **hyper** is to load the data stack with some name/value pairs and then use a named form within the response to execute an action. Like this:
 
@@ -66,15 +66,35 @@ GOTO WITH-FORM taskFormListByTag WITH-STACK
 SIREN PATH $..*[?(@property==='tags'&&@.match(/with-test/i))]^
 ```
 
-Note that the client will use whatever URL, HTTP method, or body encoding the server indicates. Also, notice that the client will match up any form fields with it's local data (stack) to fill in the form. Even when the server changes details (new URL, different method, etc.), the client will be able to handle the write operation.
+Note that the client will use whatever URL, HTTP method, and body encoding the server indicates. Also, notice that the client will automatically match up any form fields on the stack to fill in the form. Even when the server changes details (new URL, different method, etc.), the client will be able to handle the write operation without changes.
 
 You can also use JSONPath to query responses:
 
 ```
 SIREN PATH $.entities.*[?(@property==='id'&&@.match(/rmqzgqfq3d/i))]^.[id,title,href,type]
 ```
+You can also use **hyper** to program a modificaiton of existing records:
 
-Similar methods exist for HAL, CollectionJSON, and other supported formats.
+```
+REQUEST WITH-URL http://rwcbook10.herokuapp.com WITH-ACCEPT application/vnd.siren+json
+REQUEST WITH-PATH $.entities[0].href WITH-ACCEPT application/vnd.siren+json
+STACK PUSH WITH-PATH $.properties
+STACK SET {"tags":"fishing,skiing,hiking"}
+REQUEST WITH-FORM taskFormEdit WITH-STACK WITH-ACCEPT application/vnd.siren+json
+EXIT
+
+```
+
+In the above example, the **hyper** :
+
+ * Calls the root resource of the serivce asking for a SIREN formatted response
+ * Locates the first item in the collection, pulls its HREF value and calls that record
+ * Pushes the item properties of the record onto the local stack
+ * Updates the `tags` value on the stack to reflect the change
+ * Uses the `taskFormEdit` form, fills it with values from the stack and makes the request
+ * Once all is done, the script exits
+ 
+Similar options exist for HAL, CollectionJSON, JSON+FORMS, and other formats. These various format types are defined using external plug-ins that can be created and just dropped into the `/plugins/` folder to be loaded at runtime.
 
 ## Examples
 See the [scripts](scripts/) folder for lots of working examples.
@@ -83,7 +103,6 @@ See the [scripts](scripts/) folder for lots of working examples.
 Some notes on future enhancements
 
  * [Conditionals](conditionals.md)
- * [Auth0 Plugin](auth0.md)
 
 ## Feature tracking
 This is a work in progress and totally unstable/unreliable. Here the current workplan and status for this project:
