@@ -12,7 +12,7 @@ ECHO ** push the item properties onto the stack
 STACK PUSH WITH-PATH $.properties
 
 ECHO ** modify the tags property value on the stack
-STACK SET {"tags":"fishing,skiing,hiking"}
+STACK SET {"tags":"fishing,\.\skiing,\.\hiking"}
 
 ECHO ** use the supplied edit form and updated stack to send update
 REQUEST WITH-FORM taskFormEdit WITH-STACK
