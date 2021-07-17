@@ -6,6 +6,7 @@
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
 const utils = require('./hyper-utils');
+const fs = require('fs');
 
 // exports
 module.exports = main;
@@ -13,6 +14,10 @@ module.exports = main;
 // internals
 var responses = new Stack();
 var config = {};
+
+var defaultItemFile = __dirname + "/../hyper.response";
+var defaultStackFile = __dirname + "/../hyper.responses";
+
 
 // display a saved response
 // args:{responses:responses,words:words}
@@ -26,7 +31,8 @@ function main(args) {
   var response;
   
   // shortcut for error
-  if(token.toUpperCase()!=='HELP') {
+  /*
+  if(token.toUpperCase()!=='HELp') {
     try {
       response = responses.peek();
     } catch {
@@ -35,6 +41,7 @@ function main(args) {
       //return rt;
     }  
   }
+  */
   
   switch (token.toUpperCase()) {
     case "HELP":
@@ -65,6 +72,12 @@ function main(args) {
     case "CONTENT-TYPE":
       rt = response.headers["content-type"];
       break;  
+    case "CLEAR":
+    case "FLUSH":
+      responses.clear();
+      rt = "OK";
+      break;
+      break;  
     case "PATH":
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
@@ -80,8 +93,9 @@ function main(args) {
     default:
       try {
         rt = response.getBody("UTF8");
-      } catch {
+      } catch (err){
         rt = "no response";
+        console.log(err);
       }
   }
   return {responses:responses,config:config,words:words,rt:rt}
@@ -99,6 +113,7 @@ function showHelp(thisWord) {
     PEEK
     POP
     LENGTH|LEN
+    CLEAR|FLUSH
     PATH <jsonpath-string|$>`
 
   console.log(rt);
