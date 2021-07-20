@@ -112,7 +112,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for **#** - comment lines
  - [x] : support for **VERSION** - returns version info
  - [x] : support for **EXIT|STOP** - halt and exit with 0
- - [x] : support for **EXIT-ERR** - halt and exit with 1 
+ - [ ] : support for **EXIT-ERR** - halt and exit with 1 
  - [x] : support for **CLEAR** - clears the console
  - [x] : support for **SHELL** simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _[folder/path]_
@@ -244,6 +244,7 @@ Here's a list of things I think need to be done before #HyperLang (as I like to 
 
  - [ ] : improved support for VERBOSE setting, possibly levels. See noting (0), see status (1), see errors (2)
  - [ ] : support for URITemplates - required for HAL (and other formats?)
+ - [ ] : support for HAL-FORMS - could greatly enhance HAL support
  - [ ] : support for IF-ERROR - error checking (`4xx`, `5xx`)
  - [ ] : support for JUMP _{label}_ - jump to defined label in the script (might be forward-only jumping)
  - [ ] : **Loops** : Do we really want to implement loops? If yes, then it MUST be a single line element. Like list comprehensions in Python. For example `WHILE STACK NOT EMPTY ACTIVATE WITH-FORM taskAddForm WITH-STACK POP`. 
