@@ -243,9 +243,9 @@ function showHelp(thisWord) {
   rt = 
  `HAL
     LINKS|_LINKS
-    ENBEDDED|_EMBEDDED
+    EMBEDDED|_EMBEDDED
     ID|REL|KEY|NAME|TAG <string|$#> (returns matching nodes)
-    IDS|RELS|KEYSTAGS (returns simple list)
+    IDS|RELS|KEYS|TAGS (returns simple list)
     PATH <jsonpath-string|$#>
 `;
       
