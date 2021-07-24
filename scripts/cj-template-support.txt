@@ -1,0 +1,54 @@
+#
+# CJ TEMPLATE support
+# 
+
+# store values
+CONFIG SET {"start-url":"http://rwcbook12.herokuapp.com"}
+CONFIG SET {"accept":"application/vnd.collection+json"}
+STACK PUSH {"title":"stacked-title","tags":"stacked","completeFlag":"false"}
+
+# get initial list
+GOTO WITH-URL $$start-url$$ WITH-ACCEPT
+
+# add a new record to the list
+GOTO WITH-FORM TEMPLATE WITH-STACK
+
+# confirm create
+GOTO WITH-FORM byTag WITH-STACK 
+CJ ITEMS
+CJ PATH $.collection.items.length
+
+# load single rec
+GOTO WITH-PATH $.collection.items[0].href
+
+# update that rec
+GOTO WITH-FORM TEMPLATE-UPDATE WITH-DATA {"title":"stacked-title","tags":"stacked-up","completeFlag":"false"}
+
+#confirm update
+GOTO WITH-FORM byTag WITH-DATA {"tags":"stacked-up"} 
+CJ ITEMS
+CJ PATH $.collection.items.length
+
+# load single rec
+GOTO WITH-PATH $.collection.items[0].href 
+
+# remove that rec
+GOTO WITH-FORM TEMPLATE-DELETE
+
+# confirm delete
+GOTO WITH-FORM byTag WITH-DATA {"tags":"stacked-up"}
+CJ ITEMS
+CJ PATH $.collection.items.length
+
+# clean up
+STACK POP
+CONFIG REMOVE start-url
+
+# all done
+EXIT
+
+#
+# EOF
+#
+
+

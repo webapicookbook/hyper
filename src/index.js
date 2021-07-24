@@ -432,7 +432,11 @@ function activate(words) {
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
         thisWord = utils.fixString(thisWord);
-        headers = JSON.parse(thisWord);
+        var set = JSON.parse(thisWord)
+        for(var s in set) {
+          headers[s] = set[s];
+        }
+        //headers = JSON.parse(thisWord); // this is replace, should be merge
       } catch {
         // no-op
       }  

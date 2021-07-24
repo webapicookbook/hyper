@@ -61,7 +61,8 @@ function withName(args) {
 }
 
 // support WITH-FORM
-// only queries in CJ 
+// defaults to queries in CJ 
+// uses reserved words for templates
 function withForm(args) {
   var response = args.response;
   var thisWord = args.thisWord
@@ -70,26 +71,73 @@ function withForm(args) {
   var body = args.body;
   var fields = args.fields
   var fieldSet = args.fieldSet;
+  var config = args.config;
   var url = args.url;
   var action, form;
   var path = "";
   
-  path = "$.collection.queries.*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+  if(thisWord.toUpperCase().indexOf("TEMPLATE")!==-1) {
+    path = "$.collection.template";
+  }
+  else {
+    path = "$.collection.queries.*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+  }  
 
   form = JSONPath({path:path, json:response})[0];
-  if(form && form.href) {
-    url = form.href;  
-    url = utils.fixUrl(url);
+  
+  try {
+    switch (thisWord.toUpperCase()) {
+      case "TEMPLATE":
+      case "TEMPLATE-POST":
+      case "TEMPLATE-CREATE":
+      case "CREATE":
+      case "TEMPLATE-PUT":
+      case "TEMPLATE-UPDATE":
+      case "UPDATE":
+      case "TEMPLATE-DELETE":
+      case "DELETE":
+        url = response.collection.href;
+        url = utils.fixUrl(url);
+        break;
+      default:        
+        if(form && form.href) {
+          url = form.href;  
+          url = utils.fixUrl(url);
+        }
+        else {
+          url = "#";
+        }          
+    }    
+  } catch (err) {
+    // no-op console.log(err);
   }
-  else {
-    url = "#";
-  }          
-  if(form && form.method) {
-    method = form.method;
-  }
-  else {
-    method = "GET";
-  }
+  
+  try {
+    switch (thisWord.toUpperCase()) {
+      case "TEMPLATE":
+      case "TEMPLATE-CREATE":
+      case "CREATE":
+        method = "POST";
+        break;
+      case "TEMPLATE-UPDATE":
+      case "UPDATE":
+        method = "PUT";
+        break; 
+      case "TEMPLATE-DELETE":
+        method = "DELETE";
+        break;
+      default:
+        if(form && form.method) {
+          method = form.method;
+        }
+        else {
+          method = "GET";
+        }
+    }
+  } catch(err) {
+    // no-op
+  }  
+  
   if(form && form.data) {
     fields = form.data; // we'll use these later
     fields.forEach(function dataField(f) {
@@ -100,16 +148,13 @@ function withForm(args) {
     if(form.type!=="") {
       headers["content-type"] = form.type;
     } 
+    else {
+      headers["content-type"] = config["content-type"]||"application/json";
+    }
   }
   return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
 }
  
-// support WITH-TEMPLATE 
-// special CJ templating support
-// WITH-TEMPLATE CREATE|UPDATE|DELETE
-function withTemplate(args) {
-}
-
 // display a parse CollectionJSON object
 // CJ {command}
 // args: {responses:responses,dataStack:dataStack,config:config,words:words}
@@ -124,12 +169,10 @@ function main(args) {
   var response;
   var thisWord = "";
 
-  if(token.toUpperCase()!=="HELP") {
-    try {
-      response = responses.peek();
-    } catch {
-      token="";
-    }
+  try {
+    response = responses.peek();
+  } catch {
+    response = {};
   }
   
   switch (token.toUpperCase()) {
@@ -158,6 +201,9 @@ function main(args) {
     case "RELATED":
       rt = JSON.parse(response.getBody('UTF8')).collection.related||{};
       break;
+    case "HREF":
+      rt = JSON.parse(response.getBody('UTF8')).collection.href||{};
+      break;  
     case "REL":
     case "ID":
     case "NAME":
@@ -177,6 +223,25 @@ function main(args) {
         rt = "no response";
       }  
       break;
+    case "FORMS":
+      rt = JSON.parse(response.getBody('UTF8'));
+      token = "$..*[?(@property==='rel')]"
+      try {
+        rt = JSONPath({path:token,json:rt});
+        var fin = [];
+        for(var i in rt) {
+          var p = rt[i].split(" ");
+          for (var j in p) {
+            if(fin.indexOf(p[j])===-1) {
+              fin.push(p[j]);
+            }
+          }
+        }
+        rt = fin;
+      } catch {
+        // no-op
+      }
+      break;  
     case "IDS":
       rt = JSON.parse(response.getBody('UTF8'));
       token = "$..*[?(@property==='id')]";
@@ -248,6 +313,27 @@ function main(args) {
         // console.log(err)
       }
       break;
+    case "FORM":
+      thisWord = words[2];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+      if(thisWord.toUpperCase()==='TEMPLATE') {
+        try {
+          rt = JSON.parse(response.getBody('UTF8')).collection.template||{}
+        } catch (err) {
+          // no-op
+        }
+      }
+      else {
+        path  = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+        try {
+          rt = JSON.parse(response.getBody('UTF8'));
+          rt = JSONPath({path:path, json:rt});
+        } catch {
+          // no-op
+        }
+      }
+      break;
     case "TAG":
       thisWord = words[2];
       thisWord = utils.configValue({config:config,value:thisWord});
@@ -291,16 +377,28 @@ function showHelp(thisWord) {
   var rt = "";
   rt = 
  `CJ
-    METADATA
-    LINKS
-    ITEMS
-    QUERIES
-    TEMPLATE
-    RELATED
-    ERRORS|ERROR
-    ID|REL|NAME|TAG <string|$#> (returns matching nodes)
-    IDS|RELS|NAMES|TAGS (returns simple list)
-    PATH <jsonpath-string|$#>`;
+    HREF (returns the top-level HREF for this response)
+    METADATA (returns the metadata collection)
+    LINKS (returns the links collection)
+    ITEMS (returns the items collection)
+    QUERIES (returns the queries collection)
+    TEMPLATE (returns the cj template)
+    RELATED (returns a related collection)
+    ERRORS|ERROR (returns any error object/array in the response)
+    ID|REL|NAME|TAG|FORM <string|$#> (returns matching nodes)
+    IDS|RELS|NAMES|TAGS|FORMS (returns simple list)
+    PATH <jsonpath-string|$#>
+
+    When using WITH-FORM, the following reserved words are supported:
+      - TEMPLATE, TEMPLATE-POST, TEMPLATE-CREATE, CREATE
+      - TEMPLATE-PUT, TEMPLATE-UPDATE, UPDATE
+      - TEMPLATE-DELETE, DELETE
+      
+    As in:
+      GOTO WITH-FORM TEMPLATE-UPDATE WITH-STACK
+
+    Note: CJ Templates ALWAYS use the collection.href value as the URL`;
+    
       
     console.log(rt);    
   

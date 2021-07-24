@@ -29,20 +29,7 @@ function main(args) {
   var index = 0;
   var token = words[1]||"0";
   var response;
-  
-  // shortcut for error
-  /*
-  if(token.toUpperCase()!=='HELp') {
-    try {
-      response = responses.peek();
-    } catch {
-      rt = "no response";
-      return {responses:responses,words:words,rt:rt}
-      //return rt;
-    }  
-  }
-  */
-  
+    
   switch (token.toUpperCase()) {
     case "HELP":
       rt = showHelp(words[2]||"");
@@ -61,29 +48,28 @@ function main(args) {
       break;
     case "STATUS":
     case "STATUS-CODE":
-      rt = response.statusCode;  
+      rt = responses.peek().statusCode;  
       break;
     case "HEADERS":
-      rt = response.headers;  
+      rt = responses.peek().headers;  
       break;
     case "URL":
-      rt = response.url;  
+      rt = responses.peek().url;  
       break;
     case "CONTENT-TYPE":
-      rt = response.headers["content-type"];
+      rt = responses.peek().headers["content-type"];
       break;  
     case "CLEAR":
     case "FLUSH":
       responses.clear();
       rt = "OK";
       break;
-      break;  
     case "PATH":
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
       console.log(token);
       try {
-        rt = JSON.parse(response.getBody('UTF8'));
+        rt = JSON.parse(responses.peek().getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
       } catch {
         // no-op
@@ -92,10 +78,10 @@ function main(args) {
     case "PEEK":
     default:
       try {
-        rt = response.getBody("UTF8");
+        rt = responses.peek().getBody("UTF8");
       } catch (err){
         rt = "no response";
-        console.log(err);
+        //console.log(err);
       }
   }
   return {responses:responses,config:config,words:words,rt:rt}
