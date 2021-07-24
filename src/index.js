@@ -100,7 +100,7 @@ rl.on('line', (line) => {
       break;  
     case "PLUGINS":
       plugins = loadPlugins(plugins);
-      console.log(JSON.stringify(Object.keys(plugins)));
+      console.log(JSON.stringify(Object.keys(plugins)).toUpperCase());
       break;
     case "TIMESTAMP":
       console.log(utils.timeStamp(line));
