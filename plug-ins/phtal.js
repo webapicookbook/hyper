@@ -110,7 +110,7 @@ function main(args) {
       if("rel id key".toLowerCase().indexOf(token.toLowerCase())==-1) {
         try {
           rt = JSON.parse(response.getBody('UTF8'));
-          rt = JSONPath({path:token, json:rt});
+          rt = JSONPath({path:token, json:rt})[0];
         } catch {
           // no-op
         }
