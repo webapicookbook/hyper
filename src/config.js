@@ -140,9 +140,9 @@ function showHelp(thisWord) {
   
   rt = `
   CONFIG
-    READ
-    SET <{"name":"value",...}>
-    REMOVE <string> 
+    READ (returns all the config values)
+    SET <{"name":"value",...}> (writes one or more config values to the list)
+    REMOVE <string> (removes the named config value from the list)
     CLEAR (removes all settings)
     RESET (resets to default settings : "hyper.config")
     FILE|LOAD [file-string] : defaults to "hyper.config"

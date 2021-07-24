@@ -92,15 +92,15 @@ function showHelp(thisWord) {
   
   rt = `
   DISPLAY
-    URL
-    STATUS|STATUS-CODE
-    CONTENT-TYPE
-    HEADERS
-    PEEK
-    POP
-    LENGTH|LEN
-    CLEAR|FLUSH
-    PATH <jsonpath-string|$>`
+    URL (returns the URL of the current response)
+    STATUS|STATUS-CODE (returns the HTTP status code of the current response)
+    CONTENT-TYPE (returns the content-type of the current response)
+    HEADERS (returns the HTTP headers of the current response)
+    PEEK (displays the most recent response on the top of the stack)
+    POP (pops off [removes] the top item on the response stack)
+    LENGTH|LEN (returns the count of the responses on the response stack)
+    CLEAR|FLUSH (clears the response stack)
+    PATH <jsonpath-string|$#> (applies the JSON Path query to the response at the top of the stack`;
 
   console.log(rt);
   return "";

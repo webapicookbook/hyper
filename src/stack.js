@@ -269,19 +269,19 @@ function showHelp(thisWord) {
   var rt = ""
   rt = 
    `STACK 
-      PEEK 
-      PUSH <{"n":"v",...}>
-      PUSH WITH-RESPONSE
-      PUSH WITH-PATH <json-path-string>
-      POP
-      SET <{"n":"v",...}>
+      PEEK (returns the top item on the stack) 
+      PUSH <{"n":"v",...}> (adds a new item to the stack)
+      PUSH WITH-RESPONSE (adds the most recent response to the stack)
+      PUSH WITH-PATH <json-path-string> (adds the result of the JSON query to the stack)
+      POP (removes the top item from the stack)
+      SET <{"n":"v",...}> (updates the top item of the stack)
       EXPAND-ARRAY [name] : expands array on the stop of the stack using _name_
       LOAD|FILE [file-string] : defaults to hyper.stack
       SAVE|WRITE [file-string] : defaults to hyper.stack
       DUMP [file-string] : defaults to hyper.dump
       FILL [file-string] : defaults to hyper.dump
-      CLEAR|FLUSH
-      LEN|LENGTH`;
+      CLEAR|FLUSH (removes all the items from the stack)
+      LEN|LENGTH (returns the number of items on the stack)`; 
       
     console.log(rt);    
   
