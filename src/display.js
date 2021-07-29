@@ -79,8 +79,10 @@ function main(args) {
     default:
       try {
         rt = responses.peek().getBody("UTF8");
+        rt = JSON.parse(responses.peek().getBody("UTF8"),null,2);
+        rt = JSON.stringify(rt,null,2);
       } catch (err){
-        rt = "no response";
+        //rt = "no response";
         //console.log(err);
       }
   }
