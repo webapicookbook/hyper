@@ -106,8 +106,11 @@ rl.on('line', (line) => {
       break;
     case "EXIT":
     case "STOP":
+      process.exit(0)
+      break;
     case "GOODBYE":
     case "BYE":
+      console.log("SO LONG!")
       process.exit(0)
       break;
     case "CLEAR":

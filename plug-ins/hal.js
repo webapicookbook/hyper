@@ -46,7 +46,7 @@ function withId(args) {
   var path = "";
   var rt = "";
   
-  path = "$..*[?(@property==='"+thisWord+"')].href";
+  path = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^.href";
   
   try {
     rt = JSONPath({path:path,json:response})[0];
