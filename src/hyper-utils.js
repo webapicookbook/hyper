@@ -14,6 +14,8 @@ exports.showHelp = showHelp;
 exports.timeStamp = timeStamp;
 exports.configValue = configValue;
 exports.stackValue = stackValue;
+exports.clearGreeting = clearGreeting;
+exports.joshua = joshua;
 
 // clean up strings
 // replace \.\ with " "
@@ -81,6 +83,41 @@ function echo(words) {
   rt = words.join(" ");
   
   return rt;
+}
+
+// inside joke
+function joshua(words) {
+  var thisWord = (words[1]||"");
+  var rt = "";
+  
+  if(thisWord.toUpperCase()==="JOSHUA") {
+    rt = "GREETINGS, DR. FALKEN. WOULD YOU LIKE TO PLAY A GAME?";
+  }
+  
+  if(words[0].toUpperCase()==="PLAY"|| words[0].toUpperCase()==="PLAY?") {
+    rt = "HOW ABOUT A NICE GAME OF HYPERMEDIA?";
+  }
+
+  if(words[0].toUpperCase()==="NOW"|| words[0].toUpperCase()==="NOT"|| words[0].toUpperCase()==="NO") {
+    rt = "OK, MAYBE LATER.";
+  }
+
+  return rt;
+}
+
+// clear friendly "greeting" words from the line
+function clearGreeting(words) {
+  var friendly = " OK OK, FINALLY FINALLY, LASTLY LASTLY, AND WHAT GAME SHALL SHOULD WE LET'S THE NOW NOW, THEN THEN, ALSO ALSO, NEXT NEXT, THANKS THANKS, THANKYOU THANKYOU, THANK YES YES, HELLO HELLO, PLEASE PLEASE, I'D LIKE YOU TO JOSHUA JOSHUA, HYPERION HYPERION, HYPER HYPER, "; 
+  var i,x;
+  
+  try {
+    while(friendly.indexOf(" "+words[0]+" ".toUpperCase())!==-1) {
+      words.splice(0,1)
+    }
+  } catch(err) {
+    // no-op
+  }
+  return words;
 }
 
 // generate a unique string based on date/time
@@ -160,7 +197,7 @@ function showHelp() {
     LS || DIR [folder-string]
   PLUGINS (returns list of loaded plug-in modules)
 
-  See also: STACK, CONFIG, DISPLAY and any loaded PLUGINS`;
+  See also: HELP STACK, HELP CONFIG, HELP DISPLAY and HELP <PLUGIN>`;
 
   return rt;
 }

@@ -26,10 +26,10 @@ function withRel(args) {
  var path = "";
  var rt = "";
  
- path = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^";
+ path = "$..*[?(@property==='rel'&&@.match(/"+thisWord+"/i))]^.href";
  
  try {
-   rt = JSONPath({path:path,json:response})[0].href;
+   rt = JSONPath({path:path,json:response})[0];
  } catch (err) {
    // no-op
  }
@@ -44,10 +44,10 @@ function withId(args) {
   var token = "";
   var rt = "";
    
-  token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^"
+  token = "$..*[?(@property==='id'&&@.match(/"+thisWord+"/i))]^.href"
   
   try {
-    rt = JSONPath({path:token, json:response})[0].href;
+    rt = JSONPath({path:token, json:response})[0];
   } catch (err){
     // no-op
     // console.log(err);
@@ -354,7 +354,11 @@ function main(args) {
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
-      } catch {
+        if(rt.length===1) {
+          rt = rt[0];
+        }
+      } catch(err) {
+        console.log(err)
         // no-op
       }
       break;
@@ -397,7 +401,7 @@ function showHelp(thisWord) {
     As in:
       GOTO WITH-FORM TEMPLATE-UPDATE WITH-STACK
 
-    Note: CJ Templates ALWAYS use the collection.href value as the URL`;
+    CJ Templates ALWAYS use the response's collection.href as the URL`;
     
       
     console.log(rt);    

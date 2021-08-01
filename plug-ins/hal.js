@@ -212,13 +212,16 @@ function main(args) {
         console.log(err);
       }
       break;  
-    case "PATH":  
+    case "PATH": 
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
       token = utils.stackValue({dataStack:dataStack,value:token});
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
+        if(rt.length===1) {
+          rt = rt[0];
+        }
       } catch {
         // no-op
       }

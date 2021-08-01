@@ -22,7 +22,7 @@ var defaultFile = __dirname + "/../oauth.env";
 
 // return media type
 function mediaType() {
-  return "/"; // fits for all types
+  return "NO-MEDIA-TYPE"; // fits no types
 } 
 
 // support pulling token into request

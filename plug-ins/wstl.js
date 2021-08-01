@@ -314,6 +314,9 @@ function main(args) {
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
+        if(rt.length===1) {
+          rt = rt[0];
+        }
       } catch {
         // no-op
       }

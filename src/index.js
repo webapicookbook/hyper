@@ -33,7 +33,7 @@ var plugins = {};
 plugins = loadPlugins(plugins);
 
 // version info
-var versionInfo = {"version":"1.0","rel":"2021-07","author":"@mamund"}
+var versionInfo = {"hyper-cli":{"version":"1.0","rel":"2021-07","author":"@mamund"}}
 
 // state vars
 var responses = new Stack();
@@ -74,11 +74,30 @@ rl.on('line', (line) => {
   var args = {};
   var act = words[0].toUpperCase();
   
+  // friendly touch
+  words = utils.clearGreeting(words);
+  if(words.length!==0) {
+    act = words[0].toUpperCase();
+  }
+  else {
+    act = "";
+  }
+   
   // process each word in turn
   switch (act) {
     case "#":
     case "":
       break;
+    case "GREETINGS":
+    case "GREETINGS,": 
+    case "PLAY":
+    case "PLAY?":
+    case "NO":
+    case "NO,":
+    case "NOT":
+    case "NOW":
+      console.log(utils.joshua(words));
+      break;  
     case "VERSION":
       console.log(showVersionInfo());
       break;  
@@ -87,6 +106,8 @@ rl.on('line', (line) => {
       break;
     case "EXIT":
     case "STOP":
+    case "GOODBYE":
+    case "BYE":
       process.exit(0)
       break;
     case "CLEAR":
@@ -112,6 +133,7 @@ rl.on('line', (line) => {
       console.log(run(configOp,words));
       break;  
     case "DISPLAY":
+    case "SHOW":
       console.log(run(display, words));
       break;
     case "A":
@@ -376,7 +398,8 @@ function activate(words) {
         else {
           url = utils.fixUrl(url);
         }  
-      } catch {
+      } catch(err) {
+        // console.log(err)
         // no-op
       } 
     }

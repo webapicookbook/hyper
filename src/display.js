@@ -54,6 +54,7 @@ function main(args) {
       rt = responses.peek().headers;  
       break;
     case "URL":
+    case "HREF":
       rt = responses.peek().url;  
       break;
     case "CONTENT-TYPE":
@@ -71,6 +72,10 @@ function main(args) {
       try {
         rt = JSON.parse(responses.peek().getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
+        if(rt.length===1) {
+          rt = rt[0];
+        }
+        rt = JSON.stringify(rt,null,2);
       } catch {
         // no-op
       }
@@ -80,6 +85,9 @@ function main(args) {
       try {
         rt = responses.peek().getBody("UTF8");
         rt = JSON.parse(responses.peek().getBody("UTF8"),null,2);
+        if(rt.length===1) {
+          rt = rt[0];
+        }
         rt = JSON.stringify(rt,null,2);
       } catch (err){
         //rt = "no response";
@@ -93,7 +101,7 @@ function showHelp(thisWord) {
   var rt = "";
   
   rt = `
-  DISPLAY
+  DISPLAY|SHOW (synonyms)
     URL (returns the URL of the current response)
     STATUS|STATUS-CODE (returns the HTTP status code of the current response)
     CONTENT-TYPE (returns the content-type of the current response)
