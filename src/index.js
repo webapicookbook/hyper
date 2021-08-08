@@ -156,7 +156,7 @@ rl.on('line', (line) => {
         console.log(run(plugins[act.toLowerCase()].main,words));
       }
       else {
-        console.log(utils.echo(words));
+        console.log(utils.echo(words)+"?");
       }       
       break;
   }

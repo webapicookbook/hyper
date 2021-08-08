@@ -107,15 +107,19 @@ function joshua(words) {
 
 // clear friendly "greeting" words from the line
 function clearGreeting(words) {
-  var friendly = " HUH UM HMMM HMM OK OK, FINALLY FINALLY, LASTLY LASTLY, AND WHAT GAME SHALL SHOULD WE LET'S THE NOW NOW, THEN THEN, ALSO ALSO, NEXT NEXT, THANKS THANKS, THANKYOU THANKYOU, THANK YES YES, HELLO HELLO, PLEASE PLEASE, I'D LIKE YOU TO JOSHUA JOSHUA, HYPERION HYPERION, HYPER HYPER, "; 
-  var i,x;
+  var rt  = [];
+  var friendly = " ME US WE THEM HUH UM HMMM HMM OK OK, FINALLY FINALLY, LASTLY LASTLY, AND WHAT GAME SHALL SHOULD WE LET'S THE NOW NOW, THEN THEN, ALSO ALSO, NEXT NEXT, THANKS THANKS, THANKYOU THANKYOU, THANK YES YES, HELLO HELLO, PLEASE PLEASE, JOSH JOSH, CAN I'D LIKE YOU TO HYPERION HYPERION, HYPER HYPER, HI HI, THERE"; 
   
   try {
-    while(friendly.indexOf(" "+words[0]+" ".toUpperCase())!==-1) {
-      words.splice(0,1)
-    }
+    for(var w of words) {
+      if(friendly.indexOf(" "+w.toUpperCase()+" ")===-1) {
+        rt.push(w);
+      }
+    };
+    words = rt;
   } catch(err) {
     // no-op
+    // console.log(err)
   }
   return words;
 }

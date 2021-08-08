@@ -3,24 +3,24 @@
 # read a record, save it, modify it, write it back to the server
 #
 
-ECHO ** make initial request
+# ** make initial request
 REQUEST WITH-URL http://rwcbook10.herokuapp.com
 
-ECHO ** retreive the first record in the list
+# ** retreive the first record in the list
 REQUEST WITH-PATH $.entities[0].href
 
-ECHO ** push the item properties onto the stack
+# ** push the item properties onto the stack
 STACK PUSH WITH-PATH $.properties
 
-ECHO ** modify the tags property value on the stack
+# ** modify the tags property value on the stack
 STACK SET {"tags":"fishing,\.\skiing,\.\hiking"}
 
-ECHO ** use the supplied edit form and updated stack to send update
+# ** use the supplied edit form and updated stack to send update
 REQUEST WITH-FORM taskFormEdit WITH-STACK
 
-ECHO ** confirm the change 
+# ** confirm the change 
 SIREN PATH $.entities[0]
 
-ECHO ** exit session
+# ** exit session
 EXIT
 
