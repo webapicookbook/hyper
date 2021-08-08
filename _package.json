@@ -1,10 +1,10 @@
 {
-  "name": "@mamund/hyper",
+  "name": "hyper",
   "description": "sample project to explore an interactive shell for hypermedia services",
   "version": "1.0.0",
   "main": "./src/index.js",
   "bin": {
-    "hyper": "src/index.js"
+    "hyper": "./src/index.js"
   },
   "devDependencies": {},
   "scripts": {
