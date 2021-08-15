@@ -1,0 +1,9 @@
+#
+# basic auth example for github access
+#
+
+GOTO https://api.github.com WITH-BASIC github-basic
+SHOW
+
+EXIT
+
