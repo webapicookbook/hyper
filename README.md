@@ -154,6 +154,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-ACCEPT _string|$#>_ - sets the accept header directly
  - [x] : support for .. WITH-HEADERS _<{n:v,...}|$#>_ - request headers
  - [x] : support for .. WITH-OAUTH _<string|$#>_ - Sets the `authorization` header using the named OAUTH token 
+ - [x] : support for .. WITH-BASIC _<string|$#>_ - Sets the `authorization` header using the named BASIC config 
  - [x] : support for .. WITH-QUERY _<{n:v,...}|$#>_ - query string args as JSON nvps
  - [x] : support for .. WITH-BODY _<name=value&...|$#>_ - for POST/PUT/PATCH (defaults to app/form-urlencoded)
  - [x] : support for .. WITH-METHOD _<string}|$#>_ - to set HTTP method (defaults to GET)
