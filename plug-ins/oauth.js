@@ -10,7 +10,7 @@ const utils = require('../src/hyper-utils');
 const fs = require('fs');
 
 // exports
-module.exports = {main, mediaType, withOAuth, withRel, withId, withName, withForm};
+module.exports = {main, mediaType, withOAuth, withRel, withId, withName, withForm, withBasic};
  
 // internals
 var responses = new Stack();
@@ -31,6 +31,10 @@ function withOAuth(args) {
   var name = args.thisWord;
   authStore = args.authStore;
   
+  if(authStore==={}) {
+    oauthLoad();
+  }
+  
   try {
     rt = authStore[name].access_token;
   } catch {
@@ -38,6 +42,28 @@ function withOAuth(args) {
   }
   return rt;
 }
+
+function withBasic(args) {
+  var rt = "";
+  var buff;
+  var data;
+  var name = args.thisWord;
+  authStore = args.authStore;
+  
+  if(authStore==={}) {
+    oauthLoad();
+  }
+  
+  try {
+    data = authStore[name].username + ":" + authStore[name].password;
+    buff = Buffer.from(data);
+    rt = buff.toString("base64");
+  } catch {
+    // no op
+  }
+  return rt;
+}
+
 
 // support WITH-REL
 function withRel(args) {
@@ -66,9 +92,8 @@ function withForm(args) {
   var url = args.url;
   return  {headers:headers, method:method, body:body, url:url, fields:fields, fieldSet:fieldSet}  
 }
-// display a parse WeSTL-JSON object
-// WSTL {command}
-// args: {responses:responses,dataStack:dataStack,config:config,words:words}
+// handle oauth
+// args: {responses:responses,dataStack:dataStack,config:config,words:words:authStore:authStore}
 function main(args) {
   config = args.config;
   responses = args.responses;

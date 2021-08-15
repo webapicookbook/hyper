@@ -46,6 +46,8 @@ config.verbose = "false";
 var args = configOp({config:config,words:["CONFIG", "LOAD"]});
 config = args.config;
 
+var authFile = __dirname + "/../oauth.env";
+
 // check for input args
 // always just show help
 var args = process.argv.slice(2);
@@ -239,6 +241,7 @@ function showVersionInfo() {
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 // - WITH-DATA <{n:v,...}|$#> (uses data in JSON object to fill in a request (form, query)
 // - WITH-AUTH0 <string|$#> (uses token stored at <string> for authentication header)
+// - WITH-BASIC <string|$#> (uses username and password stored at <string> for basic auth)
 // ***********************************************************************************
 function activate(words) {
   var rt = "";
@@ -425,6 +428,26 @@ function activate(words) {
         // no-op
       } 
     }
+
+    // pull basic-auth
+    if(thisWord && thisWord.toUpperCase()==="WITH-BASIC") {
+      thisWord = words[pointer++];
+      thisWord = utils.configValue({config:config,value:thisWord});
+      thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+
+      try {
+        var oAuthToken = "";
+        // loop through plugins for WITH-OAUTH support        
+        for(var p in plugins) {
+          if(plugins[p].withBasic) {
+            var basicToken = plugins[p].withBasic({authStore:authStore,thisWord:thisWord});
+            headers.authorization = "Basic "+basicToken;
+          }
+        }
+      } catch {
+        // no-op
+      } 
+    }
     
     // path
     if(thisWord && thisWord.toUpperCase()==="WITH-PATH") {
@@ -560,8 +583,25 @@ function activate(words) {
         // no-op
       }
     }
+
+    // set user-agent value
+    if(thisWord && thisWord.toUpperCase()==="WITH-AGENT") {
+      try {
+        thisWord = words[pointer++];
+        thisWord = utils.configValue({config:config,value:thisWord});
+        thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
+        headers["user-agent"] = thisWord;
+      } catch {
+        // no-op
+      }  
+    }
   }
 
+  // make sure there is some user agent value set
+  if(!headers["user-agent"]) {
+    headers["user-agent"] ="hyper-cli";
+  }
+    
   if(config.verbose!=="false") {
     console.log("\n******************");
     console.log("URL: " + url);
