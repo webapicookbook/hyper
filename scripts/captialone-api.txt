@@ -1,0 +1,37 @@
+#
+# capital one oauth api test
+#
+
+# *************************************************
+# for details see: https://developer.capitalone.com/documentation/retrieve-consumer-bank-products
+#
+# Before running this script, you need to have :
+# - a valid capital one API account, 
+# - a registered app,
+# - oAuth client_id and client_secret
+# 
+# use OAUTH DEFINE and OAUTH SAVE to create a persistent oauth profile with the name devExchange 
+#
+# OAUTH DEFINE devExchange {"url":"https://api-sandbox.capitalone.com/oauth2/token","id":"...","secret":"...","content-type":"application/x-www-form-urlencoded"}
+#
+# OAUTH SAVE
+# 
+# *************************************************
+
+CONFIG SET {"devExDepositsAPI":"https://api-sandbox.capitalone.com/deposits/products/~/search"}
+ 
+OAUTH LOAD
+OAUTH GENERATE devExchange
+
+CALL WITH-URL $$devExDepositsAPI$$ WITH-METHOD post WITH-ACCEPT application/json;v=5 WITH-OAUTH devExchange
+
+SHOW PATH $..productName
+
+CONFIG REMOVE devExDepositsAPI
+
+EXIT
+
+#
+# eof
+#
+
