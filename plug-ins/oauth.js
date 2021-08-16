@@ -304,7 +304,7 @@ function showHelp(thisWord) {
   rt = 
  `OAUTH
     LIST [name|$#] (lists existing OAUTH definitions using optional name filter
-    DEFINE <name> <{"ur":"...","id":"...","secret":"...","audience":"...","type":"..."}> (creates a new definition)
+    DEFINE <name> <{"url":"...","id":"...","secret":"...","audience":"...","type":"..."}> (creates a new definition)
     UPDATE <name|$#> <{"n":"...","v":"..."}> (updates existing <name> definition)
     REMOVE <name|$#> (removes <name> from OAUTH collection
     GENERATE <auth-name|$#> (gets a token from OAUTH provider and loads it into the <name> definition)
