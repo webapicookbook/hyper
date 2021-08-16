@@ -4,6 +4,7 @@
  
  // imports
 const request = require('sync-request');
+const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
 const utils = require('../src/hyper-utils');
@@ -215,15 +216,32 @@ function oauthGenerate(words) {
   var name = words[2]||"";
   var body = {};
   var set = {};
-
+  var headers = {};
+  var encodedBody = "";
+  
   if(name!=="" && authStore[name]) {
+  
     url = authStore[name].url||"#";
+    body.grant_type = "client_credentials";
     body.client_id = authStore[name].id||"";
     body.client_secret = authStore[name].secret||"";
-    body.audience = authStore[name].audience||"";
-    body.grant_type = "client_credentials";
-       
-    response = request("POST", url, {headers:{"content-type":"application/json"}, body:JSON.stringify(body)});
+    
+    if(body.audience) {
+      body.audience = authStore[name].audience||"";
+    }
+    
+    if(authStore[name]["content-type"] && authStore[name]) {
+      headers["content-type"]=authStore[name]["content-type"];  
+    }   
+
+    if(headers["content-type"]==="application/x-www-form-urlencoded") {
+      encodedBody = querystring.stringify(body);
+    }
+    else {
+      encodedBody = JSON.stringify(body);
+    }
+
+    response = request("POST", url, {headers:headers, body:encodedBody});
     set = JSON.parse(response.getBody("UTF8"));
     for(var s in set) {
       authStore[name][s] = set[s];
