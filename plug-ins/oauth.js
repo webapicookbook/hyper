@@ -11,7 +11,7 @@ const utils = require('../src/hyper-utils');
 const fs = require('fs');
 
 // exports
-module.exports = {main, mediaType, withOAuth, withRel, withId, withName, withForm, withBasic};
+module.exports = {main, mediaType, withOAuth, withRel, withId, withName, withForm, withBasic, oauthLoad};
  
 // internals
 var responses = new Stack();

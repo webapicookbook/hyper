@@ -27,6 +27,7 @@ const utils = require ('./hyper-utils');
 const configOp = require('./config');
 const manageStack = require('./stack');
 const display = require('./display');
+const oAuth = require('./../plug-ins/oauth');
 
 // holds external plug-ins
 var plugins = {};
@@ -46,7 +47,15 @@ config.verbose = "false";
 var args = configOp({config:config,words:["CONFIG", "LOAD"]});
 config = args.config;
 
-var authFile = __dirname + "/../oauth.env";
+// see if we can pre-load the OAUTH data
+try {
+  args = oAuth.oauthLoad({authStore:authStore,words:["OAUTH","LOAD"]});
+} catch {
+  // no-op
+}
+  
+
+//var authFile = __dirname + "/../oauth.env";
 
 // check for input args
 // always just show help
