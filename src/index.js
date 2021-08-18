@@ -240,7 +240,7 @@ function showVersionInfo() {
 // - WITH-FORM <string|$#> (uses FORM metadata to set HTTP request details)
 // - WITH-STACK (uses data on the top of the stack to fill in a request (form, query)
 // - WITH-DATA <{n:v,...}|$#> (uses data in JSON object to fill in a request (form, query)
-// - WITH-AUTH0 <string|$#> (uses token stored at <string> for authentication header)
+// - WITH-OAUTH <string|$#> (uses token stored at <string> for authentication header)
 // - WITH-BASIC <string|$#> (uses username and password stored at <string> for basic auth)
 // ***********************************************************************************
 function activate(words) {

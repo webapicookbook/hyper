@@ -51,7 +51,7 @@ function main(args) {
       rt = responses.peek().statusCode;  
       break;
     case "HEADERS":
-      rt = responses.peek().headers;  
+      rt = JSON.stringify(responses.peek().headers,null,2);  
       break;
     case "URL":
     case "HREF":

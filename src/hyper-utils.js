@@ -184,6 +184,7 @@ function showHelp() {
     WITH-ID <string|$#>
     WITH-PATH <json-path-string|$#> (applies JSONPath that returns URL)
     WITH-OAUTH <string|$#> (sets the HTTP authorization header from named OAUTH config)
+    WITH-BASIC <string|$#> (uses username and password stored at <string> for basic auth)
     WITH-ACCEPT <string|$#> (sets the HTTP accept header directly)
     WITH-FORMAT (uses config.accept property)
     WITH-PROFILE (uses confg.profile property)
