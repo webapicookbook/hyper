@@ -59,7 +59,10 @@ function main(args) {
       break;
     case "CONTENT-TYPE":
       rt = responses.peek().headers["content-type"];
-      break;  
+      break; 
+    case "REQUEST":
+      rt = JSON.stringify(responses.peek().requestInfo,null,2);
+      break;
     case "CLEAR":
     case "FLUSH":
       responses.clear();
@@ -102,6 +105,7 @@ function showHelp(thisWord) {
   
   rt = `
   DISPLAY|SHOW (synonyms)
+    REQUEST (returns the details of the request - URL,Headers,querystring,method, and body)
     URL (returns the URL of the current response)
     STATUS|STATUS-CODE (returns the HTTP status code of the current response)
     CONTENT-TYPE (returns the content-type of the current response)

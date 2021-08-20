@@ -47,15 +47,7 @@ config.verbose = "false";
 var args = configOp({config:config,words:["CONFIG", "LOAD"]});
 config = args.config;
 
-// see if we can pre-load the OAUTH data
-try {
-  args = oAuth.oauthLoad({authStore:authStore,words:["OAUTH","LOAD"]});
-} catch {
-  // no-op
-}
-  
-
-//var authFile = __dirname + "/../oauth.env";
+var authFile = __dirname + "/../oauth.env";
 
 // check for input args
 // always just show help
@@ -268,7 +260,8 @@ function activate(words) {
   var encoding = "";
   var fieldSet = {};
   var dataSet= {};
-  
+  var requestInfo = {};
+
   while (pointer<words.length) {
     thisWord = words[pointer++];
 
@@ -620,7 +613,15 @@ function activate(words) {
     console.log("BODY: " + body);
     console.log("******************\n");
   }
-    
+  
+  // collect request info for later 
+  requestInfo = {};
+  requestInfo.url = url;
+  requestInfo.method = method;
+  requestInfo.query = query;
+  requestInfo.headers = headers;
+  requestInfo.body = body;
+
   // make the actual call
   try {
     if(body && method.toUpperCase()!=="GET") {
@@ -636,6 +637,7 @@ function activate(words) {
       }
       response = request(method, url, {headers:headers});
     }
+    response.requestInfo = requestInfo;
     responses.push(response);
     rt = "\n"+response.getBody("UTF8")+"\n";
   }
