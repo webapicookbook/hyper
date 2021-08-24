@@ -1,0 +1,26 @@
+#
+# SHOW REQUEST Example
+#
+
+# get list and view etag
+REQUEST http://company-atk.herokuapp.com/list/
+SHOW REQUEST
+
+# add a new record to the collection
+REQUEST WITH-FORM create WITH-DATA {"companyName":"q1w2e3r4","email":"user@example.org","status":"pending"}
+SHOW REQUEST
+
+# get created record
+REQUEST WITH-FORM filter WITH-DATA {"companyName":"q1w2e3r4"}
+SHOW REQUEST
+
+# remove existing record
+REQUEST WITH-PATH $..items[0].links[0].href WITH-METHOD DELETE
+SHOW REQUEST
+
+EXIT
+
+#
+# EOF
+#
+
