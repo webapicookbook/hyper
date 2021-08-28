@@ -1,0 +1,15 @@
+#
+# this should result in an error exit
+#
+
+# set exit on 400s & force output
+CONFIG SET {"exit400":"true","verbose":"true"}
+
+# this is an OK request
+GOTO WITH-URL https://company-atk.herokuapp.com
+
+# this is not an OK request
+GOTO WITH-URL https://company-atk.herokuapp.com/z-asudf-1
+
+# EOF
+

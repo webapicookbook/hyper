@@ -41,6 +41,7 @@ var responses = new Stack();
 var dataStack = new Stack();
 var config = {};
 var authStore = {};
+var exitFlag = 0;
 
 // init config and load default file
 config.verbose = "false";
@@ -85,7 +86,7 @@ rl.on('line', (line) => {
   else {
     act = "";
   }
-   
+  
   // process each word in turn
   switch (act) {
     case "#":
@@ -163,6 +164,12 @@ rl.on('line', (line) => {
       }       
       break;
   }
+  
+  // do we need a hard exist?
+  if(exitFlag !== 0) {
+    process.exit(1);
+  } 
+
   // wait for another input
   rl.prompt();
 
@@ -653,6 +660,14 @@ function activate(words) {
   } catch {
     // no-op
   } 
-    
+
+  // check for exit status
+  if(response.statusCode>399 && config.exit400 === "true") {
+    exitFlag = 1;
+  }    
+  if(response.statusCode>499 && config.exit500 === "true") {
+    exitFlag = 1;
+  }    
+  
   return rt;
 }
