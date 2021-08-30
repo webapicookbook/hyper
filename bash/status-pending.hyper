@@ -1,0 +1,21 @@
+#
+# update pending record
+#
+
+# set error level
+CONFIG SET {"error400":"true"}
+# load work list
+STACK FILL url-list.stack
+
+# get record and use status form
+GOTO WITH-URL ##href##
+GOTO WITH-FORM status WITH-DATA {"status":"active"}
+
+# clean up the stack and save
+STACK POP
+STACK DUMP url-list.stack
+STACK LEN
+
+EXIT
+
+# EOF

@@ -1,0 +1,24 @@
+#
+# mixing bash and hyper
+#
+
+
+# collect any recs at pending status
+GOTO WITH-URL https://company-atk.herokuapp.com
+GOTO WITH-NAME list
+GOTO WITH-FORM filter WITH-DATA {"status":"pending"}
+
+# write urls of pending recs to disk
+STACK CLEAR
+STACK PUSH WITH-PATH $..items..links.*[?(@property==='name'&&@.match(/read/i))]^.href
+STACK EXPAND-ARRAY href
+STACK DUMP url-list.stack
+ 
+# report total recs to process
+STACK PUSH WITH-PATH $..items.length
+STACK WRITE bash-hyper.stack
+STACK POP
+
+EXIT
+
+
