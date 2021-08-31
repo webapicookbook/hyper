@@ -78,14 +78,18 @@ function main(args) {
     case "EXPAND-ARRAY":
       list = dataStack.peek();
       var name = words[2]||"value";
+      
       if(Array.isArray(list)===true) {
         list = list.reverse();
-        dataStack.pop();
-        for(var i in list) {
-          ds = {};
-          ds[name] = list[i];
-          dataStack.push(ds);
-        }
+      }
+      else {
+        list = [list];
+      }    
+      dataStack.pop();
+      for(var i in list) {
+        ds = {};
+        ds[name] = list[i];
+        dataStack.push(ds);
       }
       rt = list;
       break;
