@@ -19,8 +19,8 @@ rm -f -- $stack_file
 
 # run the script and pull results
 echo "Checking for items to process..."
-hyper < $read_script 
-items=`cat $file`
+hyper < $read_script > $read_log  
+items=`cat $stack_file`
 
 # test to see if we're done
 if [ $? -eq 1 ]
@@ -36,7 +36,7 @@ then
 else
   echo "$items items found."
   echo "more work to do!"
-  hyper < $write_script 
+  hyper < $write_script > $write_log
   bash ./bash-hyper.sh
 fi
 
