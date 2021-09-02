@@ -22,20 +22,30 @@ exports.joshua = joshua;
 function fixString(token) {
   var rt = "";
   var regex = /\\.\\/gi;
-  rt = token.replace(regex, ' ');
+  try {
+    rt = token.replace(regex, ' ');
+  } catch (err) {
+    rt = token;
+  }
   return rt;
 }
 
 // clean up any supplied URL
 function fixUrl(url) {
-  if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
-    if(url.indexOf("//")==-1) {
-      url = "http://" + url;
+  try {
+    if(url.indexOf("http:")==-1 && url.indexOf("https:")==-1) {
+      if(url.indexOf("//")==-1) {
+        url = "http://" + url;
+      }
+      else {
+        url = "http:" + url;
+      }
     }
-    else {
-      url = "http:" + url;
-    }
+  } catch (err) {
+    // no ope
   }
+  var regex = /\"/gi;
+  url = url.replace(regex,'');
   return url;
 }
 
@@ -123,7 +133,11 @@ function configValue(args) {
   if(config!=={} && val!=="" && val.length>4) {
     if(val.substring(0,2)==="$$" &&  val.substring(val.length-2)==="$$") {
       val = val.substring(2,val.length-2);
-      rt = config[val]||val;
+      try {
+        rt = JSON.stringify(config[val]);
+      } catch (err) {
+        rt = config[val]||val;
+      }
     } 
     else {
       rt = val;

@@ -9,18 +9,28 @@ CONFIG SET {"encoding":"application/x-www-form-urlencoded"}
 CONFIG SET {"user-filter":{"email":"mamund@example.org"}}
 
 # connect to user service
+# ECHO $$user-url$$
 # ACTIVATE WITH-URL $$user-url$$
 
 # create test user
+# ECHO $$user-url$$
+# ECHO $$user-body$$
+# ECHO $$encoding$$
+# CONFIG SET {"verbose":"true"}
 # ACTIVATE WITH-URL $$user-url$$ WITH-BODY $$user-body$$ WITH-METHOD POST WITH-ENCODING $$encoding$$
 
+
 # confirm user exists
+ECHO $$user-url$$
+ECHO $$user-filter$$
+CONFIG SET {"verbose":"true"}
 ACTIVATE WITH-URL $$user-url$$ WITH-QUERY $$user-filter$$
+SHOW REQUEST
 ACTIVATE WITH-URL $$user-url$$ WITH-QUERY {"email":"mamund@example.org"}
 SIREN PROPERTIES
 
 # remove test user
-# ACTIVATE http://rwcbook10.herokuapp.com/user/mamund WITH-METHOD DELETE
+ACTIVATE http://rwcbook10.herokuapp.com/user/mamund WITH-METHOD DELETE
 
 #
 # EOF

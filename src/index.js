@@ -75,8 +75,10 @@ rl.prompt();
 // process a line
 rl.on('line', (line) => {
   line = line.trim();
-  //var words = line.split(" ");
-  var words = line.match(/(?:[^\s"']+|['"][^'"]*["'])+/g);
+  var words = line.split(" ");
+  if(line.length>0) {
+    words = line.match(/(?:[^\s"']+|['"][^'"]*["'])+/g);
+  }  
   var args = {};
   var act = words[0].toUpperCase();
   

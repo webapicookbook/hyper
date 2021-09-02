@@ -3,7 +3,7 @@
 # read a record, save it, modify it, write it back to the server
 #
 
-# ** make initial request
+# make initial request
 REQUEST WITH-URL http://rwcbook10.herokuapp.com
 
 # ** retreive the first record in the list
