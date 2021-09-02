@@ -58,7 +58,7 @@ Another way to use **hyper** is to load the data stack with some name/value pair
 GOTO http://rwcbook10.herokuapp.com
 
 # add data to the stack and execute the write operation
-STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
+STACK PUSH {"title":"just another one","tags":"with-test","completeFlag":"false"}
 GOTO WITH-FORM taskFormAdd WITH-STACK 
 
 # check the write results using the same stack data
@@ -66,7 +66,10 @@ GOTO WITH-FORM taskFormListByTag WITH-STACK
 SIREN PATH $..*[?(@property==='tags'&&@.match(/with-test/i))]^
 ```
 
+<p class="callout danger"><b>NOTE</b>: Spaces are significant in HYPER commands. The above example shows spaces are properly handed within embeded quotes (<code>STACK PUSH {"title":"just another one","tags":"with-test","completeFlag":"false"}</code>). However, there must be no spaces <i>between</i> elements in the JSON segments.</p>
+
 Note that the client will use whatever URL, HTTP method, and body encoding the server indicates. Also, notice that the client will automatically match up any form fields on the stack to fill in the form. Even when the server changes details (new URL, different method, etc.), the client will be able to handle the write operation without changes.
+
 
 You can also use JSONPath to query responses:
 
