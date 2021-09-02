@@ -75,7 +75,8 @@ rl.prompt();
 // process a line
 rl.on('line', (line) => {
   line = line.trim();
-  var words = line.split(" ");
+  //var words = line.split(" ");
+  var words = line.match(/(?:[^\s"']+|['"][^'"]*["'])+/g);
   var args = {};
   var act = words[0].toUpperCase();
   
@@ -159,6 +160,9 @@ rl.on('line', (line) => {
     case "ECHO":  
       console.log(echo(words));  
       break;
+    case "INSPECT":
+      console.log(words);
+      break;  
     default:
       if(plugins.hasOwnProperty(act.toLowerCase())) {
         console.log(run(plugins[act.toLowerCase()].main,words));

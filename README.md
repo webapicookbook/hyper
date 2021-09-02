@@ -113,6 +113,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for **VERSION** - returns version info
  - [x] : support for **EXIT|STOP** - halt and exit with 0
  - [ ] : support for **EXIT-ERR** - halt and exit with 1 
+ - [x] : support for **EXIT-IF** - halt and exit with 1 if simple condition is met
+ - [x] : support for .. INVALID-URL _<url|#$>_ : returns TRUE if the string is NOT a valid URL
+ - [x] : support for .. STACK-EMPTY : returns TRUE if there is nothing on the internal stack
  - [x] : support for **CLEAR** - clears the console
  - [x] : support for **SHELL** simple SHELL (bash/dos) support
  - [x] : support for .. LS|DIR _[folder/path]_
