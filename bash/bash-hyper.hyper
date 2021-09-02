@@ -2,7 +2,6 @@
 # mixing bash and hyper
 #
 
-
 # collect any recs at pending status
 GOTO WITH-URL https://company-atk.herokuapp.com
 GOTO WITH-NAME list
@@ -21,4 +20,5 @@ STACK POP
 
 EXIT
 
+# EOF
 

@@ -21,6 +21,7 @@ const request = require('sync-request');
 const querystring = require('querystring');
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
+const validUrl = require('valid-url');
 
 // local modules
 const utils = require ('./hyper-utils');
@@ -105,6 +106,9 @@ rl.on('line', (line) => {
     case "VERSION":
       console.log(showVersionInfo());
       break;  
+    case "EXIT-IF":
+      console.log(ifExit(words));
+      break;  
     case "EXIT-ERR":
       process.exit(1);
       break;
@@ -153,14 +157,14 @@ rl.on('line', (line) => {
       console.log(activate(words));  
       break;
     case "ECHO":  
-      console.log(utils.echo(words));  
+      console.log(echo(words));  
       break;
     default:
       if(plugins.hasOwnProperty(act.toLowerCase())) {
         console.log(run(plugins[act.toLowerCase()].main,words));
       }
       else {
-        console.log(utils.echo(words)+"?");
+        console.log(echo(words)+"?");
       }       
       break;
   }
@@ -223,6 +227,51 @@ function loadPlugins(plugins) {
     plugins = {}
   }  
   return plugins;
+}
+
+function ifExit(words) {
+  var rt = "";
+  var cmd = words[1]||"";
+  
+  switch (cmd.toUpperCase()) {
+    case "INVALID-URL":
+      var url = utils.configValue({config:config,value:words[2]});
+      url = utils.stackValue({dataStack:dataStack,value:words[2]});
+      if(validUrl.isUri(url||"")) {
+        rt="OK";
+      } 
+      else {
+        exitFlag = 1;
+        rt = "INVALID-URL";
+      }
+      break;
+    case "STACK-EMPTY":
+      if(dataStack.size()===0) {
+        exitFlag = 1;
+        rt = "STACK-EMPTY";
+      } 
+      else {
+        rt = "OK";
+      }   
+  }
+  return rt;
+}
+
+// echo whatever is on the command line
+// ECHO {strings}
+function echo(words) {
+  rt = "";
+  
+  if(words[0].toUpperCase()==="ECHO") {
+    words.shift();
+  }  
+  for(var i=0,x=words.length;i<x; i++) {
+    words[i] = utils.configValue({config:config,value:words[i]});
+    words[i] = utils.stackValue({dataStack:dataStack,value:words[i]});
+  }
+  rt = words.join(" ");
+  
+  return rt;
 }
 
 // return version info block
@@ -634,6 +683,7 @@ function activate(words) {
     if(body && method.toUpperCase()!=="GET") {
       if(method.toUpperCase()==="DELETE") {
         response = request(method, url, {headers:headers});        
+        
       }
       else {
         response = request(method, url, {headers:headers, body:body});

@@ -8,6 +8,7 @@ CONFIG SET {"error400":"true"}
 STACK FILL url-list.stack
 
 # get record and use status form
+EXIT-IF INVALID-URL ##href##
 GOTO WITH-URL ##href##
 GOTO WITH-FORM status WITH-DATA {"status":"active"}
 

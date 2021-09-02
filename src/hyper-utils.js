@@ -9,7 +9,7 @@ const { spawnSync, execSync, execFileSync } = require("child_process");
 exports.fixString = fixString;
 exports.fixUrl = fixUrl;
 exports.runShell = runShell;
-exports.echo = echo;
+//exports.echo = echo;
 exports.showHelp = showHelp;
 exports.timeStamp = timeStamp;
 exports.configValue = configValue;
@@ -67,23 +67,6 @@ function runShell(words) {
   return rt;
 }
 
-// echo whatever is on the command line
-// ECHO {strings}
-function echo(words) {
-  rt = "";
-  
-  /*
-  words.forEach(function peek(w) {
-    rt += "word="+w+"\n";
-  });
-  */
-  if(words[0].toUpperCase()==="ECHO") {
-    words.shift();
-  }  
-  rt = words.join(" ");
-  
-  return rt;
-}
 
 // inside joke
 function joshua(words) {

@@ -1,0 +1,14 @@
+#
+# testing EXIT-IF
+#
+
+# exit if the stack is empty
+STACK CLEAR
+EXIT-IF STACK-EMPTY
+
+# did we make it past the test?
+STACK LEN
+
+EXIT
+
+# EOF
