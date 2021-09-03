@@ -173,7 +173,9 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-FORM _<name}|$#>_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
  - [x] : support for .. WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [x] : support for .. WITH-DATA _<name=value&...|$#>_ - for use fill in forms with ad-hoc data
- - [x] : support for **DISPLAY** (PEEK) - show saved reponse (from top of the LIFO stack)
+ - [x] : support for **DISPLAY**|SHOW (PEEK) - show saved reponse (from top of the LIFO stack)
+ - [x] : support for .. ALL - returns the complete interaction (request, response metadata, response body)
+ - [x] : support for .. METADATA|META - returns the response metadata (URL, status, & headers)
  - [x] : support for .. REQUEST - returns request info (URL, method, querystring, body, headers)
  - [x] : support for .. URL - returns actual URL of the response
  - [x] : support for .. STATUS - returns HTTP status of the response

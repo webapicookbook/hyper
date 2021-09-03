@@ -243,6 +243,12 @@ function ifExit(words) {
     case "INVALID-URL":
       var url = utils.configValue({config:config,value:words[2]});
       url = utils.stackValue({dataStack:dataStack,value:words[2]});
+      if(url.substring(0,2 )==="$.") {
+        var path = url;
+        var json = JSON.parse(responses.peek().getBody("UTF8"));
+        url = JSONPath({path:path,json:json})[0];
+      }
+      url = utils.fixUrl(url);
       if(validUrl.isUri(url||"")) {
         rt="OK";
       } 

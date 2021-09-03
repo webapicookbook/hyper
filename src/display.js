@@ -18,7 +18,6 @@ var config = {};
 var defaultItemFile = __dirname + "/../hyper.response";
 var defaultStackFile = __dirname + "/../hyper.responses";
 
-
 // display a saved response
 // args:{responses:responses,words:words}
 function main(args) {
@@ -60,8 +59,27 @@ function main(args) {
     case "CONTENT-TYPE":
       rt = responses.peek().headers["content-type"];
       break; 
+    case "META":  
+    case "METADATA":
+      var metadata = {};
+      metadata.url = responses.peek().url;
+      metadata.statusCode = responses.peek().statusCode;
+      metadata.headers = responses.peek().headers;
+      rt = JSON.stringify(metadata, null, 2 );
+      break;  
     case "REQUEST":
       rt = JSON.stringify(responses.peek().requestInfo,null,2);
+      break;
+    case "ALL":
+      var rsp = {};
+      rsp.request = responses.peek().requestInfo;
+      rsp.response = {};
+      rsp.response.metadata = {};
+      rsp.response.metadata.url = responses.peek().url;
+      rsp.response.metadata.statusCode = responses.peek().statusCode;
+      rsp.response.metadata.headers = responses.peek().headers;
+      rsp.response.body = JSON.parse(responses.peek().getBody('UTF8'));
+      rt = JSON.stringify(rsp, null, 2);
       break;
     case "CLEAR":
     case "FLUSH":
@@ -105,16 +123,18 @@ function showHelp(thisWord) {
   
   rt = `
   DISPLAY|SHOW (synonyms)
-    REQUEST (returns the details of the request - URL,Headers,querystring,method, and body)
-    URL (returns the URL of the current response)
-    STATUS|STATUS-CODE (returns the HTTP status code of the current response)
-    CONTENT-TYPE (returns the content-type of the current response)
-    HEADERS (returns the HTTP headers of the current response)
-    PEEK (displays the most recent response on the top of the stack)
-    POP (pops off [removes] the top item on the response stack)
-    LENGTH|LEN (returns the count of the responses on the response stack)
-    CLEAR|FLUSH (clears the response stack)
-    PATH <jsonpath-string|$#> (applies the JSON Path query to the response at the top of the stack`;
+    ALL : returns the complete interaction (request, response metadata, response body)
+    REQUEST : returns the details of the request (URL, headers, querystring, method, body)
+    METADATA|META : returns the response metadata (URL, status, & headers)
+    URL : returns the URL of the current response
+    STATUS|STATUS-CODE : returns the HTTP status code of the current response
+    CONTENT-TYPE : returns the content-type of the current response
+    HEADERS : returns the HTTP headers of the current response
+    PEEK : displays the most recent response on the top of the stack (non-destructive)
+    POP : pops off [removes] the top item on the response stack
+    LENGTH|LEN : returns the count of the responses on the response stack
+    CLEAR|FLUSH : clears the response stack
+    PATH <jsonpath-string|$#> : applies the JSON Path query to the response at the top of the stack`;
 
   console.log(rt);
   return "";
