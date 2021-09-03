@@ -35,7 +35,12 @@ function main(args) {
       break;
     case "LEN":
     case "lENGTH":
-      rt = responses.size();
+      if(responses.isEmpty()) {
+        rt = "0";
+      }
+      else {
+        rt = responses.size().toString();
+      }
       break;
     case "POP":
       try {

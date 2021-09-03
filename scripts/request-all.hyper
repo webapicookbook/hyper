@@ -1,0 +1,28 @@
+#
+# test out REQUEST ALL and related
+#
+
+GOTO WITH-URL https://rwcbook02.herokuapp.com
+
+SHOW
+SHOW RESPONSE
+SHOW REQUEST
+SHOW METADATA
+SHOW ALL
+
+SHOW URL
+SHOW STATUS
+SHOW CONTENT-TYPE
+SHOW HEADERS
+
+SHOW LEN
+SHOW PATH $.task.length
+SHOW PATH $.task[0]
+
+SHOW POP
+SHOW LEN
+
+EXIT
+
+# EOF
+
