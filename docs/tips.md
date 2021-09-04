@@ -1,3 +1,5 @@
+## Quick Tips
+
 _Simple tips and tricks to get the most out of *HyperCLI** and **HyperLANG**_
 
 
@@ -35,17 +37,17 @@ GOTO WITH-FORM filter WITH-DATA { "title" : "this is a test" }
 ```  
 What **HyperCLI** sees is this:
 
- * 'GOTO',
- * 'WITH-FORM',
- * 'filter',
- * 'WITH-DATA',
- * '{',
- * '"title"',
- * ':',
- * '"this is a test"',
- * '}'
+ * `GOTO`,
+ * `WITH-FORM`,
+ * `filter`,
+ * `WITH-DATA`,
+ * `{`,
+ * `"title"`,
+ * `:`,
+ * `"this is a test"`,
+ * `}`
 
 And that's not going to work!
 
-Remember SPACES ARE IMPORTANT in **HyperLANG**
+_Always remember SPACES ARE IMPORTANT in **HyperLANG**_
  
