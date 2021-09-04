@@ -727,12 +727,16 @@ function activate(words) {
   } 
 
   // check for exit status
-  if(response.statusCode>399 && config.exit400 === "true") {
-    exitFlag = 1;
-  }    
-  if(response.statusCode>499 && config.exit500 === "true") {
-    exitFlag = 1;
-  }    
+  try {
+    if(response.statusCode>399 && config.exit400 === "true") {
+      exitFlag = 1;
+    }    
+    if(response.statusCode>499 && config.exit500 === "true") {
+      exitFlag = 1;
+    }    
+  } catch(err) {
+    // no op
+  }
   
   return rt;
 }
