@@ -78,8 +78,8 @@ Now, what **HyperCLI** sees this time is _nine_ elements:
 
 The JSON block is now treated as multiple keywords on the command line. And that's not going to work!
 
-#### Block Delimiters ([% ... %])
-The good news is that, if you really want to include these kinds of spaces in your **HyperLANG** commands, you can use a _block delimiter_ (`[% ... %]`) to better control how **HyperCLI** parses your command lines.
+#### Block Delimiters `[%` and `%]`
+The good news is that, if you really want to include these extra spaces in your **HyperLANG** commands, you can use _block delimiters_ (`[% ... %]`) to better control how **HyperCLI** parses your command lines.
 
 Here's the same (spaced-out) example but with the block delimiter added:
 
