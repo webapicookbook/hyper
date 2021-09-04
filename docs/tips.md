@@ -22,7 +22,7 @@ The good news is that **HyperCLI** ignores spaces within a double-quoted string:
 ```
 GOTO WITH-FORM filter WITH-DATA {"title":"this is a test"}
 ```  
-**HyperCLI** parses the above line into:
+**HyperCLI** parses the above line into the following five elements:
 
  * `GOTO`
  * `WITH-FORM`
@@ -35,16 +35,16 @@ However, by adding some spaces in the JSON block, we can confuse **HyperCLI**:
 ```
 GOTO WITH-FORM filter WITH-DATA { "title" : "this is a test" }
 ```  
-What **HyperCLI** sees is this:
+What **HyperCLI** sees rhia time is _nine_ elements:
 
- * `GOTO`,
- * `WITH-FORM`,
- * `filter`,
- * `WITH-DATA`,
- * `{`,
- * `"title"`,
- * `:`,
- * `"this is a test"`,
+ * `GOTO`
+ * `WITH-FORM`
+ * `filter`
+ * `WITH-DATA`
+ * `{`
+ * `"title"`
+ * `:`
+ * `"this is a test"`
  * `}`
 
 And that's not going to work!
