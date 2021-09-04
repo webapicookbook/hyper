@@ -8,7 +8,7 @@ _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 ### It Varies
 **HyperLANG** supports the use of _variables_ in commands.  There are two types of variable references: `CONFIG ($$)` and `STACK (##)`.
 
-#### CONFIG and $$
+#### `CONFIG` and `$$`
 When you want to refer to a `CONFIG` value in a command, you use the `$$` variable marker. Here's an example:
 
 ```
@@ -18,7 +18,7 @@ GOTO WITH-URL $$home-page$$
 
 The above command looks for the `home-page` element in the current in-memory `CONFIG` and, if found, replaces the `$$home-page$$` with the associated value from the `CONFIG` file. 
 
-#### STACK and ##
+#### `STACK` and `##`
 When you want to refer to a `STACK` value in a command, you use the `##` variable marker. That looks like this:
 
 ```
