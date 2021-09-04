@@ -1,4 +1,4 @@
-[HYperCLI Logo](https://pbs.twimg.com/profile_images/1414606991268499457/Ko2YTikc_400x400.jpg)
+![HyperCLI Logo](https://pbs.twimg.com/profile_images/1414606991268499457/Ko2YTikc_400x400.jpg)
 
 _The home of HyperCLI and HyperLANG_
 
