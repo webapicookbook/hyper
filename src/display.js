@@ -3,6 +3,7 @@
  * *******************************/
 
 // imports
+const prettify = require('html-prettify'); 
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
 const utils = require('./hyper-utils');
@@ -83,7 +84,11 @@ function main(args) {
       rsp.response.metadata.url = responses.peek().url;
       rsp.response.metadata.statusCode = responses.peek().statusCode;
       rsp.response.metadata.headers = responses.peek().headers;
-      rsp.response.body = JSON.parse(responses.peek().getBody('UTF8'));
+      try {
+        rsp.response.body = JSON.parse(responses.peek().getBody('UTF8'));
+      } catch(err) {
+        rsp.response.body = responses.peek().getBody('UTF8');
+      }
       rt = JSON.stringify(rsp, null, 2);
       break;
     case "CLEAR":
