@@ -16,6 +16,7 @@ exports.configValue = configValue;
 exports.stackValue = stackValue;
 exports.clearGreeting = clearGreeting;
 exports.joshua = joshua;
+exports.fixRaw = fixRaw;
 
 // clean up strings
 // replace \.\ with " "
@@ -26,6 +27,35 @@ function fixString(token) {
     rt = token.replace(regex, ' ');
   } catch (err) {
     rt = token;
+  }
+  return rt;
+}
+
+// fix up word list, if needed
+function fixRaw(words) {
+  //return words;
+  
+  var rt = [];
+  var raw = "";
+  var flag = false;
+
+  for(var w of words) {
+    if(w==="[%") {
+      flag=true;
+      raw = "";
+      continue;
+    }
+    if(w==="%]") {
+      rt.push(raw.trim());
+      flag=false;
+      continue;
+    }
+    if(flag===false) {
+      rt.push(w);
+    }
+    else {
+      raw += w + " ";
+    }
   }
   return rt;
 }

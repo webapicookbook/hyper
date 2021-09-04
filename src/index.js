@@ -78,7 +78,9 @@ rl.on('line', (line) => {
   var words = line.split(" ");
   if(line.length>0) {
     words = line.match(/(?:[^\s"']+|['"][^'"]*["'])+/g);
-  }  
+  }
+  words = utils.fixRaw(words);
+
   var args = {};
   var act = words[0].toUpperCase();
   
@@ -163,6 +165,7 @@ rl.on('line', (line) => {
       console.log(echo(words));  
       break;
     case "INSPECT":
+      words.shift();
       console.log(words);
       break;  
     default:
