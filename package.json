@@ -1,7 +1,7 @@
 {
   "name": "@mamund/hyper",
   "description": "sample project to explore an interactive shell for hypermedia services",
-  "version": "1.6.1",
+  "version": "1.7.1",
   "main": "./src/index.js",
   "bin": {
     "hyper": "src/index.js"
