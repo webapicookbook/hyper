@@ -97,7 +97,7 @@ Now, what **HyperCLI** sees this time is _five_ elements (again):
 
 And that will work just fine for **HyperCLI**.
 
-The block delimiter syntax is a bit wonky but it works -- and it is pretty rare that you'll need to use it.
+The block delimiter syntax bascially tells **HyperCLI** to treat everything between the two delimiters as a single command-line element. Admittedly, this is a bit wonky but it works -- and it is pretty rare that you'll need to use it.
 
 #### Spaces are Important
 
