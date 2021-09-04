@@ -1,6 +1,6 @@
 ## Quick Tips
 
-_Simple tips and tricks to get the most out of *HyperCLI** and **HyperLANG**_
+_Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
 * [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
@@ -41,6 +41,7 @@ The **HyperCLI** sees three elements on that line:
  * `WITH-URL`
  * `http://rwcbook14.herokuapp.com/tasks/`
  
+#### Embedded Strings 
 The good news is that **HyperCLI** ignores spaces within a double-quoted string. That means, when you type this command line:
 
 ```
@@ -54,13 +55,16 @@ GOTO WITH-FORM filter WITH-DATA {"title":"this is a test"}
  * `WITH-DATA`
  * `{"title":"this is a test"}`
 
-All fine and good. But... by adding some spaces in the JSON block of that previsou example, we can confuse **HyperCLI**:
+Note that the last element (`{"title":"this is a test"}`) is treated a single block of text. The spaces _within_ the string `"this is a test"` are treated as part of the entire JSON element. All fine and good. 
+
+#### Spaced Out
+But... by adding some spaces in the JSON block of that previous example, we can confuse **HyperCLI**:
 
 ```
 GOTO WITH-FORM filter WITH-DATA { "title" : "this is a test" }
 ```  
 
-Now, what **HyperCLI** sees rhia time is _nine_ elements:
+Now, what **HyperCLI** sees this time is _nine_ elements:
 
  * `GOTO`
  * `WITH-FORM`
@@ -72,7 +76,30 @@ Now, what **HyperCLI** sees rhia time is _nine_ elements:
  * `"this is a test"`
  * `}`
 
-And that's not going to work!
+The JSON block is now treated as multiple keywords on the command line. And that's not going to work!
+
+#### Block Delimiters ([% ... %])
+The good news is that, if you really want to include these kinds of spaces in your **HyperLANG** commands, you can use a _block delimiter_ (`[% ... %]`) to better control how **HyperCLI** parses your command lines.
+
+Here's the same (spaced-out) example but with the block delimiter added:
+
+```
+GOTO WITH-FORM filter WITH-DATA [% { "title" : "this is a test" } %]
+```  
+
+Now, what **HyperCLI** sees this time is _five_ elements (again):
+
+ * `GOTO`
+ * `WITH-FORM`
+ * `filter`
+ * `WITH-DATA`
+ * `{ "title" : "this is a test" }`
+
+And that will work just fine for **HyperCLI**.
+
+The block delimiter syntax is a bit wonky but it works -- and it is pretty rare that you'll need to use it.
+
+#### Spaces are Important
 
 _Always remember SPACES ARE IMPORTANT in **HyperLANG**_
  
