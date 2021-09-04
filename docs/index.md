@@ -1,6 +1,9 @@
-![HyperCLI Logo](https://pbs.twimg.com/profile_images/1414606991268499457/Ko2YTikc_400x400.jpg)
-
 _The home of HyperCLI and HyperLANG_
+
+<p><img src="https://pbs.twimg.com/profile_images/1414606991268499457/Ko2YTikc_400x400.jpg" align="right" height="300"/></p>
+<!--
+![HyperCLI Logo](https://pbs.twimg.com/profile_images/1414606991268499457/Ko2YTikc_400x400.jpg)
+-->
 
 * [**NPM Project**](https://www.npmjs.com/package/@mamund/hyper)
 * [**README**](https://github.com/rwmbook/hyper#readme)
