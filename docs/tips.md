@@ -2,8 +2,50 @@
 
 _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
+* [Hello, Hyper!](https://rwmbook.github.io/hyper/tips.html#hello-hyper)
 * [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
+
+### Hello, Hyper!
+Here's a super simple **HyperLANG** script:
+
+```
+GOTO https://company-atk.herokuapp.com
+```
+
+And here's how you do it:
+
+1) Make sure you've installed the latest update of the **HyperCLI** : `$> npm install -g @mamund/hyper`
+2) Launch the **HyperCLI** REPL : `$> hyper`
+3) Type the command and press ENTER : `> GOTO https://company-atk.herokuapp.com`
+
+It may take a few seconds for the sample service to fire up but eventually, you should see the following response:
+
+```
+STATUS 200
+https://company-atk.herokuapp.com
+application/forms+json; charset=utf-8
+```
+
+You can also view the request/response details with these commands:
+
+```
+SHOW REQUEST
+SHOW RESPONSE
+SHOW METADATA
+SHOW ALL
+SHOW URL
+SHOW STATUS
+SHOW CONTENT-TYPE
+SHOW HEADERS
+```
+
+Finally, you can place all the **HyperLANG** commands in a text file and then pipe that file into the **HyperCLI** like this:
+
+```
+$> hyper <hello-hyper.script
+```
+Congratualtions! You've just created your first **HyperLANG** program.
 
 ### It Varies
 **HyperLANG** supports the use of _variables_ in commands.  There are two types of variable references: `CONFIG ($$)` and `STACK (##)`.
