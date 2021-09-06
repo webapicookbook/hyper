@@ -15,9 +15,9 @@ GOTO https://company-atk.herokuapp.com
 
 And here's how you do it:
 
-1) Make sure you've installed the latest update of the **HyperCLI** : `$> npm install -g @mamund/hyper`
-2) Launch the **HyperCLI** REPL : `$> hyper`
-3) Type the command and press ENTER : `> GOTO https://company-atk.herokuapp.com`
+ 1. Make sure you've installed the latest update of the **HyperCLI** : `$> npm install -g @mamund/hyper`
+ 2. Launch the **HyperCLI** REPL : `$> hyper`
+ 3. Type the command and press ENTER : `> GOTO https://company-atk.herokuapp.com`
 
 It may take a few seconds for the sample service to fire up but eventually, you should see the following response:
 
