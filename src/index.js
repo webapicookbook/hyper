@@ -35,7 +35,11 @@ var plugins = {};
 plugins = loadPlugins(plugins);
 
 // version info
-var versionInfo = {"hyper-cli":{"version":"1.0","rel":"2021-07","author":"@mamund"}}
+var versionInfo = {};
+versionInfo["hyper-cli"] = {};
+versionInfo["hyper-cli"].ver = "1.7.1";
+versionInfo["hyper-cli"].rel = "2021-09";
+versionInfo["hyper-cli"].author = "@mamund";
 
 // state vars
 var responses = new Stack();
@@ -164,6 +168,7 @@ rl.on('line', (line) => {
     case "ECHO":  
       console.log(echo(words));  
       break;
+    case "PARSE":
     case "INSPECT":
       words.shift();
       console.log(words);
@@ -291,7 +296,7 @@ function echo(words) {
 
 // return version info block
 function showVersionInfo() {
-  return versionInfo
+  return JSON.stringify(versionInfo,null,2);
 }
 
 // ***********************************************************************************
