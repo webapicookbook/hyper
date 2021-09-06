@@ -7,6 +7,7 @@ _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
 
 ### Hello, Hyper!
+
 Here's a super simple **HyperLANG** script:
 
 ```
