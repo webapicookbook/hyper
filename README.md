@@ -184,6 +184,7 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. POP remove response from top of the stack
  - [x] : support for .. LENGTH - returns length of saved stack
  - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from top-of-stack response
+ - [x] : support for .. XPATH _<XMLPath|$#>_ returns results of an XPath query from top-of-stack response
  - [x] : support for **CJ** returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
  - [x] : support for .. METADATA returns metadata array from a collection+JSON response
  - [x] : support for .. LINKS returns links array from a collection+JSON response
@@ -271,6 +272,9 @@ These modules are used in the hyper app.
  * https://www.npmjs.com/package/stack-lifo
  * https://www.npmjs.com/package/html2json
  * https://www.npmjs.com/package/glob
+ * https://www.npmjs.com/package/valid-url
+ * https://www.npmjs.com/package/xmldom
+ * https://www.npmjs.com/package/xpath
 
 ## Plug-ins Support
 You an author your own **hyper** plug-in and place it in the `/plugins/` folder of the project. It will be automatically loaded at runtime. See [Plug-In Authoring](plugin-authoring.md) for details.

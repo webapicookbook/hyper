@@ -4,7 +4,7 @@
 
 CONFIG SET {"accept":"application/forms+json"}
 
-GOTO http://localhost:8181/list/ WITH-FORMAT
+GOTO http://localhost:3359/list/ WITH-FORMAT
 
 DISPLAY PATH $.api
 

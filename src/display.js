@@ -3,6 +3,7 @@
  * *******************************/
 
 // imports
+var xpath = require('xpath'), dom = require('xmldom').DOMParser;
 const prettify = require('html-prettify'); 
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
@@ -96,6 +97,25 @@ function main(args) {
       responses.clear();
       rt = "OK";
       break;
+    case "XPATH":
+      token = words[2]||"//";
+      token = utils.configValue({config:config,value:token});
+      console.log(token);
+      try {
+        var doc = new dom().parseFromString(responses.peek().getBody('UTF8'));
+        //var results = xpath.select(token,doc);
+        var results = xpath.evaluate(token, doc, null, xpath.XPathResult.ANY_TYPE, null);
+        var node = results.iterateNext();
+        rt = "<xml>";
+        while(node) {
+          rt += node.toString();
+          node = results.iterateNext();
+        }
+        rt += "</xml>";
+      } catch(err) {
+        //console.log(err);
+      }  
+      break;
     case "PATH":
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
@@ -144,7 +164,8 @@ function showHelp(thisWord) {
     POP : pops off [removes] the top item on the response stack
     LENGTH|LEN : returns the count of the responses on the response stack
     CLEAR|FLUSH : clears the response stack
-    PATH <jsonpath-string|$#> : applies the JSON Path query to the response at the top of the stack`;
+    PATH <jsonpath-string|$#> : applies the JSON Path query to the response at the top of the stack
+    XPATH <xmlpath-string|$#> : applies the XPATH query to the response at the top of the stack`;
 
   console.log(rt);
   return "";

@@ -2,9 +2,54 @@
 
 _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
+* [Try Using SOAP Next Time](https://rwmbook.github.io/hyper/tips.html#try-using-soap-next-time)
 * [Hello, Hyper!](https://rwmbook.github.io/hyper/tips.html#hello-hyper)
 * [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
+
+### Try Using SOAP Next Time
+Since **HyperCLI** is a fully-functional HTTP client, you can use it to make SOAP requests as well as simple HTTP requests.  Currently **HyperLANG* does not have a plug-in for SOAP services (more on that in a future release) but you can still use straight-up HTTP requests in XML format to perform SOAP interactions.
+
+Here's a simple example.
+
+First, using **HyperCLI**, let's pull the WSDL document from a known SOAP service endpoint:
+
+```
+# pull WSDL
+> GOTO WITH-URL https://www.dataaccess.com/webservicesserver/NumberConversion.wso?WSDL
+STATUS 200
+https://www.dataaccess.com/webservicesserver/NumberConversion.wso?WSDL
+text/xml; charset=utf-8
+```
+
+Next, you can use the XPATH command to peek into the WSDL response document:
+
+```
+> SHOW XPATH //*[local-name(.)='operation']/@name
+<xml> name="NumberToWords" name="NumberToDollars" name="NumberToWords" name="NumberToDollars" name="NumberToWords" name="NumberToDollars"</xml>
+```
+
+Finally, with a bit of effort, you can craft a SOAP request to the `NumberToWords` operation and inspect the results:
+
+```
+GOTO WITH-URL https://www.dataaccess.com/webservicesserver/NumberConversion.wso WITH-BODY [% <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/"><ubiNum>500</ubiNum></NumberToWords></soap:Body></soap:Envelope> %] WITH-METHOD post WITH-ENCODING text/xml
+STATUS 200
+https://www.dataaccess.com/webservicesserver/NumberConversion.wso
+text/xml; charset=utf-8
+> 
+> # show full response
+> SHOW RESPONSE
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <m:NumberToWordsResponse xmlns:m="http://www.dataaccess.com/webservicesserver/">
+      <m:NumberToWordsResult>five hundred </m:NumberToWordsResult>
+    </m:NumberToWordsResponse>
+  </soap:Body>
+</soap:Envelope>
+```
+
+You'll notice that **HyperLANG** now support `XPATH` queries, too!  The support here is minimnal and will improve in the hear future.
 
 ### Hello, Hyper!
 

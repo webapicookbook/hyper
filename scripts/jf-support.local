@@ -1,12 +1,12 @@
-# JSON+FORMS support
+# FORMS+ support
 
-GOTO WITH-URL localhost:8484/list/
+GOTO WITH-URL localhost:3359/list/
 
-JF METADATA
-JF LINKS
-JF ITEMS
+FJ METADATA
+FJ LINKS
+FJ ITEMS
 
-GOTO WITH-REL list
+GOTO WITH-NAME list
 GOTO WITH-FORM filter WITH-QUERY {"status":"active"}
 
 EXIT
