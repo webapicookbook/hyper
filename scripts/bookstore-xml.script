@@ -9,13 +9,9 @@ SHOW RESPONSE
 
 # some queries
 SHOW XPATH /bookstore/book/title
-
 SHOW XPATH /bookstore/book[1]/title
-
 SHOW XPATH /bookstore/book/price[text()]
-
 SHOW XPATH /bookstore/book[price>35]/price
-
 SHOW XPATH /bookstore/book[price>35]/title
 
 EXIT

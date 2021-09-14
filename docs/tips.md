@@ -2,10 +2,53 @@
 
 _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
+* [XPath Marks the Spot](https://rwmbook.github.io/hyper/tips.html#xpath-marks-the-spot)
 * [Try Using SOAP Next Time](https://rwmbook.github.io/hyper/tips.html#try-using-soap-next-time)
 * [Hello, Hyper!](https://rwmbook.github.io/hyper/tips.html#hello-hyper)
 * [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
+
+### XPath Marks the Spot
+The **HyperCLI** supports basic XPATH queries for XML responses. That means you can do just about the same things with XML responses can you can with JSON responses.
+
+Here's a simple example:
+
+```
+> GOTO WITH-URL http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/xsl/books.xml
+STATUS 200
+http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/xsl/books.xml
+application/xml
+```
+
+Now let's do some XPath queries on the response
+
+```
+> SHOW XPATH /bookstore/book/title
+/bookstore/book/title
+<xml>
+  <title lang="en">Everyday Italian</title>
+  <title lang="en">Harry Potter</title>
+  <title lang="en">XQuery Kick Start</title>
+  <title lang="en">Learning XML</title>
+</xml>
+```
+
+And here's another one:
+
+```
+> SHOW PATH /bookstore/book/title
+/bookstore/book/title
+<xml>
+  <title lang="en">Everyday Italian</title>
+  <title lang="en">Harry Potter</title>
+  <title lang="en">XQuery Kick Start</title>
+  <title lang="en">Learning XML</title>
+</xml>
+```
+
+If you look carefully at the second example, you'll notice that the query command is `PATH`, not `XPATH`. That is because **HyperCLI** is smart enough to know that we're dealing with an XML document and will use the XPATH query engine instead of using the JSONPath query engine. 
+
+To sum up, the `XPATH` and `JPATH` commands are explict calls to the XPath and JSONPath query engines in **HyperCLI**. But the `PATH` command uses the content type of the current document (`SHOW CONTENT-TYPE`) to help **HyperCLI** decide which query engine to use.
 
 ### Try Using SOAP Next Time
 Since **HyperCLI** is a fully-functional HTTP client, you can use it to make SOAP requests as well as simple HTTP requests.  Currently **HyperLANG* does not have a plug-in for SOAP services (more on that in a future release) but you can still use straight-up HTTP requests in XML format to perform SOAP interactions.
