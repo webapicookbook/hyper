@@ -195,7 +195,7 @@ function showHelp(thisWord) {
     ALL : returns the complete interaction (request, response metadata, response body)
     REQUEST : returns the details of the request (URL, headers, querystring, method, body)
     METADATA|META : returns the response metadata (URL, status, & headers)
-    URL : returns the URL of the current response
+    URL|HREF : returns the URL of the current response
     STATUS|STATUS-CODE : returns the HTTP status code of the current response
     CONTENT-TYPE : returns the content-type of the current response
     HEADERS : returns the HTTP headers of the current response
