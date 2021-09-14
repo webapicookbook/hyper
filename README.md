@@ -173,17 +173,20 @@ This is a work in progress and totally unstable/unreliable. Here the current wor
  - [x] : support for .. WITH-FORM _<name}|$#>_ - uses the metadata of the named form (URL, METHOD, ENCODING, FIELDS) to construct an HTTP request (SIREN-ONLY)
  - [x] : support for .. WITH-STACK - uses the top level STACK item as a set of vars for other operations (e.g. to fill in forms, supply querystring values, headers, etc.
  - [x] : support for .. WITH-DATA _<name=value&...|$#>_ - for use fill in forms with ad-hoc data
- - [x] : support for **DISPLAY**|SHOW (PEEK) - show saved reponse (from top of the LIFO stack)
+ - [x] : support for **DISPLAY**|SHOW - show saved reponse (from top of the LIFO stack)
  - [x] : support for .. ALL - returns the complete interaction (request, response metadata, response body)
- - [x] : support for .. METADATA|META - returns the response metadata (URL, status, & headers)
  - [x] : support for .. REQUEST - returns request info (URL, method, querystring, body, headers)
- - [x] : support for .. URL - returns actual URL of the response
- - [x] : support for .. STATUS - returns HTTP status of the response
+ - [x] : support for .. METADATA|META - returns the response metadata (URL, status, & headers)
+ - [x] : support for .. RESPONSE|PEEK - returns response body from the top of the stack
+ - [x] : support for .. URL|HREF - returns actual URL of the response
+ - [x] : support for .. STATUS|STATUS-CODE - returns HTTP status of the response
  - [x] : support for .. CONTENT-TYPE - returns HTTP content-type of the response
  - [x] : support for .. HEADERS - returns the complete HTTP header collection of the response
  - [x] : support for .. POP remove response from top of the stack
- - [x] : support for .. LENGTH - returns length of saved stack
- - [x] : support for .. PATH _<JSONPath|$#>_ returns results of a JSONPath query from top-of-stack response
+ - [x] : support for .. CLEAR|FLUSH - remove all responses from the stack
+ - [x] : support for .. LEN|LENGTH - returns length of saved stack
+ - [x] : support for .. PATH _<JSONPath|XMLPath|$#>_ returns results of a query (xml or json)from top-of-stack response
+ - [x] : support for .. JPATH _<JSONPath|$#>_ returns results of an JSONPath query from top-of-stack response
  - [x] : support for .. XPATH _<XMLPath|$#>_ returns results of an XPath query from top-of-stack response
  - [x] : support for **CJ** returns a strong-typed version of response from top of the stack (`vnd.collection+json`)
  - [x] : support for .. METADATA returns metadata array from a collection+JSON response
