@@ -3,7 +3,9 @@
  * *******************************/
 
 // imports
-var xpath = require('xpath'), dom = require('xmldom').DOMParser;
+const xpath = require('xpath')
+const dom = require('xmldom').DOMParser;
+const xmlformat = require('xml-formatter');
 const prettify = require('html-prettify'); 
 const {JSONPath} = require('jsonpath-plus');
 const Stack = require('stack-lifo');
@@ -98,54 +100,91 @@ function main(args) {
       rt = "OK";
       break;
     case "XPATH":
-      token = words[2]||"//";
-      token = utils.configValue({config:config,value:token});
-      console.log(token);
-      try {
-        var doc = new dom().parseFromString(responses.peek().getBody('UTF8'));
-        //var results = xpath.select(token,doc);
-        var results = xpath.evaluate(token, doc, null, xpath.XPathResult.ANY_TYPE, null);
-        var node = results.iterateNext();
-        rt = "<xml>";
-        while(node) {
-          rt += node.toString();
-          node = results.iterateNext();
-        }
-        rt += "</xml>";
-      } catch(err) {
-        //console.log(err);
-      }  
+      rt = pathxml(words);
+      break;
+    case "JPATH":  
+      rt = pathjson(words);
       break;
     case "PATH":
-      token = words[2]||"$";
-      token = utils.configValue({config:config,value:token});
-      console.log(token);
-      try {
-        rt = JSON.parse(responses.peek().getBody('UTF8'));
-        rt = JSONPath({path:token, json:rt});
-        if(rt.length===1) {
-          rt = rt[0];
-        }
-        rt = JSON.stringify(rt,null,2);
-      } catch {
-        // no-op
+      // smart enough to pick JSONPath or XPath based on content type
+      if(responses.peek().headers["content-type"].indexOf("xml")!==-1) {
+        // use XPath
+        rt = pathxml(words);
+      }
+      else {
+        rt = pathjson(words);
       }
       break;
     case "PEEK":
+    case "RESPONSE":
     default:
       try {
-        rt = responses.peek().getBody("UTF8");
-        rt = JSON.parse(responses.peek().getBody("UTF8"),null,2);
-        if(rt.length===1) {
-          rt = rt[0];
+        if(responses.peek().headers["content-type"].indexOf("xml")!==-1) {
+          try {
+            rt = responses.peek().getBody("UTF8");
+            rt = xmlformat(rt, {indentation:'  ',collapseContent:true});
+          } catch(err) {
+            // console.log(err)
+          }
         }
-        rt = JSON.stringify(rt,null,2);
-      } catch (err){
-        //rt = "no response";
-        //console.log(err);
-      }
+        else {
+          rt = responses.peek().getBody("UTF8");
+          rt = JSON.parse(responses.peek().getBody("UTF8"),null,2);
+          if(rt.length===1) {
+            rt = rt[0];
+          }
+          rt = JSON.stringify(rt,null,2);
+        }
+      }  
+      catch(err) {
+      // console.log(err)
+      }  
   }
   return {responses:responses,config:config,words:words,rt:rt}
+}
+
+// execute json path query
+function pathjson(words) {
+  var rt =  "";
+
+  token = words[2]||"$";
+  token = utils.configValue({config:config,value:token});
+  console.log(token);
+  try {
+    rt = JSON.parse(responses.peek().getBody('UTF8'));
+    rt = JSONPath({path:token, json:rt});
+    if(rt.length===1) {
+      rt = rt[0];
+    }
+    rt = JSON.stringify(rt,null,2);
+  } catch {
+    // no-op
+  }
+  return rt;
+}
+
+// execute xml path query
+function pathxml(words) {
+  var rt = "";
+
+  token = words[2]||"//";
+  token = utils.configValue({config:config,value:token});
+  console.log(token);
+  try {
+    var doc = new dom().parseFromString(responses.peek().getBody('UTF8'));
+    var results = xpath.evaluate(token, doc, null, xpath.XPathResult.ANY_TYPE, null);
+    var node = results.iterateNext();
+    rt = "<xml>";
+    while(node) {
+      rt += node.toString();
+      node = results.iterateNext();
+    }
+    rt += "</xml>";
+    rt = xmlformat(rt, {indentation:'  ',collapseContent:true});
+  } catch(err) {
+    console.log(err);
+  }  
+  return rt;
 }
 
 function showHelp(thisWord) {
@@ -164,7 +203,8 @@ function showHelp(thisWord) {
     POP : pops off [removes] the top item on the response stack
     LENGTH|LEN : returns the count of the responses on the response stack
     CLEAR|FLUSH : clears the response stack
-    PATH <jsonpath-string|$#> : applies the JSON Path query to the response at the top of the stack
+    PATH <jsonpath|xmlpath|$#> : based on response content type, applies supplied query (JSON/XML)
+    JPATH <jsonpath-string|$#> : applies the JSON Path query to the response at the top of the stack
     XPATH <xmlpath-string|$#> : applies the XPATH query to the response at the top of the stack`;
 
   console.log(rt);

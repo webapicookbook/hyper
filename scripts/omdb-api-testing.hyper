@@ -1,0 +1,24 @@
+#
+# open movie database (OMDB) API
+#
+
+# get initial URL 
+GOTO WITH-URL https://www.omdbapi.com/?apikey=5da8eacf&t=the%20music%20man
+SHOW RESPONSE
+
+SHOW PATH $.Title
+
+SHOW PATH $.Plot
+
+GOTO WITH-URL https://www.omdbapi.com/?apikey=5da8eacf&t=the%20music%20man&r=xml
+SHOW RESPONSE
+
+SHOW XPATH //movie/@title
+
+SHOW XPATH //movie/@plot
+
+EXIT
+
+# EOF
+
+

@@ -1,0 +1,31 @@
+#
+# Star Wars API Examnples
+#
+
+# initial API call
+GOTO https://swapi.dev/api/people
+SHOW RESPONSE
+
+# go to the next page of data 
+GOTO WITH-PATH $.next
+SHOW RESPONSE
+
+#return to the previous page
+GOTO WITH-PATH $.previous
+SHOW RESPONSE
+
+# check the homeworld of the first entry in the results list
+GOTO WITH-PATH $.results[0].homeworld
+SHOW RESPONSE
+
+# inspect the http options for this api url
+GOTO https://swapi.dev/api/people WITH-METHOD options
+SHOW RESPONSE
+
+EXIT
+
+# EOF
+
+
+
+

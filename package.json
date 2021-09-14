@@ -35,6 +35,7 @@
     "stack-lifo": "^0.1.6",
     "sync-request": "^6.1.0",
     "valid-url": "^1.0.9",
+    "xml-formatter": "^2.4.1",
     "xmldom": "^0.6.0",
     "xpath": "0.0.32"
   },
