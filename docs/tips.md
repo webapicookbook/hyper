@@ -2,11 +2,192 @@
 
 _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
+* [The SIREN's Call](https://rwmbook.github.io/hyper/tips.html#the-sirens-call)
 * [XPath Marks the Spot](https://rwmbook.github.io/hyper/tips.html#xpath-marks-the-spot)
 * [Try Using SOAP Next Time](https://rwmbook.github.io/hyper/tips.html#try-using-soap-next-time)
 * [Hello, Hyper!](https://rwmbook.github.io/hyper/tips.html#hello-hyper)
 * [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
 * [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
+
+
+### The SIREN's Call
+One of the features of **HyperCLI** is the ability to write custom plug-ins to expand the **HyperLANG** and increase support for additional formats. One of the first plug-ins created for **HyperCLI** is one that supports the [SIREN](https://github.com/kevinswiber/siren#siren-a-hypermedia-specification-for-representing-entities) hypermedia format. 
+
+You can use the `PLUGINS` command to confirm that your install of **HyperCLI** includes support for SIREN. The current default install has the following plugins:
+
+```
+> PLUGINS
+["CJ","FJ","HAL","OAUTH","SIREN","WSTL"]
+```
+
+You can pull up a list of SIREN commands like this:
+
+```
+> SIREN HELP
+SIREN
+    LINKS
+    ENTITIES
+    ACTIONS|FORMS
+    PROPERTIES
+    IDS|RELS|NAMES|FORMS|TAGS|CLASSES (returns simple list)
+    TAG|CLASS <string|$#> returns matching nodes
+    ID|ENTITY <string|$#> (for Entities)
+    REL|LINK <string|$#> (for Links)
+    NAME|FORM|ACTION <string|$> (for Actions)
+    PATH <jsonpath-string|$>
+```
+
+Let's explore SIREN support in **HyperCLI**. First, we'll make a simple HTTP request to a service that returns SIREN responses:
+
+```
+# make initial request
+> REQUEST WITH-URL http://rwcbook10.herokuapp.com
+STATUS 200
+https://rwcbook10.herokuapp.com/task/
+application/vnd.siren+json
+```
+
+Now, we can use common SIREN commands to inspect the response. Try the following commands and see what **HyperCLI** returns:
+
+```
+SIREN LINKS
+SIREN ENTITIES
+SIREN ACTIONS
+SIREN PROPERTIES
+```
+
+Next, let's inspect the first entity in the list returned by the service:
+
+```
+> REQUEST WITH-PATH $.entities[0].href
+STATUS 200
+http://rwcbook10.herokuapp.com/task/1l9fz7bhaho
+application/vnd.siren+json
+> SHOW REQUEST
+{
+  "url": "http://rwcbook10.herokuapp.com/task/1l9fz7bhaho",
+  "method": "GET",
+  "query": {},
+  "headers": {
+    "user-agent": "hyper-cli"
+  },
+  "body"
+}
+```  
+
+Note that we didn't type in a URL. We used the hypermedia information in the SIREN response instead.
+
+We can also use the `STACK` command in **HyperLANG** to store parts of the response into local memory. We can then 
+
+```
+STACK PUSH WITH-PATH $.properties
+{
+  "content": "<div class=\"ui segment\"><h3>Manage your TPS Tasks here.</h3><p>You can do the following:</p><ul><li>Add, Edit and Delete tasks</li><li>Mark tasks \"complete\", assign tasks to a user</li><li>Filter the list by Title, Assigned User, and Completed Status</li></ul></div>",
+  "id": "1l9fz7bhaho",
+  "title": "extension",
+  "tags": "fishing, skiing, hiking",
+  "completeFlag": "false",
+  "assignedUser": "bob",
+  "dateCreated": "2016-02-01T01:08:15.205Z",
+  "dateUpdated": "2021-09-15T23:24:48.933Z"
+}
+```
+
+Now, we can modify one of the properties in the entry on the TOP OF THE `STACK`. Let's update the `tags` value:
+```
+STACK SET {"tags":"fishing, skiing, hiking, spelunking"}
+```
+
+One of the cool features of SIREN is that the service can send details on how to modify records on the server. For example, here are the details for updating an entity:
+
+```
+> SIREN FORM taskFormEdit
+{
+  "name": "taskFormEdit",
+  "title": "Edit Task",
+  "href": "http://rwcbook10.herokuapp.com/task/1l9fz7bhaho",
+  "type": "application/x-www-form-urlencoded",
+  "method": "PUT",
+  "fields": [
+    { "name": "id",
+      "type": "text",
+      "value": "",
+      "title": "ID",
+      "class": ["task"],
+      "readOnly": true,
+      "required": false },
+    { "name": "title",
+      "type": "text",
+      "value": "",
+      "title": "Title",
+      "class": ["task"],
+      "readOnly": false,
+      "required": false },
+    { "name": "tags",
+      "type": "text",
+      "value": "",
+      "title": "Tags",
+      "class": ["task"],
+      "readOnly": false,
+      "required": false },
+    { "name": "completeFlag",
+      "type": "select",
+      "value": "false",
+      "title": "Complete",
+      "class": ["task"],
+      "readOnly": false,
+      "required": false,
+      "pattern": "true|false" }
+  ]
+}
+```
+Now that we have an updated entity on the `STACK`, and we know there is a hypermedia control availblef for edit records, we can use **HyperLANG** to write that updated entity back to the service:
+
+```
+> REQUEST WITH-FORM taskFormEdit WITH-STACK
+STATUS 200
+http://rwcbook10.herokuapp.com/task/
+application/vnd.siren+json
+> SHOW REQUEST
+{
+  "url": "http://rwcbook10.herokuapp.com/task/1l9fz7bhaho",
+  "method": "PUT",
+  "query": {},
+  "headers": {
+    "content-type": "application/x-www-form-urlencoded",
+    "user-agent": "hyper-cli"
+  },
+  "body": "id=1l9fz7bhaho&title=extension&tags=fishing%2C%20skiing%2C%20hiking%2C%20spelunking&completeFlag=false"
+}
+``` 
+
+Again, we didn't use any URL or HTTP method. That information is in the `taskFormEdit` hypermedia control. And we used the entity on the `STACK` so we didn't need to type any body parameters, either. 
+
+Finally, we can confirm the update was completed by inspecting the last response:
+
+```
+> SIREN PATH $.entities[0]
+$.entities[0]
+{
+  "class": [
+    "task"
+  ],
+  "href": "//rwcbook10.herokuapp.com/task/1l9fz7bhaho",
+  "rel": [
+    "item"
+  ],
+  "type": "application/vnd.siren+json",
+  "id": "1l9fz7bhaho",
+  "title": "extension",
+  "tags": "fishing, skiing, hiking, spelunking",
+  "completeFlag": "false",
+  "assignedUser": "bob",
+  "dateCreated": "2016-02-01T01:08:15.205Z",
+  "dateUpdated": "2021-09-15T23:42:45.608Z"
+}
+```
+
+And there you have it. **HyperCLI** has been expanded to support SIREN operations and now we can explore and edit content on any server that supports the SIREN media type.
 
 ### XPath Marks the Spot
 The **HyperCLI** supports basic XPATH queries for XML responses. That means you can do just about the same things with XML responses can you can with JSON responses.
