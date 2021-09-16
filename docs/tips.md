@@ -77,7 +77,7 @@ application/vnd.siren+json
 
 Note that we didn't type in a URL. We used the hypermedia information in the SIREN response instead.
 
-We can also use the `STACK` command in **HyperLANG** to store parts of the response into local memory. We can then 
+We can also use the `STACK` command in **HyperLANG** to store parts of the response into local memory for later use.  
 
 ```
 STACK PUSH WITH-PATH $.properties
@@ -93,7 +93,7 @@ STACK PUSH WITH-PATH $.properties
 }
 ```
 
-Now, we can modify one of the properties in the entry on the TOP OF THE `STACK`. Let's update the `tags` value:
+Now, we can modify one of the properties in the entry on the top of the `STACK`. Let's update the `tags` value:
 ```
 STACK SET {"tags":"fishing, skiing, hiking, spelunking"}
 ```
@@ -141,7 +141,7 @@ One of the cool features of SIREN is that the service can send details on how to
   ]
 }
 ```
-Now that we have an updated entity on the `STACK`, and we know there is a hypermedia control availblef for edit records, we can use **HyperLANG** to write that updated entity back to the service:
+Now that we have an updated entity on the `STACK` and we know there is a hypermedia control availble for editing records, we can use **HyperLANG** to write that updated entity from the `STACK` back to the service:
 
 ```
 > REQUEST WITH-FORM taskFormEdit WITH-STACK
