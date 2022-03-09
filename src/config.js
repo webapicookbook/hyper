@@ -146,7 +146,9 @@ function showHelp(thisWord) {
     CLEAR (removes all settings)
     RESET (resets to default settings : "hyper.config")
     FILE|LOAD [file-string] : defaults to "hyper.config"
-    SAVE|WRITE [file-string] : defaults to "hyper.config"`
+    SAVE|WRITE [file-string] : defaults to "hyper.config"
+    
+    Using $$name$$ macros in commands replaces the placeholder with correspond config value`
 
   console.log(rt);
   return "";

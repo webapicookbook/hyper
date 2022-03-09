@@ -10,6 +10,8 @@ CONFIG SET {"encoding":"application/x-www-form-urlencoded"}
 CONFIG SET {"test":"http://something.com"}
 CONFIG FILE ./scripts/config-test.cfg
 
+ECHO $$accept$$ , $$encoding$$ , $$test$$
+
 #
 # EOF
 # 

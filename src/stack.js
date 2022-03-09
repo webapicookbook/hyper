@@ -285,7 +285,9 @@ function showHelp(thisWord) {
       DUMP [file-string] : defaults to hyper.dump
       FILL [file-string] : defaults to hyper.dump
       CLEAR|FLUSH (removes all the items from the stack)
-      LEN|LENGTH (returns the number of items on the stack)`; 
+      LEN|LENGTH (returns the number of items on the stack) 
+      
+      Using ##name## replaces the macro with the corresponding stack value in the current record.`;
       
     console.log(rt);    
   

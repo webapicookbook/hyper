@@ -6,10 +6,12 @@ STACK
 STACK push {"x":"y"}
 STACK
 STACK LEN
+ECHO ##x##
 
 STACK push {"x":"z"}
 STACK
 STACK LEN
+ECHO ##x##
 
 STACK POP
 STACK

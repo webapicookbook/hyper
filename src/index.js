@@ -11,6 +11,7 @@
  * ********************************************/
 
 // node modules
+const stream = require('stream');
 const readline = require('readline');
 const path = require('path');
 const fs = require('fs');
@@ -37,8 +38,8 @@ plugins = loadPlugins(plugins);
 // version info
 var versionInfo = {};
 versionInfo["hyper-cli"] = {};
-versionInfo["hyper-cli"].ver = "1.7.1";
-versionInfo["hyper-cli"].rel = "2021-09";
+versionInfo["hyper-cli"].ver = "1.9.0";
+versionInfo["hyper-cli"].rel = "2022-03";
 versionInfo["hyper-cli"].author = "@mamund";
 
 // state vars
@@ -56,11 +57,20 @@ config = args.config;
 var authFile = __dirname + "/../oauth.env";
 
 // check for input args
-// always just show help
+// try to turn this intro a stream for input
 var args = process.argv.slice(2);
+var lc = "";
+var la = [];
+var pt = null;
 try {
   if(args.length>0) {
-    console.log(utils.showHelp());
+    lc = args[0]; 
+    la = lc.split(";");
+    pt = new stream.PassThrough();
+    la.forEach(function(l) {
+      pt.write(l+"\n");
+    });
+    pt.end();
   }  
 } catch {
   // no-op
@@ -68,7 +78,7 @@ try {
 
 // readline instance
 const rl = readline.createInterface({
-  input: process.stdin,
+  input: (pt!==null ? pt : process.stdin),
   output: process.stdout,
   prompt: '> '
 });
@@ -680,7 +690,7 @@ function activate(words) {
     headers["user-agent"] ="hyper-cli";
   }
     
-  if(config.verbose!=="false") {
+  if(config.debug && config.debug==="true") {
     console.log("\n******************");
     console.log("URL: " + url);
     console.log("QUERY: " + JSON.stringify(query));
@@ -724,9 +734,11 @@ function activate(words) {
  
   try {
     if(config.verbose==="false") {
-      rt = "STATUS "+response.statusCode+"\n"+response.url+"\n"+response.headers["content-type"];
+      rt = "\nSTATUS "+response.statusCode+"\n"+response.url+"\n"+response.headers["content-type"];
     }
-
+    else {
+      rt = "\n" + response.getBody("UTF8")+"\n";
+    }
   } catch {
     // no-op
   } 

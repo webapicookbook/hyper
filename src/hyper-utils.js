@@ -229,7 +229,10 @@ function showHelp() {
     LS || DIR [folder-string]
   PLUGINS (returns list of loaded plug-in modules)
 
-  See also: HELP STACK, HELP CONFIG, HELP DISPLAY and HELP <PLUGIN>`;
+  See also: STACK HELP, CONFIG HELP, DISPLAY HELP and <PLUGIN> HELP
+  
+  Use $>hyper < command-file > output-file to execute HyperLANG scripts
+  Use $>hyper "line1;line2;line3" to execute HyperLANG from command line`;
 
   return rt;
 }
