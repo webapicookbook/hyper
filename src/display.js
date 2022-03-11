@@ -90,7 +90,11 @@ function main(args) {
       try {
         rsp.response.body = JSON.parse(responses.peek().getBody('UTF8'));
       } catch(err) {
-        rsp.response.body = responses.peek().getBody('UTF8');
+        try {
+          rsp.response.body = responses.peek().getBody('UTF8');
+        } catch(err) {
+          rsp.response.body = responses.peek().body;
+        }
       }
       rt = JSON.stringify(rsp, null, 2);
       break;
@@ -191,7 +195,7 @@ function showHelp(thisWord) {
   var rt = "";
   
   rt = `
-  DISPLAY|SHOW (synonyms)
+  DISPLAY|SHOW|HISTORY (synonyms)
     ALL : returns the complete interaction (request, response metadata, response body)
     REQUEST : returns the details of the request (URL, headers, querystring, method, body)
     METADATA|META : returns the response metadata (URL, status, & headers)

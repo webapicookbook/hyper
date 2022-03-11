@@ -163,6 +163,7 @@ rl.on('line', (line) => {
       console.log(run(configOp,words));
       break;  
     case "DISPLAY":
+    case "HISTORY":
     case "SHOW":
       console.log(run(display, words));
       break;
@@ -275,6 +276,57 @@ function ifExit(words) {
         rt = "INVALID-URL";
       }
       break;
+    case "HISTORY-EMPTY":
+    case "SHOW-EMPTY":
+    case "DISPLAY-EMPTY":
+      if(responses.length===0) {
+        exitFlag = 1;
+        rt = "HISTORY-EMPTY";
+      }  
+      else {
+        RT = "OK";
+      }
+      break;
+    case "STATUS-2XX":
+      var sc = responses.peek().statusCode;
+      if(parseInt(sc)>199 && parseInt(sc)< 300) {
+        exitFlag = 1;
+        rt = sc
+      }
+      else {
+        rt = "OK";
+      }
+      break;  
+    case "STATUS-NOT-2XX":
+      var sc = responses.peek().statusCode;
+      if(parseInt(sc)<200 || parseInt(sc)> 299) {
+        exitFlag = 1;
+        rt = sc
+      }
+      else {
+        rt = "OK";
+      }
+      break;  
+    case "STATUS-4XX":
+      var sc = responses.peek().statusCode;
+      if(parseInt(sc)>399 && parseInt(sc)< 500) {
+        exitFlag = 1;
+        rt = sc
+      }
+      else {
+        rt = "OK";
+      }
+      break;  
+    case "STATUS-5XX":
+      var sc = responses.peek().statusCode;
+      if(parseInt(sc)>499 && parseInt(sc)< 600) {
+        exitFlag = 1;
+        rt = sc
+      }
+      else {
+        rt = "OK";
+      }
+      break;  
     case "STACK-EMPTY":
       if(dataStack.size()===0) {
         exitFlag = 1;
@@ -727,8 +779,16 @@ function activate(words) {
     response.requestInfo = requestInfo;
     responses.push(response);
     rt = "\n"+response.getBody("UTF8")+"\n";
+    console.log(response);
   }
   catch (err) {
+    var tmp = {};
+    tmp.statusCode = 499;
+    tmp.headers = {};
+    tmp.body = err.toString();
+    tmp.url = url;
+    tmp.requestInfo = requestInfo;
+    responses.push(tmp);
    rt = "\n"+err.toString()+"\n";
   }
  
