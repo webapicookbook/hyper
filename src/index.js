@@ -779,7 +779,6 @@ function activate(words) {
     response.requestInfo = requestInfo;
     responses.push(response);
     rt = "\n"+response.getBody("UTF8")+"\n";
-    console.log(response);
   }
   catch (err) {
     var tmp = {};
