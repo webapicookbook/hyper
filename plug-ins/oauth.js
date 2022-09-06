@@ -218,35 +218,59 @@ function oauthGenerate(words) {
   var set = {};
   var headers = {};
   var encodedBody = "";
-  
+  var flavor = "";
   if(name!=="" && authStore[name]) {
   
     url = authStore[name].url||"#";
+    flavor = authStore[name].flavor||"#";
     
-    if(authStore[name].flavor==="okta") {
-      body.grant_type = "client_credentials";
-      body.scope=authStore[name].scope||"customScope";
-      try {
-        var data = authStore[name].id + ":" + authStore[name].secret;
-        var buff = Buffer.from(data);
-        var basic = buff.toString("base64");
-        headers["authorization"]="Basic "+basic;
-        headers["accept"]="application/json";
-        headers["cache-control"]="no-cache";
-      } catch {
-        // no op
-      }
+    switch (flavor.toLowerCase()) {
+      case "okta":
+        body.grant_type = "client_credentials";
+        body.scope=authStore[name].scope||"customScope";
+        try {
+          var data = authStore[name].id + ":" + authStore[name].secret;
+          var buff = Buffer.from(data);
+          var basic = buff.toString("base64");
+          headers["authorization"]="Basic "+basic;
+          headers["accept"]="application/json";
+          headers["cache-control"]="no-cache";
+        } catch {
+          // no op
+        }
+        break;
+      case "twitter2":
+        try {
+          var data = authStore[name].id+":"+authStore[name].secret;
+          var buff = Buffer.from(data);
+          var basic = buff.toString("base64");
+          headers["authorization"]="Basic "+basic;        
+        } catch {
+          // no-op
+        }
+        break;
+      case "auth0":
+        try {
+          body.grant_type = "client_credentials";
+          body.client_id = authStore[name].id||"";
+          body.client_secret = authStore[name].secret||"";
+          body.audience = authStore[name].audience||"";
+        } catch {
+          // no-op
+        }
+        break;   
+      case "oauth":     
+      default :
+        try {
+          body.grant_type = "client_credentials";
+          body.client_id = authStore[name].id||"";
+          body.client_secret = authStore[name].secret||"";
+        } catch {
+          // no-op
+        }  
+        break;      
     }
-    else {
-      body.grant_type = "client_credentials";
-      body.client_id = authStore[name].id||"";
-      body.client_secret = authStore[name].secret||"";
-    }  
-    
-    if(body.audience) {
-      body.audience = authStore[name].audience||"";
-    }
-    
+        
     if(authStore[name]["content-type"] && authStore[name]) {
       headers["content-type"]=authStore[name]["content-type"];  
     }   
