@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rwmbook/hyper.git"
+    "url": "git+https://github.com/webapicookbook/hyper.git"
   },
   "keywords": [
     "hypermedia",
@@ -25,7 +25,7 @@
   "author": "Mike Amundsen (@mamund)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rwmbook/hyper/issues"
+    "url": "https://github.com/webapicookbook/hyper/issues"
   },
   "dependencies": {
     "glob": "^7.1.7",
@@ -39,5 +39,5 @@
     "xmldom": "^0.6.0",
     "xpath": "0.0.32"
   },
-  "homepage": "https://github.com/rwmbook/hyper#readme"
+  "homepage": "https://github.com/webapicookbook/hyper#readme"
 }
