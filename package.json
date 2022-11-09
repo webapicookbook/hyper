@@ -28,6 +28,7 @@
     "url": "https://github.com/webapicookbook/hyper/issues"
   },
   "dependencies": {
+    "@mamund/hyper": "^1.11.0",
     "glob": "^7.1.7",
     "html-prettify": "^1.0.3",
     "html2json": "^1.0.2",
