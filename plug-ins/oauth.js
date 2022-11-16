@@ -258,7 +258,18 @@ function oauthGenerate(words) {
         } catch {
           // no-op
         }
-        break;   
+        break;
+      case "mastodon":
+        try {
+          body.grant_type = "client_credentials";
+          body.client_id = authStore[name].client_id||"";
+          body.client_secret = authStore[name].client_secret||"";
+          body.redirect_uri = authStor[name].redirect_uri||"urn:ietf:oauth:2.0:oob";
+          body.scopes = "read write follow push";
+        } catch {
+          // no-op
+        }
+        break;
       case "oauth":     
       default :
         try {
@@ -271,18 +282,19 @@ function oauthGenerate(words) {
         break;      
     }
         
-    if(authStore[name]["content-type"] && authStore[name]) {
-      headers["content-type"]=authStore[name]["content-type"];  
+    if(authStore[name] && authStore[name]["content-type"]) {
+      headers["content-type"]=utils.fixString(authStore[name]["content-type"]);
     }   
-
-    if(headers["content-type"]==="application/x-www-form-urlencoded") {
+    
+    if(utils.fixString(headers["content-type"])==="application/x-www-form-urlencoded") {
       encodedBody = querystring.stringify(body);
     }
     else {
       encodedBody = JSON.stringify(body);
     }
-    
+        
     response = request("POST", url, {headers:headers, body:encodedBody});
+    
     set = JSON.parse(response.getBody("UTF8"));
     for(var s in set) {
       authStore[name][s] = set[s];
