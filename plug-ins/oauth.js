@@ -35,12 +35,19 @@ function withOAuth(args) {
   if(authStore==={}) {
     oauthLoad();
   }
-  
+ 
+  //console.log(name);
   try {
-    rt = authStore[name].access_token;
+    if(name==="twitter") {
+      rt = authStore[name].user_access_token;
+    }
+    else {
+      rt = authStore[name].access_token;
+    }  
   } catch {
     // no op
   }
+  //console.log(rt);
   return rt;
 }
 
@@ -240,6 +247,7 @@ function oauthGenerate(words) {
         }
         break;
       case "twitter2":
+      case "twitter":
         try {
           var data = authStore[name].id+":"+authStore[name].secret;
           var buff = Buffer.from(data);

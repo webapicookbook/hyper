@@ -14,6 +14,7 @@ exports.showHelp = showHelp;
 exports.timeStamp = timeStamp;
 exports.configValue = configValue;
 exports.stackValue = stackValue;
+exports.stackValueEm = stackValueEm;
 exports.clearGreeting = clearGreeting;
 exports.joshua = joshua;
 exports.fixRaw = fixRaw;
@@ -192,6 +193,42 @@ function stackValue(args) {
       else {
         rt = val;
       }  
+    }
+  } catch (err) {
+    // console.log(err);
+  }
+  return rt;
+}
+
+function stackValueEm(args) {
+  var rt = "";
+  var p=-1;
+  var pp=-1;
+  var mac="";
+  var stk="";
+  dataStack = args.dataStack||{};
+  val = args.value||"";
+  rt = val;  
+  
+  try {
+    if(dataStack!=={} && val!=="" && val.length>4) {
+      p = val.indexOf("##")
+      do {
+        if(p!==-1) {
+          pp = val.substring(p+2).indexOf("##");
+          if(p!==-1 && pp!==-1) {
+            mac = val.substring(p+2,pp+p+2);
+            stk = dataStack.peek();
+            rt = stk[mac]||mac;
+            val = val.replace("##"+mac+"##",rt);
+          }
+        }
+        else {
+          rt = val;
+        }
+        p = val.indexOf("##")    
+      } while (p!==-1)
+      rt = val;  
     }
   } catch (err) {
     // console.log(err);

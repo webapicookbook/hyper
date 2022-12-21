@@ -1,0 +1,8 @@
+# sample mastodon script
+
+OAUTH LOAD
+OAUTH GENERATE mastodon-social
+GOTO https://mastodon.social/api/v1/timelines/tag/api360
+SHOW JPATH $.*.card[title,url]
+EXIT
+

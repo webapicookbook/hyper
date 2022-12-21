@@ -1,0 +1,13 @@
+# write a mastodon post, show it, delete it.
+
+OAUTH LOAD
+
+ACTIVATE https://mastodon.social/api/v1/statuses WITH-METHOD post WITH-BODY visibility=private&status=testing\.\one\.\more\.\time WITH-OAUTH mstdn
+
+SHOW PATH id
+STACK PUSH WITH-PATH id
+
+ACTIVATE https://mastodon.social/api/v1/statuses/##id## WITH-METHOD delete WITH-OAUTH mstdn
+SHOW ALL
+
+# EOF

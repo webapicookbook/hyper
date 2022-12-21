@@ -1,0 +1,10 @@
+# simple twitter post
+
+OAUTH LOAD
+OAUTH GENERATE twitter
+OAUTH LIST twitter
+
+ACTIVATE https://api.twitter.com/2/tweets WITH-METHOD post WITH-DATA {"text":"from HyperLANG"} WITH-OAUTH twitter
+SHOW ALL
+
+# eof
