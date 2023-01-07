@@ -350,7 +350,7 @@ function echo(words) {
   for(var i=0,x=words.length;i<x; i++) {
     words[i] = utils.configValue({config:config,value:words[i]});
     words[i] = utils.stackValue({dataStack:dataStack,value:words[i]});
-    words[i] = utils.stackValueEm({dataStack:dataStack,value:words[i]});
+    //words[i] = utils.stackValueEm({dataStack:dataStack,value:words[i]});
   }
   rt = words.join(" ");
   
@@ -409,7 +409,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
       thisWord = utils.fixString(thisWord);
       dataSet = JSON.parse(thisWord);
       for(var d in fieldSet) {
@@ -445,7 +445,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
       form = {};
       
       try {
@@ -479,7 +479,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
       url = "with-id";
       
       try {
@@ -503,7 +503,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
       url = "with-name";
       
       try {
@@ -532,7 +532,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
 
       try {
         response = JSON.parse(responses.peek().getBody('UTF8'));
@@ -560,7 +560,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
 
       try {
         var oAuthToken = "";
@@ -581,7 +581,7 @@ function activate(words) {
       thisWord = words[pointer++];
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-      thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+      //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
 
       try {
         var oAuthToken = "";
@@ -603,7 +603,7 @@ function activate(words) {
         var wpath = words[pointer++];
         wpath = utils.configValue({config:config,value:wpath})
         wpath = utils.stackValue({dataStack:dataStack,value:wpath});
-        wpath = utils.stackValueEm({dataStack:dataStack,value:wpath});
+        //wpath = utils.stackValueEm({dataStack:dataStack,value:wpath});
         rt = JSON.parse(responses.peek().getBody('UTF8'));
         rt = JSONPath({path:wpath, json:rt})[0];
         url = utils.fixUrl(rt);
@@ -618,7 +618,7 @@ function activate(words) {
         url = words[pointer++];
         url = utils.configValue({config:config,value:url})
         url = utils.stackValue({dataStack:dataStack,value:url});
-        url = utils.stackValueEm({dataStack:dataStack,value:url});
+        //url = utils.stackValueEm({dataStack:dataStack,value:url});
         url = utils.fixUrl(url);
       } catch {
         // no-op
@@ -630,7 +630,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         thisWord = utils.fixString(thisWord);
         var set = JSON.parse(thisWord)
         for(var s in set) {
@@ -671,7 +671,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         body = utils.fixString(thisWord);
         headers["content-type"] = "application/x-www-form-urlencoded";
       } catch {
@@ -685,7 +685,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         thisWord = utils.fixString(thisWord);
         if(typeof thisWord === 'object') {
           thisWord = JSON.stringify(thisWord);
@@ -704,7 +704,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         if(thisWord.toLowerCase()==="put-c" || thisWord.toLowerCase()==="put-create") {
           method="PUT";
           headers["if-none-match"]="*";
@@ -721,7 +721,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         headers["content-type"] = thisWord;
       } catch {
         // no-op
@@ -733,7 +733,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         headers["accept"] = thisWord;
       } catch {
         // no-op
@@ -746,7 +746,7 @@ function activate(words) {
         thisWord = words[pointer++];
         thisWord = utils.configValue({config:config,value:thisWord});
         thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
-        thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
+        //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
         headers["user-agent"] = thisWord;
       } catch {
         // no-op

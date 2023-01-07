@@ -350,7 +350,6 @@ function main(args) {
       token = words[2]||"$";
       token = utils.configValue({config:config,value:token});
       token = utils.stackValue({dataStack:dataStack,value:token});
-      console.log(token);
       try {
         rt = JSON.parse(response.getBody('UTF8'));
         rt = JSONPath({path:token, json:rt});
