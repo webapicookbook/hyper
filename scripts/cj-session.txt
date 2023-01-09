@@ -2,7 +2,7 @@
 # CJ interactive session
 #
 
-GOTO http://rwcbook12.herokuapp.com
+GOTO http://rwcbook12.up.railway.app
 CJ LINKS
 
 GOTO WITH-REL user
@@ -13,14 +13,14 @@ CJ ITEMS
 
 CJ PATH $.collection.items[0].links
 
-GOTO WITH-URL http://rwcbook12.herokuapp.com/user/update/alice
+GOTO WITH-URL http://rwcbook12.up.railway.app/user/update/alice
 
 CJ TEMPLATE
 CJ PATH $.collection.href
 
-GOTO WITH-URL http://rwcbook12.herokuapp.com/user/update/alice WITH-BODY email=alice-red@example.org WITH-METHOD POST
+GOTO WITH-URL http://rwcbook12.up.railway.app/user/update/alice WITH-BODY email=alice-red@example.org WITH-METHOD POST
 
-GOTO http://rwcbook12.herokuapp.com/user/alice
+GOTO http://rwcbook12.up.railway.app/user/alice
 CJ PATH $.collection.items[0].data
 
 #

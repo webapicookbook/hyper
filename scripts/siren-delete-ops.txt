@@ -11,13 +11,13 @@
 # until then....
 
 # LOAD DATA
-GOTO WITH-URL http://rwcbook10.herokuapp.com
+GOTO WITH-URL http://rwcbook10.up.railway.app
 
 # RUN SOME DELETE OPS
-GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.herokuapp.com/task/528d7pei7xs
-GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.herokuapp.com/task/butu682kw08
+GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.up.railway.app/task/528d7pei7xs
+GOTO WITH-METHOD DELETE WITH-URL http://rwcbook10.up.railway.app/task/butu682kw08
 
-GOTO WITH-URL https://rwcbook10.herokuapp.com/task/?dateCreated=2021
+GOTO WITH-URL https://rwcbook10.up.railway.app/task/?dateCreated=2021
 SIREN ENTITIES
 
 

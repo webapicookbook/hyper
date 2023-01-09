@@ -38,8 +38,8 @@ plugins = loadPlugins(plugins);
 // version info
 var versionInfo = {};
 versionInfo["hyper-cli"] = {};
-versionInfo["hyper-cli"].ver = "1.9.0";
-versionInfo["hyper-cli"].rel = "2022-03";
+versionInfo["hyper-cli"].ver = "1.13.0";
+versionInfo["hyper-cli"].rel = "2023-01";
 versionInfo["hyper-cli"].author = "@mamund";
 
 // state vars

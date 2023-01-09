@@ -3,7 +3,7 @@
 # 
 
 # store values
-CONFIG SET {"start-url":"http://rwcbook12.herokuapp.com"}
+CONFIG SET {"start-url":"http://rwcbook12.up.railway.app"}
 CONFIG SET {"accept":"application/vnd.collection+json"}
 STACK PUSH {"title":"stacked-title","tags":"stacked","completeFlag":"false"}
 

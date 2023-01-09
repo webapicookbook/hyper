@@ -6,7 +6,7 @@
 # WITH-STACK takes the item on the top of the stack to fill in form fields
 
 # get the list representation
-GOTO http://rwcbook10.herokuapp.com
+GOTO http://rwcbook10.up.railway.app
 
 # add to the stack & execute the query 
 # STACK PUSH {"assignedUser":"alice"}
@@ -16,7 +16,7 @@ GOTO http://rwcbook10.herokuapp.com
 # STACK PUSH {"title":"just\.\another\.\one","tags":"with-test","completeFlag":"false"}
 # GOTO WITH-FORM taskFormAdd WITH-STACK 
 
-GOTO http://rwcbook10.herokuapp.com
+GOTO http://rwcbook10.up.railway.app
 
 # add datato the stack and execute the write operation
 STACK PUSH {"title":"testing\.\another\.\one","tags":"with-test","completeFlag":"false","assignedUser":"alice"}

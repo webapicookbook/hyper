@@ -4,7 +4,7 @@
 #
 
 # make initial request
-REQUEST WITH-URL http://rwcbook10.herokuapp.com
+REQUEST WITH-URL http://rwcbook10.up.railway.app
 
 # ** retreive the first record in the list
 EXIT-IF INVALID-URL $.entities[0].href

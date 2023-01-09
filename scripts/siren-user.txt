@@ -3,7 +3,7 @@
 #
 
 # get the default resource
-GOTO http://rwcbook10.herokuapp.com
+GOTO http://rwcbook10.up.railway.app
 
 # get the home resource
 GOTO WITH-REL home

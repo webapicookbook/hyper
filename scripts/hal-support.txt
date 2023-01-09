@@ -1,6 +1,6 @@
 # initial HAL support
 
-GO http://rwcbook08.herokuapp.com/
+GO http://rwcbook08.up.railway.app/
 HAL LINKS
 HAL PATH $._links.self
 GO WITH-REL self

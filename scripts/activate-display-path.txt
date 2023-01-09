@@ -4,7 +4,7 @@
 # #############################
 
 # simple request and then JSONPath
-ACTIVATE WITH-URL http://rwcbook14.herokuapp.com/task/
+ACTIVATE WITH-URL http://rwcbook14.up.railway.app/task/
 DISPLAY CONTENT-TYPE
 DISPLAY PATH $..items[*].href
 

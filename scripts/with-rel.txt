@@ -1,6 +1,6 @@
 # testing WITH-REL support
 
-GO WITH-URL http://rwcbook14.herokuapp.com/home/
+GO WITH-URL http://rwcbook14.up.railway.app/home/
 CJ PATH $.collection.items[*].data.*[?(@property==='name'&&@.match(/assignedUser/i))]^
 
 GO WITH-REL task

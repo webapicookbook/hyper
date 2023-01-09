@@ -3,7 +3,7 @@
 #
 
 # get resource
-GO WITH-URL http://rwcbook10.herokuapp.com/
+GO WITH-URL http://rwcbook10.up.railway.app/
 
 # view representation
 SIREN LINKS

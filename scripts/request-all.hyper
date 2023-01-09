@@ -2,7 +2,7 @@
 # test out REQUEST ALL and related
 #
 
-GOTO WITH-URL https://rwcbook02.herokuapp.com
+GOTO WITH-URL https://rwcbook02.up.railway.app
 
 SHOW
 SHOW RESPONSE

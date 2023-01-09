@@ -3,7 +3,7 @@
 #
 
 # load coinfig values
-CONFIG SET {"user-url":"http://rwcbook10.herokuapp.com/user/"}
+CONFIG SET {"user-url":"http://rwcbook10.up.railway.app/user/"}
 CONFIG SET {"user-body":"nick=mamund&name=mamunda&password=m@m*nd&email=mamund@example.org"}
 CONFIG SET {"encoding":"application/x-www-form-urlencoded"}
 CONFIG SET {"user-filter":{"email":"mamund@example.org"}}
@@ -30,7 +30,7 @@ ACTIVATE WITH-URL $$user-url$$ WITH-QUERY {"email":"mamund@example.org"}
 SIREN PROPERTIES
 
 # remove test user
-ACTIVATE http://rwcbook10.herokuapp.com/user/mamund WITH-METHOD DELETE
+ACTIVATE http://rwcbook10.up.railway.app/user/mamund WITH-METHOD DELETE
 
 #
 # EOF

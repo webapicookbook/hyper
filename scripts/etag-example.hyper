@@ -3,14 +3,14 @@
 #
 
 # get list and view etag
-REQUEST http://company-atk.herokuapp.com/list/
+REQUEST http://company-atk.up.railway.app/list/
 SHOW HEADERS
 
 # add a new record to the collection
 REQUEST WITH-FORM create WITH-DATA {"companyName":"q1w2e3r4","email":"user@example.org","status":"pending"}
 
 # get list and view etag
-REQUEST http://company-atk.herokuapp.com/list/
+REQUEST http://company-atk.up.railway.app/list/
 SHOW HEADERS
 
 # get created record
