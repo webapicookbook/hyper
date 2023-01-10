@@ -143,6 +143,7 @@ function main(args) {
       rt = showHelp(words[2]||"");
       break;
     case "METADATA":
+    case "META":
       token = "$..metadata";
       try {
         rt = JSON.parse(response.getBody('UTF8'));
@@ -357,7 +358,7 @@ function showHelp(thisWord) {
   var rt = ""
   rt = 
  `FJ
-    METADATA
+    METADATA|META
     LINKS
     ITEMS
     IDS|RELS|NAMES|FORMS|TAGS (returns simple list)
@@ -366,7 +367,7 @@ function showHelp(thisWord) {
       
     console.log(rt);    
   
-  return "";
+  return;
 }
 
 
