@@ -114,7 +114,7 @@ function withForm(args) {
       fieldSet[f.name] = "";
     });
   }
-  if(form & form.type) {
+  if(form && form.type) {
     if(form.type!=="") {
       headers["content-type"] = form.type;
     } 
