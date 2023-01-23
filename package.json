@@ -33,6 +33,7 @@
     "html-prettify": "^1.0.3",
     "html2json": "^1.0.2",
     "jsonpath-plus": "^5.0.7",
+    "say": "^0.16.0",
     "stack-lifo": "^0.1.6",
     "sync-request": "^6.1.0",
     "valid-url": "^1.0.9",

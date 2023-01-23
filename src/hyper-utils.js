@@ -4,6 +4,7 @@
 
 // import list
 const { spawnSync, execSync, execFileSync } = require("child_process");
+const say = require('say');
 
 // export list
 exports.fixString = fixString;
@@ -126,6 +127,10 @@ function joshua(words) {
     rt = "OK, MAYBE LATER.";
   }
 
+  try {
+    say.speak(rt);
+  } catch {}
+  
   return rt;
 }
 
