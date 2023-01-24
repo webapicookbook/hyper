@@ -2,8 +2,22 @@
 # basic auth example for github access
 #
 
+# clear display & load internal oauth info
+CLEAR
+OAUTH LOAD
+
+# get the top-level api URL list
 GOTO https://api.github.com WITH-BASIC github-basic
-SHOW
+SHOW BODY
+
+# get the list of public gists and their owner URLs
+SHOW PATH $..public_gists_url
+GOTO WITH-PATH $..public_gists_url WITH-BASIC github-basic
+SHOW PATH $..owner.url
+
+# get my user profile
+GOTO WITH-URL https://api.github.com/users/mamund WITH-BASIC github-basic
+SHOW BODY
 
 EXIT
 

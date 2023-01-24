@@ -582,7 +582,7 @@ function activate(words) {
       thisWord = utils.configValue({config:config,value:thisWord});
       thisWord = utils.stackValue({dataStack:dataStack,value:thisWord});
       //thisWord = utils.stackValueEm({dataStack:dataStack,value:thisWord});
-
+      
       try {
         var oAuthToken = "";
         // loop through plugins for WITH-OAUTH support        
