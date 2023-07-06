@@ -5,8 +5,8 @@ _The home of HyperCLI and HyperLANG_
 ### Links
 
 * [**NPM Project**](https://www.npmjs.com/package/@mamund/hyper)
-* [**README**](https://github.com/rwmbook/hyper#readme)
-* [**Github Project**](https://github.com/rwmbook/hyper)
+* [**README**](https://github.com/webapicookbook/hyper#readme)
+* [**Github Project**](https://github.com/webapicookbook/hyper)
 * [**Tweets**](tweets.md)
 * [**Quick Tips**](tips.md)
 

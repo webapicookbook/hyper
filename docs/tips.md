@@ -2,12 +2,12 @@
 
 _Simple tips and tricks to get the most out of **HyperCLI** and **HyperLANG**_
 
-* [The SIREN's Call](https://rwmbook.github.io/hyper/tips.html#the-sirens-call)
-* [XPath Marks the Spot](https://rwmbook.github.io/hyper/tips.html#xpath-marks-the-spot)
-* [Try Using SOAP Next Time](https://rwmbook.github.io/hyper/tips.html#try-using-soap-next-time)
-* [Hello, Hyper!](https://rwmbook.github.io/hyper/tips.html#hello-hyper)
-* [It Varies](https://rwmbook.github.io/hyper/tips.html#it-varies)
-* [Gimme Some Space, Dude](https://rwmbook.github.io/hyper/tips.html#gimme-some-space-dude)
+* [The SIREN's Call](https://webapicookbook.github.io/hyper/tips.html#the-sirens-call)
+* [XPath Marks the Spot](https://webapicookbook.github.io/hyper/tips.html#xpath-marks-the-spot)
+* [Try Using SOAP Next Time](https://webapicookbook.github.io/hyper/tips.html#try-using-soap-next-time)
+* [Hello, Hyper!](https://webapicookbook.github.io/hyper/tips.html#hello-hyper)
+* [It Varies](https://webapicookbook.github.io/hyper/tips.html#it-varies)
+* [Gimme Some Space, Dude](https://webapicookbook.github.io/hyper/tips.html#gimme-some-space-dude)
 
 
 ### The SIREN's Call
