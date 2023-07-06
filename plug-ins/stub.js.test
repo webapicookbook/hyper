@@ -69,7 +69,7 @@ function withForm(args) {
 // mainline support
 // <name of this file (e.g. WSTL.js == WSTL) invokes this plugin
 // args: {responses:responses,dataStack:dataStack,config:config,words:words}
-// NOTE: sample code below is an old vesrion of WSTL support
+// NOTE: sample code below is an old version of WSTL support
 function main(args) {
   config = args.config;
   responses = args.responses;

@@ -1,0 +1,18 @@
+[
+{
+  "id":"a0s9d8",
+  "givenName":"Mork",
+  "familyName":"Morkelsen",
+  "telephone":"123-456-7890",
+  "email":"mork@example.org",
+  "status":"pending"
+},
+{
+  "id":"q0w9e8",
+  "givenName":"Mindy",
+  "familyName":"Minkles",
+  "telephone":"345-678-9012",
+  "email":"mindy@example.org",
+  "status":"pending"
+}
+]

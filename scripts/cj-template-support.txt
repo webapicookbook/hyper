@@ -3,12 +3,12 @@
 # 
 
 # store values
-CONFIG SET {"start-url":"http://rwcbook12.up.railway.app"}
+CONFIG SET {"start":"http://rwcbook12.up.railway.app"}
 CONFIG SET {"accept":"application/vnd.collection+json"}
 STACK PUSH {"title":"stacked-title","tags":"stacked","completeFlag":"false"}
 
 # get initial list
-GOTO WITH-URL $$start-url$$ WITH-ACCEPT
+GOTO WITH-URL $$start$$ WITH-ACCEPT
 
 # add a new record to the list
 GOTO WITH-FORM TEMPLATE WITH-STACK
