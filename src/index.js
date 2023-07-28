@@ -618,6 +618,7 @@ function activate(words) {
         url = words[pointer++];
         url = utils.configValue({config:config,value:url})
         url = utils.stackValue({dataStack:dataStack,value:url});
+        
         //url = utils.stackValueEm({dataStack:dataStack,value:url});
         url = utils.fixUrl(url);
       } catch {

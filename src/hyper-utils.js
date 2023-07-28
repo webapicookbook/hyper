@@ -165,7 +165,6 @@ function configValue(args) {
   config = args.config||{};
   val = args.value||"";
   rt = val;  
-  
   if(config!=={} && val!=="" && val.length>4) {
     if(val.substring(0,2)==="$$" &&  val.substring(val.length-2)==="$$") {
       val = val.substring(2,val.length-2);
