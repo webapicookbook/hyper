@@ -1,0 +1,21 @@
+# modify an existing user
+# 2023-07-28 @mamund
+
+# set up
+CONFIG SET {"api":"http://localhost:8181"}
+CONFIG SET {"accept":"application/forms+json"}
+
+# execute
+CALL http://localhost:8181 WITH-FORMAT
+CALL WITH-FORM list WITH-FORMAT
+CALL WITH-FORM read_xxx WITH-FORMAT
+STACK PUSH WITH-PATH $.*.items[0]
+STACK SET {"givenName":"Mork","familyName":"Mingles"}
+CALL WITH-FORM update_xxx WITH-STACK WITH-FORMAT
+CALL WITH-FORM read_xxx WITH-FORMAT
+
+# clean up
+STACK POP
+CONFIG REMOVE api
+
+# end of script
