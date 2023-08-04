@@ -1,0 +1,47 @@
+# test json-path compliance
+# 2023-08-03 : @mamund
+
+# get the data document
+CALL http://webapicookbook.com/json/book-store.json
+
+# the authors of all books in the store
+SHOW PATH $.store.book[*].author	
+
+# all authors
+SHOW PATH $..author	
+
+# all things in store, which are some books and a red bicycle
+SHOW PATH $.store.*	
+
+# the prices of everything in the store
+SHOW PATH $.store..price	
+
+# the third book
+SHOW PATH $..book[2]	
+
+# the third book's author
+SHOW PATH $..book[2].author	
+
+# empty result: the third book does not have a "publisher" member
+SHOW PATH $..book[2].publisher	
+
+# the last book in order (first one fails quietly)
+SHOW PATH $..book[-1]
+SHOW PATH $..book[-1:]
+SHOW PATH	$..book[(@.length-1)]
+
+# the first two books
+SHOW PATH $..book[0,1]
+SHOW PATH $..book[:2]	
+
+# all books with an ISBN number
+SHOW PATH $..book[?(@.isbn)]	
+
+# all books cheaper than 10
+SHOW PATH $..book[?(@.price<10)]	
+
+# all member values and array elements contained in the input value
+SHOW PATH $..*	
+
+# the last book's title
+SHOW PATH $.store.book[(@.length-1)].title
