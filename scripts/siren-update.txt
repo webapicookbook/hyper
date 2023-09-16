@@ -1,14 +1,10 @@
-#
 # SIREN Edit Session
 # read a record, save it, modify it, write it back to the server
-#
 
 REQUEST WITH-URL http://rwcbook10.up.railway.app # initial request
 REQUEST WITH-PATH $.entities[0].href # get first record in list
-SHOW REQUEST # show it
-STACK PUSH WITH-PATH $.properties # save to memory 
+STACK PUSH WITH-PATH $.properties # save body to memory 
 STACK SET {"tags":"fishing, skiing, hiking, spelunking"} # modify memory
-REQUEST WITH-FORM taskFormEdit WITH-STACK #write back to server
-SHOW REQUEST # show edited record
+REQUEST WITH-FORM taskFormEdit WITH-STACK #write back to server using memory
 EXIT # all done
 

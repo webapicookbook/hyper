@@ -263,6 +263,7 @@ function oauthGenerate(words) {
           body.client_id = authStore[name].id||"";
           body.client_secret = authStore[name].secret||"";
           body.audience = authStore[name].audience||"";
+          headers["content-type"]="application/json";
         } catch {
           // no-op
         }
@@ -300,7 +301,7 @@ function oauthGenerate(words) {
     else {
       encodedBody = JSON.stringify(body);
     }
-        
+    
     response = request("POST", url, {headers:headers, body:encodedBody});
     
     set = JSON.parse(response.getBody("UTF8"));
